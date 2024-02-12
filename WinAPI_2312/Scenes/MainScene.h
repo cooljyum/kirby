@@ -8,4 +8,10 @@ public:
 
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
+
+private:
+	Image* bg;
+	Image* stage1;
+
+	Kirby* kirby;
 };

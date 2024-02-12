@@ -6,8 +6,8 @@
 #define WIN_START_X -1800
 #define WIN_START_Y 0
 
-#define SCREEN_WIDTH 1742
-#define SCREEN_HEIGHT 800
+#define SCREEN_WIDTH 1740
+#define SCREEN_HEIGHT 720
 
 #define CENTER_X (SCREEN_WIDTH * 0.5f)
 #define CENTER_Y (SCREEN_HEIGHT * 0.5f)
@@ -63,6 +63,11 @@ using namespace std;
 #include "Objects/Basic/Action.h"
 
 #include "Objects/UI/ProgressBar.h"
+
+
+#include "Objects/Character.h"
+
+#include "Objects/Kirbys/Kirby.h"
 
 //Scene
 #include "Scenes/Scene.h"
