@@ -8,7 +8,7 @@ public:
 
 	void Render(HDC hdc);
 
-	virtual void Move();
+	//virtual void Move();
 	
 	bool IsDie() { if (this->hp <= 0)return true; else return false; }
 	

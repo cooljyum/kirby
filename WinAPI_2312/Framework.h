@@ -3,7 +3,7 @@
 #include "targetver.h"
 #define WIN32_LEAN_AND_MEAN
 
-#define WIN_START_X -1800
+#define WIN_START_X 100
 #define WIN_START_Y 0
 
 #define SCREEN_WIDTH 1740
@@ -67,6 +67,12 @@ using namespace std;
 
 #include "Objects/Character.h"
 
+
+#include "Objects/Kirbys/KirbyIdle.h"
+#include "Objects/Kirbys/KirbyWalk.h"
+#include "Objects/Kirbys/KirbyRun.h"
+#include "Objects/Kirbys/KirbyJump.h"
+#include "Objects/Kirbys/KirbySit.h"
 #include "Objects/Kirbys/Kirby.h"
 
 //Scene

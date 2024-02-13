@@ -8,7 +8,8 @@ protected:
 		LEFT, RIGHT
 	};
 
-	const float MOVE_SPEED = 200.0f;
+	const float MOVE_SPEED = 100.0f;
+	const float RUN_SPEED = 200.0f;
 
 public:		
 	Action(wstring file, int frameX = 1, int frameY = 1, bool isTrans = false, COLORREF transColor = MAGENTA);
