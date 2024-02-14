@@ -18,9 +18,15 @@ void Kirby::Update()
 
 void Kirby::Render(HDC hdc)
 {
-	Rect::Render(hdc);
+	Rect::CamRender(hdc);
 	actions[curState]->Render(hdc);
 
+}
+
+void Kirby::SetLandTexture(Texture* texture)
+{
+	for (Action* action : actions)
+		action->SetLandTexture(texture);
 }
 
 void Kirby::Move()
@@ -57,8 +63,12 @@ void Kirby::Control()
 	{
 		SetAction(JUMP, isRight);
 	}
-	if (KEY->Down('S'))
+	if (KEY->Down('S')) {
 		SetAction(SIT, isRight);
+	}
+	if (KEY->Up('S')) {
+		SetIdle();
+	}
 }
 
 void Kirby::CreateActions()
@@ -69,8 +79,8 @@ void Kirby::CreateActions()
 	actions.push_back(new KirbyJump(this));
 	actions.push_back(new KirbySit(this));
 
-	actions[SIT]->GetAnimation(0)->SetEndEvent(bind(&Kirby::SetIdle, this));
-	actions[SIT]->GetAnimation(1)->SetEndEvent(bind(&Kirby::SetIdle, this));
+	actions[JUMP]->GetAnimation(2)->SetEndEvent(bind(&Kirby::SetIdle, this));
+	actions[JUMP]->GetAnimation(3)->SetEndEvent(bind(&Kirby::SetIdle, this));
 }
 
 void Kirby::SetIdle()
@@ -80,8 +90,9 @@ void Kirby::SetIdle()
 
 void Kirby::SetAction(ActionState state, bool isRight)
 {
-	if (curState == state)
-		return;
+	if(curState!=IDLE)
+		if (curState == state)
+			return;
 
 	actions[curState]->End();
 	curState = state;

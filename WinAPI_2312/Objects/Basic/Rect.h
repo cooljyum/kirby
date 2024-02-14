@@ -8,6 +8,7 @@ public:
 	Rect(float left, float top, float right, float bottom);
 
 	void Render(HDC hdc);
+	void CamRender(HDC hdc);
 
 	bool IsCollision(const Vector2& point) const;
 	bool IsCollision(const Rect* rect, OUT Vector2* overlap = nullptr) const;
@@ -26,7 +27,7 @@ public:
 	bool IsActive() { return isActive; }
 	void SetActive(bool isActive) { this->isActive = isActive; }
 
-	Vector2 GetPos() const { return pos; }	
+	Vector2 GetPos() const { return pos; }
 	void SetPos(const Vector2& pos) { this->pos = pos; }
 	void SetPos(const float& x, const float& y) { pos = { x, y }; }
 
@@ -49,5 +50,5 @@ protected:
 	COLORREF color = GREEN;
 
 	static map<COLORREF, HPEN> pens;
-	static bool isDraw;	
+	static bool isDraw;
 };

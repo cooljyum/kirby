@@ -22,7 +22,7 @@ void Rect::Render(HDC hdc)
 	if (!isActive) return;
 	if (!isDraw) return;
 
-	SelectObject(hdc, pens[color]);	
+	SelectObject(hdc, pens[color]);
 
 	//Rectangle(hdc, (int)Left(), (int)Top(), (int)Right(), (int)Bottom());
 	MoveToEx(hdc, (int)Left(), (int)Top(), nullptr);
@@ -36,6 +36,28 @@ void Rect::Render(HDC hdc)
 
 	MoveToEx(hdc, (int)Left(), (int)Bottom(), nullptr);
 	LineTo(hdc, (int)Right(), (int)Bottom());
+}
+
+void Rect::CamRender(HDC hdc)
+{
+	if (!isActive) return;
+	if (!isDraw) return;
+
+	SelectObject(hdc, pens[color]);
+
+	Rect camRect({ pos - CAM->GetPos() }, size);
+
+	MoveToEx(hdc, (int)camRect.Left(), (int)camRect.Top(), nullptr);
+	LineTo(hdc, (int)camRect.Right(), (int)camRect.Top());
+
+	MoveToEx(hdc, (int)camRect.Left(), (int)camRect.Top(), nullptr);
+	LineTo(hdc, (int)camRect.Left(), (int)camRect.Bottom());
+
+	MoveToEx(hdc, (int)camRect.Right(), (int)camRect.Top(), nullptr);
+	LineTo(hdc, (int)camRect.Right(), (int)camRect.Bottom());
+
+	MoveToEx(hdc, (int)camRect.Left(), (int)camRect.Bottom(), nullptr);
+	LineTo(hdc, (int)camRect.Right(), (int)camRect.Bottom());
 }
 
 bool Rect::IsCollision(const Vector2& point) const

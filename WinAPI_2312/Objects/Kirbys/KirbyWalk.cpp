@@ -7,8 +7,8 @@ KirbyWalk::KirbyWalk(Rect* owner) : Action(owner)
 
 	SetTexture(rightTexture);
 
-	AddAnimation(LEFT)->SetPart(15, 10, true, true);
-	AddAnimation(RIGHT)->SetPart(10, 15, true, true);
+	AddAnimation(LEFT)->SetPart(6, 15, true);
+	AddAnimation(RIGHT)->SetPart(15, 6, true);
 
 	SetState(RIGHT);
 }

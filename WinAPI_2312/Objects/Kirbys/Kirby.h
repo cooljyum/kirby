@@ -15,6 +15,8 @@ public :
 	void Update();
 	void Render(HDC hdc);
 
+	void SetLandTexture(Texture* texture);
+
 	void Move();
 	void Control();
 

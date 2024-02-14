@@ -10,7 +10,9 @@ KirbyJump::KirbyJump(Rect* owner) : Action(owner)
 	AddAnimation(START_L)->SetPart(29, 25);//JumpUpLeft
 	AddAnimation(START_R)->SetPart(29, 25);//JumpUpRight
 	AddAnimation(LAND_L)->SetPart(25, 29);//JumpLandLeft
-	AddAnimation(LAND_R)->SetPart(25, 29);//JumpLandRight
+	AddAnimation(LAND_R)->SetPart(25, 29);//JumpLandRight	
+	AddAnimation(FLY_L)->SetPart(25, 29);//JumpLandLeft
+	AddAnimation(FLY_R)->SetPart(25, 29);//JumpLandRight
 
 	//GetAnimation(LAND_L)->SetSpeed(5.0f);
 	//GetAnimation(LAND_R)->SetSpeed(5.0f);
@@ -55,13 +57,13 @@ void KirbyJump::Jump()
 
 	velocity.y += GRAVITY * DELTA;
 
-	/*landHeight = landTexture->GetPixelHeight(owner->GetPos());
+	landHeight = landTexture->GetPixelHeight(owner->GetPos());
 
 	if (owner->Bottom() > landHeight)
 	{
 		velocity.y = 0.0f;
 		curState ? SetState(LAND_R) : SetState(LAND_L);
-	}*/
+	}
 }
 
 void KirbyJump::Move()

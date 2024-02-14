@@ -34,6 +34,8 @@ void GameManager::Update()
 
 	SCENE->Update();
 
+	CAM->Update();
+
 	InvalidateRect(hWnd, nullptr, false);
 }
 
@@ -54,6 +56,7 @@ void GameManager::Create()
 	Keyboard::Get();
 	Timer::Get();
 	Rect::CreatePens();
+	Camera::Get();
 }
 
 void GameManager::Delete()
@@ -63,4 +66,5 @@ void GameManager::Delete()
 	Rect::DeletePens();
 	Texture::Delete();
 	SceneManager::Delete();
+	Camera::Delete();
 }

@@ -28,6 +28,7 @@
 #define KEY Keyboard::Get()
 #define DELTA Timer::Get()->GetElapsedTime()
 #define SCENE SceneManager::Get()
+#define CAM Camera::Get()
 
 #define FOR(n) for(int i = 0 ; i < n ; i++)
 
@@ -55,6 +56,7 @@ using namespace std;
 
 #include "Render/Texture.h"
 #include "Render/Animation.h"
+#include "Render/Camera.h"
 
 //Object Header
 

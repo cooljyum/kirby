@@ -29,7 +29,7 @@ void Action::Update()
 
 void Action::Render(HDC hdc)
 {
-	Image::Render(hdc, animations[curState]->GetFrame());
+	Image::CamRender(hdc, animations[curState]->GetFrame());
 }
 
 void Action::Start(bool isRight)

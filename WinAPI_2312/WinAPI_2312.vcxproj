@@ -148,6 +148,7 @@
     <ClInclude Include="Objects\Kirbys\KirbyWalk.h" />
     <ClInclude Include="Objects\UI\ProgressBar.h" />
     <ClInclude Include="Render\Animation.h" />
+    <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Texture.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\MainScene.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="Objects\Kirbys\KirbyWalk.cpp" />
     <ClCompile Include="Objects\UI\ProgressBar.cpp" />
     <ClCompile Include="Render\Animation.cpp" />
+    <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Texture.cpp" />
     <ClCompile Include="Scenes\MainScene.cpp" />
     <ClCompile Include="Utilities\Keyboard.cpp" />
