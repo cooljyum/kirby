@@ -1,19 +1,37 @@
 #include "Framework.h"
 
-KirbyJump::KirbyJump(Rect* owner) : Action(owner)
+KirbyJump::KirbyJump(Rect* owner, int state) : Action(owner)
 {
-	leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
-	rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
+	if (state == 0)
+	{
+		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
+		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
 
-	SetTexture(rightTexture);
+		SetTexture(rightTexture);
 
-	AddAnimation(START_L)->SetPart(78, 78);//JumpUpLeft
-	AddAnimation(START_R)->SetPart(78, 78);//JumpUpRight
-	AddAnimation(LAND_L)->SetPart(77, 71);//JumpLandLeft
-	AddAnimation(LAND_R)->SetPart(77, 67);//JumpLandRight
+		AddAnimation(START_L)->SetPart(78, 78);//JumpUpLeft
+		AddAnimation(START_R)->SetPart(78, 78);//JumpUpRight
+		AddAnimation(LAND_L)->SetPart(77, 71);//JumpLandLeft
+		AddAnimation(LAND_R)->SetPart(77, 67);//JumpLandRight
 
-	GetAnimation(LAND_L)->SetSpeed(2.3f);
-	GetAnimation(LAND_R)->SetSpeed(2.3f);
+		GetAnimation(LAND_L)->SetSpeed(2.3f);
+		GetAnimation(LAND_R)->SetSpeed(2.3f);
+	}
+	else if (state == 1)
+	{
+		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
+		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
+
+		SetTexture(rightTexture);
+
+		AddAnimation(START_L)->SetPart(78, 78);//JumpUpLeft
+		AddAnimation(START_R)->SetPart(78, 78);//JumpUpRight
+		AddAnimation(LAND_L)->SetPart(77, 71);//JumpLandLeft
+		AddAnimation(LAND_R)->SetPart(77, 67);//JumpLandRight
+
+		GetAnimation(LAND_L)->SetSpeed(2.3f);
+		GetAnimation(LAND_R)->SetSpeed(2.3f);
+	}
 }
 
 KirbyJump::~KirbyJump()
@@ -36,6 +54,7 @@ void KirbyJump::Start(bool isRight)
 	velocity = {};
 	velocity.y = JUMP_POWER;
 	jumpCount = 1;
+	landHeight = landTexture->GetPixelHeight(owner->GetPos());
 	owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
 }
 
@@ -48,9 +67,8 @@ void KirbyJump::Jump()
 {
 	if (curState == LAND_R) return;
 	if (curState == LAND_L) return;
-
 	
-	if (jumpCount <= MAX_JUMP && KEY->Down('W'))
+	if (jumpCount <= MAX_JUMP && KEY->Down('W') && owner->GetPos().y > owner->GetSize().y)
 	{
 		velocity.y = JUMP_POWER;
 
@@ -66,7 +84,6 @@ void KirbyJump::Jump()
 	{
 		velocity.y = 0.0f;
 		jumpCount = 0;
-		owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
 
 		curState ? SetState(LAND_R) : SetState(LAND_L);
 	}
@@ -80,13 +97,13 @@ void KirbyJump::Move()
 	if (KEY->Press('A'))
 	{
 		velocity.x = -MOVE_SPEED;
-		SetState(LEFT, false, false);
+		//SetState(LEFT, false, false);
 		SetTex(false);
 	}
 	else if (KEY->Press('D'))
 	{
 		velocity.x = +MOVE_SPEED;
-		SetState(RIGHT, false, false);
+		//SetState(RIGHT, false, false);
 		SetTex(true);
 	}
 	else 

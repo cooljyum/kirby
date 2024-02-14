@@ -2,7 +2,7 @@
 class KirbyRun : public Action
 {
 public:
-	KirbyRun(Rect* owner);
+	KirbyRun(Rect* owner, int state);
 	~KirbyRun();
 
 	void Update();

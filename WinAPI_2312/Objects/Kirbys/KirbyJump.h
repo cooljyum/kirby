@@ -10,10 +10,10 @@ private:
 
 	const float JUMP_POWER = -500.0f;
 	const float GRAVITY = 980.0f;
-	const int MAX_JUMP = 10;
+	const int MAX_JUMP = 30;
 
 public:
-	KirbyJump(Rect* owner);
+	KirbyJump(Rect* owner, int state);
 	~KirbyJump();
 
 	void Update();

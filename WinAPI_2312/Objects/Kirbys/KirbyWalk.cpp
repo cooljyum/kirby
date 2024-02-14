@@ -1,16 +1,30 @@
 #include "Framework.h"
 
-KirbyWalk::KirbyWalk(Rect* owner) : Action(owner)
+KirbyWalk::KirbyWalk(Rect* owner, int state) : Action(owner)
 {
-	leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
-	rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
+	if (state == 0) {
+		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
+		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
 
-	SetTexture(rightTexture);
+		SetTexture(rightTexture);
 
-	AddAnimation(LEFT)->SetPart(6, 15, true);
-	AddAnimation(RIGHT)->SetPart(6, 15, true);
+		AddAnimation(LEFT)->SetPart(6, 15, true);
+		AddAnimation(RIGHT)->SetPart(6, 15, true);
 
-	SetState(RIGHT);
+		SetState(RIGHT);
+	}
+	else if (state == 1) 
+	{
+		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
+		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
+
+		SetTexture(rightTexture);
+
+		AddAnimation(LEFT)->SetPart(44, 56, true);
+		AddAnimation(RIGHT)->SetPart(44, 56, true);
+
+		SetState(RIGHT);
+	}
 }
 
 KirbyWalk::~KirbyWalk()
@@ -40,7 +54,7 @@ void KirbyWalk::Control()
 	}
 	else if (KEY->Press('D'))
 	{
-		velocity.x = +MOVE_SPEED;
+		velocity.x = +MOVE_SPEED*5;
 		SetState(RIGHT);
 		SetTex(true);
 		Push(true);

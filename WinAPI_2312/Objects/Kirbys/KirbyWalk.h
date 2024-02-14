@@ -5,7 +5,7 @@ class KirbyWalk : public Action
 private:
 	const float GRAVITY = 980.0f;
 public:
-	KirbyWalk(Rect* owner);
+	KirbyWalk(Rect* owner, int state);
 	~KirbyWalk();
 
 	void Update();

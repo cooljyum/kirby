@@ -6,7 +6,7 @@ public:
 	//커비 모드 상태
 	enum ModeState
 	{
-		BASIC, FLY //,ITEM(추가 가능?)
+		BASIC, BIG , FLY//,ITEM(추가 가능?)
 	};
 
 	//커비 액션 상태들
@@ -29,6 +29,7 @@ public :
 	void Attack();
 
 	void CreateActions();
+	void CreateModeAction(ModeState mode);
 
 	void SetIdle();
 
@@ -37,9 +38,10 @@ public :
 	Vector2 GetOffset() { return imageOffset; }
 
 private:
-	vector<Action*> actions;
+	map<ModeState, vector<Action*>> actions;
 
-	ActionState curState = IDLE;
+	ModeState curModeState = BIG;
+	ActionState curActionState = IDLE;
 
 	bool isRight = true;
 

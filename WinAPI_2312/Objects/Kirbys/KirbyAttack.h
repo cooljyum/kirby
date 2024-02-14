@@ -3,7 +3,7 @@
 class KirbyAttack : public Action
 {
 public:
-	KirbyAttack(Rect* owner);
+	KirbyAttack(Rect* owner, int state);
 	~KirbyAttack();
 
 	void Render(HDC hdc) override;

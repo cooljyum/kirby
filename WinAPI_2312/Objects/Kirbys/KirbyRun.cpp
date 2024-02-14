@@ -1,16 +1,22 @@
 #include "Framework.h"
 
-KirbyRun::KirbyRun(Rect* owner) : Action(owner)
+KirbyRun::KirbyRun(Rect* owner, int state) : Action(owner)
 {
-	leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
-	rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
+	if (state == 0)
+	{
+		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
+		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
 
-	SetTexture(rightTexture);
+		SetTexture(rightTexture);
 
-	AddAnimation(LEFT)->SetPart(23, 16, true, true);
-	AddAnimation(RIGHT)->SetPart(23, 16, true, true);
+		AddAnimation(LEFT)->SetPart(23, 16, true, true);
+		AddAnimation(RIGHT)->SetPart(23, 16, true, true);
 
-	SetState(RIGHT);
+		SetState(RIGHT);
+	}
+	else if (state == 1)
+	{
+	}
 }
 
 KirbyRun::~KirbyRun()

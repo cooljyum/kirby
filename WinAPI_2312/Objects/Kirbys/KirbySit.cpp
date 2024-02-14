@@ -1,20 +1,25 @@
 #include "Framework.h"
 
-KirbySit::KirbySit(Rect* owner) : Action(owner)
+KirbySit::KirbySit(Rect* owner, int state) : Action(owner)
 {
-	leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
-	rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
+	if (state == 0) 
+	{
+		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
+		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
 
-	SetTexture(rightTexture);
+		SetTexture(rightTexture);
 
-	AddAnimation(LEFT)->SetPart(2, 3, true, true);
-	AddAnimation(RIGHT)->SetPart(2, 3, true, true);
+		AddAnimation(LEFT)->SetPart(2, 3, true, true);
+		AddAnimation(RIGHT)->SetPart(2, 3, true, true);
 
-	SetState(RIGHT);
+		SetState(RIGHT);
 
-	GetAnimation(LEFT)->SetSpeed(0.3f);
-	GetAnimation(RIGHT)->SetSpeed(0.3f);
-
+		GetAnimation(LEFT)->SetSpeed(0.3f);
+		GetAnimation(RIGHT)->SetSpeed(0.3f);
+	}
+	else if (state == 1)
+	{
+	}
 }
 
 KirbySit::~KirbySit()
