@@ -31,6 +31,10 @@ public:
 
 	void SetOwer(Rect* owner) { this->owner = owner; }
 	void SetLandTexture(Texture* texture) { landTexture = texture; }
+	void SetLeftTexture(Texture* texture) { leftTexture = texture; }
+	void SetRightTexture(Texture* texture) { rightTexture = texture; }
+
+	Texture* GetTexture(bool isRight) { return isRight ? this->rightTexture : this->leftTexture; }
 
 protected:
 	void SetTex(bool isRight);

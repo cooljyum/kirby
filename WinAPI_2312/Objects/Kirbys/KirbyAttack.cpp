@@ -39,7 +39,7 @@ void KirbyAttack::Start(bool isRight)
 
 	Vector2 pos = owner->GetPos();
 	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
-	collider->SetPos({ pos.x + direction.x * 100.0f , pos.y - 50.0f });
+	collider->SetPos({ pos.x + direction.x * 100.0f , pos.y });
 	collider->SetActive(true);
 }
 

@@ -3,9 +3,16 @@
 class Kirby : public Character
 {
 public:
+	//커비 모드 상태
+	enum ModeState
+	{
+		BASIC, FLY //,ITEM(추가 가능?)
+	};
+
+	//커비 액션 상태들
 	enum ActionState
 	{
-		IDLE, WALK, RUN, JUMP, SIT, ATTACK
+		IDLE, WALK, SIT, JUMP, ATTACK
 	};
 
 public :
@@ -37,5 +44,6 @@ private:
 	bool isRight = true;
 
 	//bool isRun = false;
+
 
 };

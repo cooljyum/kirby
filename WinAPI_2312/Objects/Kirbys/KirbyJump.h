@@ -5,7 +5,7 @@ class KirbyJump : public Action
 private:
 	enum JumpState
 	{
-		START_L, START_R, LAND_L, LAND_R, FLY_R, FLY_L
+		START_L, START_R, LAND_L, LAND_R
 	};
 
 	const float JUMP_POWER = -500.0f;

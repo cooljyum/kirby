@@ -10,9 +10,7 @@ KirbyJump::KirbyJump(Rect* owner) : Action(owner)
 	AddAnimation(START_L)->SetPart(78, 78);//JumpUpLeft
 	AddAnimation(START_R)->SetPart(78, 78);//JumpUpRight
 	AddAnimation(LAND_L)->SetPart(77, 71);//JumpLandLeft
-	AddAnimation(LAND_R)->SetPart(77, 67);//JumpLandRight	
-	AddAnimation(FLY_L)->SetPart(29, 25);//JumpLandLeft
-	AddAnimation(FLY_R)->SetPart(29, 25);//JumpLandRight
+	AddAnimation(LAND_R)->SetPart(77, 67);//JumpLandRight
 
 	GetAnimation(LAND_L)->SetSpeed(2.3f);
 	GetAnimation(LAND_R)->SetSpeed(2.3f);
@@ -57,8 +55,6 @@ void KirbyJump::Jump()
 		velocity.y = JUMP_POWER;
 
 		jumpCount++;
- 
-		curState ? SetState(FLY_R) : SetState(FLY_L);
 		
 	}
 
@@ -72,9 +68,6 @@ void KirbyJump::Jump()
 		jumpCount = 0;
 		owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
 
-		if (curState == FLY_R) return;
-		if (curState == FLY_L) return;
-
 		curState ? SetState(LAND_R) : SetState(LAND_L);
 	}
 }
@@ -87,13 +80,13 @@ void KirbyJump::Move()
 	if (KEY->Press('A'))
 	{
 		velocity.x = -MOVE_SPEED;
-		//SetState(LEFT, false, false);
+		SetState(LEFT, false, false);
 		SetTex(false);
 	}
 	else if (KEY->Press('D'))
 	{
 		velocity.x = +MOVE_SPEED;
-		//SetState(RIGHT, false, false);
+		SetState(RIGHT, false, false);
 		SetTex(true);
 	}
 	else 

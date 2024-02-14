@@ -50,7 +50,7 @@ void KirbyWalk::Control()
 
 	if (owner->Bottom() < landHeight)
 	{
-		velocity.y += GRAVITY * DELTA / 5;
+		velocity.y += GRAVITY * DELTA / 3;
 		//owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
 	}
 	else if (owner->Bottom() > landHeight)

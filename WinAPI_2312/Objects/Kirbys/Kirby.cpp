@@ -17,15 +17,12 @@ void Kirby::Update()
 	Move();
 	Control();
 	Attack();
-
-
 }
 
 void Kirby::Render(HDC hdc)
 {
 	Rect::CamRender(hdc);
 	actions[curState]->Render(hdc);
-
 }
 
 void Kirby::SetLandTexture(Texture* texture)
@@ -44,22 +41,14 @@ void Kirby::Move()
 	{
 		isMove = true;
 		isRight = true;
-		if (KEY->Press(VK_SHIFT)) 
-		{
-			isRun = true;
-		}
 	}
 	if (KEY->Press('A'))
 	{
 		isMove = true;
 		isRight = false;
-		if (KEY->Press(VK_SHIFT))
-		{
-			isRun = true;
-		}
 	}
 
-	isMove ? isRun ? SetAction(RUN, isRight) : SetAction(WALK, isRight) : SetIdle();
+	isMove ?  SetAction(WALK, isRight) : SetIdle();
 }
 
 void Kirby::Control()
@@ -80,6 +69,7 @@ void Kirby::Control()
 
 void Kirby::Attack()
 {
+	if (curState == JUMP || curState == SIT || curState == ATTACK) return;
 	if (KEY->Down('F'))
 	{
 		SetAction(ATTACK, isRight);
@@ -88,11 +78,31 @@ void Kirby::Attack()
 
 void Kirby::CreateActions()
 {
+
+	/*Texture* RightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
+	Texture* LeftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
+	
+	Action* Idle = new Action(this);
+	Idle->SetRightTexture(Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14));
+	Idle->SetLeftTexture(Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14));
+
+	Idle->SetTexture(Idle->GetTexture(isRight));
+
+	Idle->AddAnimation(0)->SetPart(0, 1, true, true);
+	Idle->AddAnimation(1)->SetPart(0, 1, true, true);
+
+	Idle->SetState(isRight);
+
+	Idle->GetAnimation(0)->SetSpeed(0.8f);
+	Idle->GetAnimation(1)->SetSpeed(0.8f);
+
+	actions.push_back(Idle);*/
+
+
 	actions.push_back(new KirbyIdle(this));
 	actions.push_back(new KirbyWalk(this));
-	actions.push_back(new KirbyRun(this));
-	actions.push_back(new KirbyJump(this));
 	actions.push_back(new KirbySit(this));
+	actions.push_back(new KirbyJump(this));
 	actions.push_back(new KirbyAttack(this));
 
 	actions[JUMP]->GetAnimation(2)->SetEndEvent(bind(&Kirby::SetIdle, this));

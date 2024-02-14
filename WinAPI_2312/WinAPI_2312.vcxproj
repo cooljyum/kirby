@@ -141,6 +141,7 @@
     <ClInclude Include="Objects\Basic\Rect.h" />
     <ClInclude Include="Objects\Character.h" />
     <ClInclude Include="Objects\Kirbys\Kirby.h" />
+    <ClInclude Include="Objects\Kirbys\KirbyAction.h" />
     <ClInclude Include="Objects\Kirbys\KirbyAttack.h" />
     <ClInclude Include="Objects\Kirbys\KirbyIdle.h" />
     <ClInclude Include="Objects\Kirbys\KirbyJump.h" />
