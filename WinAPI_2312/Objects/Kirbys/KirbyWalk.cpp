@@ -8,7 +8,7 @@ KirbyWalk::KirbyWalk(Rect* owner) : Action(owner)
 	SetTexture(rightTexture);
 
 	AddAnimation(LEFT)->SetPart(6, 15, true);
-	AddAnimation(RIGHT)->SetPart(15, 6, true);
+	AddAnimation(RIGHT)->SetPart(6, 15, true);
 
 	SetState(RIGHT);
 }
@@ -22,6 +22,8 @@ void KirbyWalk::Update()
 	Control();
 
 	Action::Update();
+
+	Push();
 }
 
 void KirbyWalk::Control()
@@ -39,7 +41,21 @@ void KirbyWalk::Control()
 		SetTex(true);
 	}
 
-	Vector2 pos = owner->GetPos();
-	//pos.y = landTexture->GetPixelHeight(pos) - owner->Half().y;
-	owner->SetPos(pos);
+	//landHeight = landTexture->GetPixelHeight(owner->GetPos());
+
+	//if (owner->Bottom() > landHeight)
+	{
+		//owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
+	}
+}
+
+void KirbyWalk::Push()
+{
+	float right = landTexture->GetPixelRIght(owner);
+
+	if (right < 0) return;
+
+	Vector2 ownerPos = owner->GetPos();
+	ownerPos.x = right - owner->Half().x;
+	owner->SetPos(ownerPos);
 }

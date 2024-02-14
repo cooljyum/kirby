@@ -17,6 +17,8 @@ public:
 
 	void DamageHp(int damage) { hp -= damage; }
 
+
+
 public:
 	Image* image;
 	Vector2 imageOffset = { 0, 0 };

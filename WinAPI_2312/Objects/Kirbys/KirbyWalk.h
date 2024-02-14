@@ -10,4 +10,8 @@ public:
 
 private:
 	void Control();
+	void Push();
+
+private:
+	float landHeight;
 };

@@ -8,7 +8,7 @@ KirbyRun::KirbyRun(Rect* owner) : Action(owner)
 	SetTexture(rightTexture);
 
 	AddAnimation(LEFT)->SetPart(23, 16, true, true);
-	AddAnimation(RIGHT)->SetPart(16, 23, true, true);
+	AddAnimation(RIGHT)->SetPart(23, 16, true, true);
 
 	SetState(RIGHT);
 }
@@ -40,6 +40,6 @@ void KirbyRun::Control()
 	}
 
 	Vector2 pos = owner->GetPos();
-	//pos.y = landTexture->GetPixelHeight(pos) - owner->Half().y;
+	pos.y = landTexture->GetPixelHeight(pos) - owner->Half().y;
 	owner->SetPos(pos);
 }

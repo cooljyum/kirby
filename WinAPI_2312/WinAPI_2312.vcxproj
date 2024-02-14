@@ -141,6 +141,7 @@
     <ClInclude Include="Objects\Basic\Rect.h" />
     <ClInclude Include="Objects\Character.h" />
     <ClInclude Include="Objects\Kirbys\Kirby.h" />
+    <ClInclude Include="Objects\Kirbys\KirbyAttack.h" />
     <ClInclude Include="Objects\Kirbys\KirbyIdle.h" />
     <ClInclude Include="Objects\Kirbys\KirbyJump.h" />
     <ClInclude Include="Objects\Kirbys\KirbyRun.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Objects\Basic\Rect.cpp" />
     <ClCompile Include="Objects\Character.cpp" />
     <ClCompile Include="Objects\Kirbys\Kirby.cpp" />
+    <ClCompile Include="Objects\Kirbys\KirbyAttack.cpp" />
     <ClCompile Include="Objects\Kirbys\KirbyIdle.cpp" />
     <ClCompile Include="Objects\Kirbys\KirbyJump.cpp" />
     <ClCompile Include="Objects\Kirbys\KirbyRun.cpp" />

@@ -7,12 +7,27 @@ KirbySit::KirbySit(Rect* owner) : Action(owner)
 
 	SetTexture(rightTexture);
 
-	AddAnimation(LEFT)->SetPart(3, 2, true, true);
+	AddAnimation(LEFT)->SetPart(2, 3, true, true);
 	AddAnimation(RIGHT)->SetPart(2, 3, true, true);
 
 	SetState(RIGHT);
+
+	GetAnimation(LEFT)->SetSpeed(0.3f);
+	GetAnimation(RIGHT)->SetSpeed(0.3f);
+
 }
 
 KirbySit::~KirbySit()
 {
+}
+
+void KirbySit::Update()
+{
+	Action::Update();
+}
+
+void KirbySit::Start(bool isRight)
+{
+	SetTex(isRight);
+	SetState(isRight, true);
 }

@@ -10,7 +10,7 @@ Action::Action(Texture* texture)
 {
 }
 
-Action::Action(Rect* owner) : Image(nullptr), owner(owner)
+Action::Action(Rect* owner, Vector2 offset) : Image(nullptr), owner(owner), offset(offset)
 {
 }
 
@@ -22,7 +22,7 @@ Action::~Action()
 
 void Action::Update()
 {
-	pos = owner->GetPos();
+	pos = owner->GetPos() + offset;
 	owner->Translate(velocity * DELTA);
 	animations[curState]->Update();
 }
@@ -61,6 +61,8 @@ Animation* Action::AddAnimation(int key, float speed)
 
 void Action::SetTex(bool isRight)
 {
+	pos = owner->GetPos();
+
 	if (isRight)
 		texture = rightTexture;
 	else

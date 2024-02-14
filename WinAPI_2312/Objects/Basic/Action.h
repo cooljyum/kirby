@@ -14,7 +14,7 @@ protected:
 public:		
 	Action(wstring file, int frameX = 1, int frameY = 1, bool isTrans = false, COLORREF transColor = MAGENTA);
 	Action(Texture* texture = nullptr);	
-	Action(Rect* owner);
+	Action(Rect* owner, Vector2 offset = Vector2(0, 50));
 	~Action();
 
 	virtual void Update();
@@ -46,6 +46,9 @@ protected:
 	Texture* leftTexture;
 
 	Vector2 velocity;
+	Vector2 offset;
 
 	Texture* landTexture = nullptr;
+
+
 };

@@ -128,6 +128,29 @@ float Texture::GetPixelHeight(const Vector2& pos)
 	return (float)imageSize.y;
 }
 
+float Texture::GetPixelRIght(Rect* rect)
+{
+	int start = rect->GetPos().x < 0.0f ? 0 : (int)rect->GetPos().x;
+	int end = start + rect->Half().x;
+
+	for (int x = start; x < end; x++)
+	{
+		COLORREF color = GetPixel(memDC, x, (int)rect->GetPos().y);
+
+		if (color != transColor)
+			return (float)x;
+	}
+
+	return -1.0f;
+}
+
+
+float Texture::GetPixelLeft(const Vector2& pos)
+{
+	return 0.0f;
+}
+
+
 Texture* Texture::Add(wstring file, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {
 	if (textures.count(file) > 0)

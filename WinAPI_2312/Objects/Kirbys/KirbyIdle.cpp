@@ -11,6 +11,9 @@ KirbyIdle::KirbyIdle(Rect* owner) : Action(owner)
 	AddAnimation(RIGHT)->SetPart(0, 1, true, true);
 	
 	SetState(RIGHT);
+
+	GetAnimation(LEFT)->SetSpeed(0.8f);
+	GetAnimation(RIGHT)->SetSpeed(0.8f);
 }
 
 KirbyIdle::~KirbyIdle()

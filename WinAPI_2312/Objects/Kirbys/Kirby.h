@@ -5,7 +5,7 @@ class Kirby : public Character
 public:
 	enum ActionState
 	{
-		IDLE, WALK, RUN, JUMP, SIT
+		IDLE, WALK, RUN, JUMP, SIT, ATTACK
 	};
 
 public :
@@ -19,12 +19,15 @@ public :
 
 	void Move();
 	void Control();
+	void Attack();
 
 	void CreateActions();
 
 	void SetIdle();
 
 	void SetAction(ActionState state, bool isRight);
+
+	Vector2 GetOffset() { return imageOffset; }
 
 private:
 	vector<Action*> actions;
