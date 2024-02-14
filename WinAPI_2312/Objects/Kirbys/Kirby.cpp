@@ -76,7 +76,6 @@ void Kirby::Control()
 	if (KEY->Up('S') && curState == SIT) {
 		SetIdle();
 	}
-
 }
 
 void Kirby::Attack()
@@ -99,7 +98,6 @@ void Kirby::CreateActions()
 	actions[JUMP]->GetAnimation(2)->SetEndEvent(bind(&Kirby::SetIdle, this));
 	actions[JUMP]->GetAnimation(3)->SetEndEvent(bind(&Kirby::SetIdle, this));
 
-
 	actions[ATTACK]->GetAnimation(0)->SetEndEvent(bind(&Kirby::SetIdle, this));
 	actions[ATTACK]->GetAnimation(1)->SetEndEvent(bind(&Kirby::SetIdle, this));
 }
@@ -111,7 +109,6 @@ void Kirby::SetIdle()
 
 void Kirby::SetAction(ActionState state, bool isRight)
 {
-
 	if (curState == state)
 		return;
 
@@ -119,4 +116,3 @@ void Kirby::SetAction(ActionState state, bool isRight)
 	curState = state;
 	actions[state]->Start(isRight);
 }
-

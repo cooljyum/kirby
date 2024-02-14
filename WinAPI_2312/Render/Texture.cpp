@@ -128,14 +128,15 @@ float Texture::GetPixelHeight(const Vector2& pos)
 	return (float)imageSize.y;
 }
 
-float Texture::GetPixelRIght(Rect* rect)
+float Texture::GetPixelRight(Rect* rect)
 {
 	int start = rect->GetPos().x < 0.0f ? 0 : (int)rect->GetPos().x;
 	int end = start + rect->Half().x;
+	int what = (int)rect->GetPos().y - (int)rect->Half().y / 10;
 
 	for (int x = start; x < end; x++)
 	{
-		COLORREF color = GetPixel(memDC, x, (int)rect->GetPos().y);
+		COLORREF color = GetPixel(memDC, x, (int)rect->GetPos().y + (int)rect->Half().y/2);
 
 		if (color != transColor)
 			return (float)x;
@@ -144,12 +145,21 @@ float Texture::GetPixelRIght(Rect* rect)
 	return -1.0f;
 }
 
-
-float Texture::GetPixelLeft(const Vector2& pos)
+float Texture::GetPixelLeft(Rect* rect)
 {
-	return 0.0f;
-}
+	int start = rect->GetPos().x < 0.0f ? 0 : (int)rect->GetPos().x;
+	int end = start - rect->Half().x;
 
+	for (int x = start; x > end; x--)
+	{
+		COLORREF color = GetPixel(memDC, x, (int)rect->GetPos().y + (int)rect->Half().y / 2);
+
+		if (color != transColor)
+			return (float)x;
+	}
+
+	return -1.0f;
+}
 
 Texture* Texture::Add(wstring file, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {

@@ -22,8 +22,11 @@ void KirbyWalk::Update()
 	Control();
 
 	Action::Update();
+}
 
-	Push();
+void KirbyWalk::End()
+{
+	owner->SetPos({ owner->GetPos().x,  owner->GetPos().y });
 }
 
 void KirbyWalk::Control()
@@ -33,29 +36,44 @@ void KirbyWalk::Control()
 		velocity.x = -MOVE_SPEED;
 		SetState(LEFT);
 		SetTex(false);
+		Push(false);
 	}
 	else if (KEY->Press('D'))
 	{
 		velocity.x = +MOVE_SPEED;
 		SetState(RIGHT);
 		SetTex(true);
+		Push(true);
 	}
 
-	//landHeight = landTexture->GetPixelHeight(owner->GetPos());
+	landHeight = landTexture->GetPixelHeight(owner->GetPos());
 
-	//if (owner->Bottom() > landHeight)
+	if (owner->Bottom() < landHeight)
 	{
+		velocity.y += GRAVITY * DELTA / 5;
 		//owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
+	}
+	else if (owner->Bottom() > landHeight)
+	{
+		owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
 	}
 }
 
-void KirbyWalk::Push()
+void KirbyWalk::Push(bool isRight)
 {
-	float right = landTexture->GetPixelRIght(owner);
+	float offset = isRight ? landTexture->GetPixelRight(owner) : landTexture->GetPixelLeft(owner);
 
-	if (right < 0) return;
+	if (offset < 0)
+		return;
 
 	Vector2 ownerPos = owner->GetPos();
-	ownerPos.x = right - owner->Half().x;
+	if (isRight)
+	{
+		ownerPos.x = offset - owner->Half().x;
+	}
+	else
+	{
+		ownerPos.x = offset + owner->Half().x;
+	}
 	owner->SetPos(ownerPos);
 }

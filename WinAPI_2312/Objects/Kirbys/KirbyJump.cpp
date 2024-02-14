@@ -38,6 +38,7 @@ void KirbyJump::Start(bool isRight)
 	velocity = {};
 	velocity.y = JUMP_POWER;
 	jumpCount = 1;
+	owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
 }
 
 void KirbyJump::End()

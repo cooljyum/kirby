@@ -14,8 +14,8 @@ public:
 	void Render(HDC hdc, Rect* rect, int alpha, POINT curFrame = { 0, 0 });
 
 	float GetPixelHeight(const Vector2& pos);
-	float GetPixelRIght(Rect* rect);
-	float GetPixelLeft(const Vector2& pos);
+	float GetPixelRight(Rect* rect);
+	float GetPixelLeft(Rect* rect);
 
 	Vector2 GetSize() { return cutSize; }
 	POINT GetFrame() { return imageFrame; }
