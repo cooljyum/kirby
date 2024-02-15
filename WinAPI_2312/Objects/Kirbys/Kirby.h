@@ -12,7 +12,7 @@ public:
 	//커비 액션 상태들
 	enum ActionState
 	{
-		IDLE, WALK, SIT, JUMP, ATTACK
+		IDLE, WALK, SIT, ATTACK, JUMP, JUMPEND
 	};
 
 public :
@@ -42,7 +42,7 @@ public :
 private:
 	map<ModeState, vector<Action*>> actions;
 
-	ModeState curModeState = EAT;
+	ModeState curModeState = DEFAULT;
 	ActionState curActionState = IDLE;
 
 	bool isRight = true;

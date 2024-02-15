@@ -69,12 +69,22 @@ using namespace std;
 
 #include "Objects/Character.h"
 
+//커비 디폴트 액션
+#include "Objects/Kirbys/Action/Default/KirbyIdle.h"
+#include "Objects/Kirbys/Action/Default/KirbyWalk.h"
+#include "Objects/Kirbys/Action/Default/KirbyJump.h"
+#include "Objects/Kirbys/Action/Default/KirbyJumpUp.h"
+#include "Objects/Kirbys/Action/Default/KirbyJumpEnd.h"
+#include "Objects/Kirbys/Action/Default/KirbySit.h"
+#include "Objects/Kirbys/Action/Default/KirbyAttack.h"
 
-#include "Objects/Kirbys/KirbyIdle.h"
-#include "Objects/Kirbys/KirbyWalk.h"
-#include "Objects/Kirbys/KirbyJump.h"
-#include "Objects/Kirbys/KirbySit.h"
-#include "Objects/Kirbys/KirbyAttack.h"
+#include "Objects/Kirbys/Action/Eat/KirbyIdleEat.h"
+#include "Objects/Kirbys/Action/Eat/KirbyWalkEat.h"
+#include "Objects/Kirbys/Action/Eat/KirbyJumpUpEat.h"
+#include "Objects/Kirbys/Action/Eat/KirbyJumpEndEat.h"
+#include "Objects/Kirbys/Action/Eat/KirbySitEat.h"
+#include "Objects/Kirbys/Action/Eat/KirbyAttackEat.h"
+
 #include "Objects/Kirbys/Kirby.h"
 
 //Scene

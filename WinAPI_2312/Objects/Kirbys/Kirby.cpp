@@ -40,7 +40,7 @@ void Kirby::SetLandTexture(Texture* texture)
 
 void Kirby::Move()
 {
-	if (curActionState == JUMP || curActionState == SIT || curActionState == ATTACK) return;
+	if (curActionState == JUMP || curActionState == JUMPEND || curActionState == SIT || curActionState == ATTACK) return;
 	bool isMove = false;
 	bool isRun = false;
 
@@ -60,12 +60,13 @@ void Kirby::Move()
 
 void Kirby::Control()
 {
-	if (KEY->Down('W'))
+	if (KEY->Down('W') && curActionState != JUMP && curActionState != JUMPEND)
 	{
 		SetAction(JUMP, isRight);
 	}
 
-	if (KEY->Down('S') && curActionState != JUMP) {
+	if (KEY->Down('S') && curActionState != JUMP && curActionState != JUMPEND) 
+	{
 		SetAction(SIT, isRight);
 	}
 
@@ -76,7 +77,7 @@ void Kirby::Control()
 
 void Kirby::Attack()
 {
-	if (curActionState == JUMP || curActionState == SIT || curActionState == ATTACK) return;
+	if (curActionState == JUMP || curActionState == JUMPEND || curActionState == SIT || curActionState == ATTACK) return;
 	if (KEY->Down('F'))
 	{
 		SetAction(ATTACK, isRight);
@@ -92,15 +93,15 @@ void Kirby::CreateActions()
 
 void Kirby::CreateModeAction(ModeState mode)
 {
-	actions[mode].push_back(new KirbyIdle(this, mode));
+	if(mode == DEFAULT) actions[mode].push_back(new KirbyIdle(this, mode));
+	
+	if (mode == EAT) actions[mode].push_back(new KirbyIdleEat(this));
+
 	actions[mode].push_back(new KirbyWalk(this, mode));
 	actions[mode].push_back(new KirbySit(this, mode));
-	actions[mode].push_back(new KirbyJump(this, mode));
 	actions[mode].push_back(new KirbyAttack(this, mode));
-
-	actions[mode][JUMP]->GetAnimation(2)->SetEndEvent(bind(&Kirby::SetIdle, this));
-	actions[mode][JUMP]->GetAnimation(3)->SetEndEvent(bind(&Kirby::SetIdle, this));
-
+	actions[mode].push_back(new KirbyJumpUp(this, mode));
+	actions[mode].push_back(new KirbyJumpEnd(this, mode));
 	
 	actions[mode][ATTACK]->GetAnimation(0)->SetEndEvent([this]() {
 		SetIdle();
@@ -112,7 +113,8 @@ void Kirby::CreateModeAction(ModeState mode)
 		if (curModeState == EAT || curModeState == FLY) SetMode(DEFAULT);
 		});
 
-	actions[mode][SIT]->GetAnimation(0)->SetEndEvent([this]() {
+	actions[mode][SIT]->GetAnimation(0)->SetEndEvent([this]() 
+{
 		if (curModeState == EAT || curModeState == FLY) { SetIdle(); SetMode(DEFAULT); }
 		});
 

@@ -3,6 +3,6 @@
 class KirbyIdle: public Action
 {
 public:
-	KirbyIdle(Rect* owner, int state);
+	KirbyIdle(Rect* owner, int state = 0);
 	~KirbyIdle();
 };
