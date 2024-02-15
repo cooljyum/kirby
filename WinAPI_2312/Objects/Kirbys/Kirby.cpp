@@ -31,8 +31,11 @@ void Kirby::SetLandTexture(Texture* texture)
 	float landHeight = texture->GetPixelHeight(GetPos());
 	SetPos({ GetPos().x, landHeight - Half().y });
 
-	for (Action* action : actions[curModeState])
-		action->SetLandTexture(texture);
+	for (const pair<ModeState, vector<Action*>>& actionList : actions) 
+		for (Action* action : actionList.second) 
+			action->SetLandTexture(texture);
+		
+	
 }
 
 void Kirby::Move()
@@ -78,12 +81,13 @@ void Kirby::Attack()
 	{
 		SetAction(ATTACK, isRight);
 	}
+	
 }
 
 void Kirby::CreateActions()
 {
-	CreateModeAction(BASIC);
-	CreateModeAction(BIG);
+	CreateModeAction(DEFAULT);
+	CreateModeAction(EAT);
 }
 
 void Kirby::CreateModeAction(ModeState mode)
@@ -97,8 +101,24 @@ void Kirby::CreateModeAction(ModeState mode)
 	actions[mode][JUMP]->GetAnimation(2)->SetEndEvent(bind(&Kirby::SetIdle, this));
 	actions[mode][JUMP]->GetAnimation(3)->SetEndEvent(bind(&Kirby::SetIdle, this));
 
-	actions[mode][ATTACK]->GetAnimation(0)->SetEndEvent(bind(&Kirby::SetIdle, this));
-	actions[mode][ATTACK]->GetAnimation(1)->SetEndEvent(bind(&Kirby::SetIdle, this));
+	
+	actions[mode][ATTACK]->GetAnimation(0)->SetEndEvent([this]() {
+		SetIdle();
+		if (curModeState == EAT || curModeState == FLY) SetMode(DEFAULT);
+		});
+
+	actions[mode][ATTACK]->GetAnimation(1)->SetEndEvent([this]() {
+		SetIdle();
+		if (curModeState == EAT || curModeState == FLY) SetMode(DEFAULT);
+		});
+
+	actions[mode][SIT]->GetAnimation(0)->SetEndEvent([this]() {
+		if (curModeState == EAT || curModeState == FLY) { SetIdle(); SetMode(DEFAULT); }
+		});
+
+	actions[mode][SIT]->GetAnimation(1)->SetEndEvent([this]() {
+		if (curModeState == EAT || curModeState == FLY) { SetIdle(); SetMode(DEFAULT); }
+		});
 }
 
 void Kirby::SetIdle()

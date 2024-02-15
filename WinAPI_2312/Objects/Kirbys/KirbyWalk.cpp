@@ -47,14 +47,14 @@ void KirbyWalk::Control()
 {
 	if (KEY->Press('A'))
 	{
-		velocity.x = -MOVE_SPEED;
+		(KEY->Press(VK_SHIFT)) ? velocity.x = -RUN_SPEED : velocity.x = -MOVE_SPEED;
 		SetState(LEFT);
 		SetTex(false);
 		Push(false);
 	}
 	else if (KEY->Press('D'))
 	{
-		velocity.x = +MOVE_SPEED*5;
+		(KEY->Press(VK_SHIFT))? velocity.x = +RUN_SPEED :  velocity.x = +MOVE_SPEED;
 		SetState(RIGHT);
 		SetTex(true);
 		Push(true);
@@ -65,7 +65,6 @@ void KirbyWalk::Control()
 	if (owner->Bottom() < landHeight)
 	{
 		velocity.y += GRAVITY * DELTA / 3;
-		//owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
 	}
 	else if (owner->Bottom() > landHeight)
 	{
@@ -83,11 +82,11 @@ void KirbyWalk::Push(bool isRight)
 	Vector2 ownerPos = owner->GetPos();
 	if (isRight)
 	{
-		ownerPos.x = offset - owner->Half().x;
+		ownerPos.x = Lerp(owner->GetPos().x, offset - owner->Half().x, 5.0f * DELTA);
 	}
 	else
 	{
-		ownerPos.x = offset + owner->Half().x;
+		ownerPos.x = Lerp(owner->GetPos().x, offset + owner->Half().x, 5.0f * DELTA);
 	}
 	owner->SetPos(ownerPos);
 }

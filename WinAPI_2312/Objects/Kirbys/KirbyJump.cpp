@@ -24,13 +24,13 @@ KirbyJump::KirbyJump(Rect* owner, int state) : Action(owner)
 
 		SetTexture(rightTexture);
 
-		AddAnimation(START_L)->SetPart(78, 78);//JumpUpLeft
-		AddAnimation(START_R)->SetPart(78, 78);//JumpUpRight
-		AddAnimation(LAND_L)->SetPart(77, 71);//JumpLandLeft
-		AddAnimation(LAND_R)->SetPart(77, 67);//JumpLandRight
+		AddAnimation(START_L)->SetPart(56, 58);//JumpUpLeft
+		AddAnimation(START_R)->SetPart(58, 58);//JumpUpRight
+		AddAnimation(LAND_L)->SetPart(59, 64);//JumpLandLeft
+		AddAnimation(LAND_R)->SetPart(59, 64);//JumpLandRight
 
-		GetAnimation(LAND_L)->SetSpeed(2.3f);
-		GetAnimation(LAND_R)->SetSpeed(2.3f);
+		GetAnimation(LAND_L)->SetSpeed(2.7f);
+		GetAnimation(LAND_R)->SetSpeed(2.7f);
 	}
 }
 
@@ -42,7 +42,7 @@ void KirbyJump::Update()
 {
 	Jump();
 	Move();
-
+	Push(curState == LAND_R || curState == START_L ? true : false);
 	Action::Update();
 }
 
@@ -84,7 +84,7 @@ void KirbyJump::Jump()
 	{
 		velocity.y = 0.0f;
 		jumpCount = 0;
-
+		owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
 		curState ? SetState(LAND_R) : SetState(LAND_L);
 	}
 }
@@ -97,18 +97,37 @@ void KirbyJump::Move()
 	if (KEY->Press('A'))
 	{
 		velocity.x = -MOVE_SPEED;
-		//SetState(LEFT, false, false);
+		SetState(LEFT, false, false);
 		SetTex(false);
 	}
 	else if (KEY->Press('D'))
 	{
 		velocity.x = +MOVE_SPEED;
-		//SetState(RIGHT, false, false);
+		SetState(RIGHT, false, false);
 		SetTex(true);
 	}
 	else 
 	{
 		velocity.x = 0.0f;
 	}
+}
+
+void KirbyJump::Push(bool isRight)
+{
+	float offset = isRight? landTexture->GetPixelRight(owner) : landTexture->GetPixelLeft(owner);
+
+	if (offset < 0)
+		return;
+
+	Vector2 ownerPos = owner->GetPos();
+	if (isRight)
+	{
+		ownerPos.x = Lerp(owner->GetPos().x, offset - owner->Half().x, 5.0f * DELTA);
+	}
+	else
+	{
+		ownerPos.x = Lerp(owner->GetPos().x, offset + owner->Half().x, 5.0f * DELTA);
+	}
+	owner->SetPos(ownerPos);
 }
 

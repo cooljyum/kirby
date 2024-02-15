@@ -9,13 +9,16 @@ KirbyAttack::KirbyAttack(Rect* owner, int state) : Action(owner)
 
 		SetTexture(rightTexture);
 
-		AddAnimation(LEFT)->SetPart(34, 30);
-		AddAnimation(RIGHT)->SetPart(34, 30);
+		AddAnimation(LEFT)->SetPart(30, 34);
+		AddAnimation(RIGHT)->SetPart(30, 34);
 
 		SetState(RIGHT);
 
 		collider = new Rect(Vector2(), { 200, 100 });
 		collider->SetActive(false);
+
+		GetAnimation(LEFT)->SetSpeed(2.3f);
+		GetAnimation(RIGHT)->SetSpeed(2.3f);
 	}
 	else if (state == 1)
 	{
@@ -31,6 +34,9 @@ KirbyAttack::KirbyAttack(Rect* owner, int state) : Action(owner)
 
 		collider = new Rect(Vector2(), { 200, 100 });
 		collider->SetActive(false);
+
+		GetAnimation(LEFT)->SetSpeed(2.0f);
+		GetAnimation(RIGHT)->SetSpeed(2.0f);
 	}
 }
 

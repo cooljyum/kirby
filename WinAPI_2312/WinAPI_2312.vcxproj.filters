@@ -84,9 +84,6 @@
     <ClInclude Include="Objects\Kirbys\KirbyIdle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Kirbys\KirbyRun.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\Kirbys\KirbyWalk.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -159,9 +156,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Kirbys\KirbyIdle.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Kirbys\KirbyRun.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Kirbys\KirbyWalk.cpp">

@@ -24,6 +24,7 @@ public:
 private:
 	void Jump();
 	void Move();
+	void Push(bool isRight);
 
 private:
 	float landHeight;

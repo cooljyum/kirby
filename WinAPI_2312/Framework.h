@@ -72,7 +72,6 @@ using namespace std;
 
 #include "Objects/Kirbys/KirbyIdle.h"
 #include "Objects/Kirbys/KirbyWalk.h"
-#include "Objects/Kirbys/KirbyRun.h"
 #include "Objects/Kirbys/KirbyJump.h"
 #include "Objects/Kirbys/KirbySit.h"
 #include "Objects/Kirbys/KirbyAttack.h"
