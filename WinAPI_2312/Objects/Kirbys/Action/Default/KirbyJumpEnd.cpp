@@ -35,8 +35,7 @@ void KirbyJumpEnd::End()
 
 void KirbyJumpEnd::Jump()
 {
-	velocity.y += GRAVITY * DELTA;
-
+	KirbyJump::Jump();
 	landHeight = landTexture->GetPixelHeight(owner->GetPos());
 
 	if (owner->Bottom() > landHeight)

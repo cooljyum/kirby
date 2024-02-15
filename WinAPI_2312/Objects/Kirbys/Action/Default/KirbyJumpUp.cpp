@@ -39,15 +39,8 @@ void KirbyJumpUp::Start(bool isRight)
 
 void KirbyJumpUp::Jump()
 {
-	velocity.y += GRAVITY * DELTA;
-
-	int jumpCount = GetJumpCount();
-
-	if (jumpCount <= MAX_JUMP && KEY->Down('W') && owner->GetPos().y > owner->GetSize().y)
-	{
-		velocity.y = JUMP_POWER;
-		SetJumpCount(jumpCount++);
-	}
+	KirbyJump::Jump();
+	
 
 	if (velocity.y >= 0)
 	{

@@ -1,5 +1,5 @@
 #include "Framework.h"
-
+int KirbyJump::jumpCount = 0;
 KirbyJump::~KirbyJump()
 {
 }
@@ -25,17 +25,12 @@ void KirbyJump::Jump()
 {
 	velocity.y += GRAVITY * DELTA;
 
+	int jumpCount = GetJumpCount();
+
 	if (jumpCount <= MAX_JUMP && KEY->Down('W') && owner->GetPos().y > owner->GetSize().y)
 	{
 		velocity.y = JUMP_POWER;
-
-		jumpCount++;
-	}
-
-	if (velocity.y >= 0)
-	{
-		Kirby* kirby = (Kirby*)owner;
-		kirby->SetAction(Kirby::JUMPEND, curState);
+		SetJumpCount(jumpCount++);
 	}
 }
 

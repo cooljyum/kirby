@@ -1,5 +1,6 @@
 #pragma once
 
+
 class KirbyJump : public Action
 {
 public:
@@ -14,7 +15,7 @@ public:
 	virtual void Update();
 	virtual void Start(bool isRight);
 
-private:
+protected:
 	virtual void Jump();
 	virtual void Move();
 	virtual void Push(bool isRight);
@@ -24,5 +25,5 @@ public:
 	void SetJumpCount(int count) { jumpCount = count; }
 
 private:
-	int jumpCount = 0;
+	static int jumpCount;
 };
