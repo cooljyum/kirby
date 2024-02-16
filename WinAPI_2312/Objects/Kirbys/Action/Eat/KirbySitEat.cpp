@@ -11,6 +11,9 @@ KirbySitEat::KirbySitEat(Rect* owner) : KirbySit(owner)
 	AddAnimation(RIGHT)->SetPart(64, 69);
 
 	SetState(RIGHT);
+
+	GetAnimation(LEFT)->SetSpeed(2.0f);
+	GetAnimation(RIGHT)->SetSpeed(2.0f);
 }
 
 KirbySitEat::~KirbySitEat()

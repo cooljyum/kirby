@@ -22,8 +22,9 @@ Action::~Action()
 
 void Action::Update()
 {
-	pos = owner->GetPos() + offset;
 	owner->Translate(velocity * DELTA);
+	pos = owner->GetPos() + offset;	
+
 	animations[curState]->Update();
 }
 
@@ -61,7 +62,7 @@ Animation* Action::AddAnimation(int key, float speed)
 
 void Action::SetTex(bool isRight)
 {
-	pos = owner->GetPos();
+	pos = owner->GetPos() + offset;
 
 	if (isRight)
 		texture = rightTexture;

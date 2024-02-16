@@ -25,12 +25,12 @@ KirbyJumpDown::~KirbyJumpDown()
 void KirbyJumpDown::Jump()
 {
 	KirbyJump::Jump();
+
 	landHeight = landTexture->GetPixelHeight(owner->GetPos());
 
 	if (owner->Bottom() > landHeight)
 	{
-		velocity.y = 0.0f;
-		SetJumpCount(0);
+		velocity.y = 0.0f;		
 		owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
 		curState ? SetState(RIGHT) : SetState(LEFT);
 

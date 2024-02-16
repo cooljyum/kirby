@@ -70,7 +70,7 @@ using namespace std;
 #include "Objects/Character.h"
 
 //Kirbys
-#include "Objects/Kirbys/Monster.h"
+#include "Objects/Monsters/Monster.h"
 
 //커비 디폴트 액션
 #include "Objects/Kirbys/Action/Default/KirbyIdle.h"

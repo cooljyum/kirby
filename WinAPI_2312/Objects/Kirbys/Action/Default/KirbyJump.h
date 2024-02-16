@@ -20,10 +20,6 @@ protected:
 	virtual void Move();
 	virtual void Push(bool isRight);
 
-public:
-	int GetJumpCount() { return jumpCount; }
-	void SetJumpCount(int count) { jumpCount = count; }
-
-private:
+protected:
 	static int jumpCount;
 };

@@ -126,7 +126,7 @@
     <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyJumpDownEat.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Kirbys\Monster.h">
+    <ClInclude Include="Objects\Monsters\Monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -224,7 +224,7 @@
     <ClCompile Include="Objects\Kirbys\Action\Eat\KirbyAttackEat.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Kirbys\Monster.cpp">
+    <ClCompile Include="Objects\Monsters\Monster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

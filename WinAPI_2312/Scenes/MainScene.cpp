@@ -19,7 +19,7 @@ MainScene::MainScene()
 	CAM->SetMapRect(bg1);
 
 	monster = new Monster();
-	monster->SetPos(SCREEN_WIDTH, kirby->Bottom());
+	monster->SetPos(SCREEN_WIDTH+500, kirby->Bottom());
 	monster->SetTarget(kirby);
 
 }

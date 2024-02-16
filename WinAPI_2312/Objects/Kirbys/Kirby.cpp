@@ -139,9 +139,9 @@ void Kirby::SetIdle()
 	SetAction(IDLE, isRight);
 }
 
-void Kirby::SetAction(ActionState state, bool isRight)
+void Kirby::SetAction(ActionState state, bool isRight, bool isForce)
 {
-	if (curActionState == state)
+	if (!isForce && curActionState == state)
 		return;
 
 	actions[curModeState][curActionState]->End();

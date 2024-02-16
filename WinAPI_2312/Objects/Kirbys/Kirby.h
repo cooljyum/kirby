@@ -34,10 +34,7 @@ public :
 	void SetIdle();
 
 	void SetMode(ModeState state) { curModeState = state; }
-	void SetAction(ActionState state, bool isRight);
-	
-
-	Vector2 GetOffset() { return imageOffset; }
+	void SetAction(ActionState state, bool isRight, bool isForce = false);
 	
 	ModeState GetModeState() { return curModeState; }
 	ActionState GetActionState() { return curActionState; }

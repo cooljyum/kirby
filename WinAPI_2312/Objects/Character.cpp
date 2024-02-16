@@ -1,14 +1,9 @@
 #include "Framework.h"
 
-Character::Character() : Rect()
+Character::Character()
 {
-
 }
 
 Character::~Character()
-{
-}
-
-void Character::Render(HDC hdc)
 {
 }

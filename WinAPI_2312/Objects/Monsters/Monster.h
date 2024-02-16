@@ -1,6 +1,6 @@
 #pragma once
 
-class Monster : public Image
+class Monster : public Character
 {
 private:
 	enum AnimationState
@@ -54,6 +54,7 @@ private:
 	void SetDestPos();
 
 private:
+	Image* image;
 	bool isRight = false, isStay = true;
 	Vector2 velocity, destPos;
 	float stayTime = 0.0f;

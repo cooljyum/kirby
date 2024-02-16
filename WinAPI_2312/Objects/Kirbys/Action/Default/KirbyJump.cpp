@@ -19,32 +19,19 @@ void KirbyJump::Start(bool isRight)
 	SetState(isRight, true);
 
 	jumpCount = 1;
+	velocity = {};
 }
 
 void KirbyJump::Jump()
 {
 	velocity.y += GRAVITY * DELTA;
 
-	int jumpCount = GetJumpCount();
-
-	if (jumpCount <= MAX_JUMP && KEY->Down('W') && owner->GetPos().y > owner->GetSize().y)
+	if (KEY->Down('W'))
 	{
 		Kirby* kirby = (Kirby*)owner;
 
-		if (kirby->GetActionState() == Kirby::JUMPDOWN) 
-		{
-			velocity.y = 0;
-			kirby->SetMode(Kirby::EAT);
-			kirby->SetAction(Kirby::JUMPUP, curState);
-		}
-		else 
-		{
-			velocity.y = JUMP_POWER;
-			kirby->SetMode(Kirby::EAT);
-			kirby->SetAction(Kirby::IDLE, curState); //크흡 ㅎㅎㅎ질문.. 이거 좀 별론거 같긴 한데.. 잘되긴한데..
-			kirby->SetAction(Kirby::JUMPUP, curState);
-			SetJumpCount(jumpCount++);
-		}
+		kirby->SetMode(Kirby::EAT);				
+		kirby->SetAction(Kirby::JUMPUP, curState, true);		
 	}
 }
 
