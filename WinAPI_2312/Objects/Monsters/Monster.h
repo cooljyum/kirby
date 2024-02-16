@@ -24,6 +24,7 @@ private:
 
 public:
 	Monster();
+	Monster(int type, int x, int y, int hp);
 	~Monster();
 
 	void Update();

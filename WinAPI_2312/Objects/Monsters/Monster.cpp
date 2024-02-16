@@ -13,6 +13,22 @@ Monster::Monster() : Character()
 	attackRange->SetColor(RED);
 }
 
+Monster::Monster(int type, int x, int y, int hp) 
+{
+	SetPos(x, y);
+	SetHp(hp);
+
+	CreateTexture();
+	CreateAnimation();
+
+	animations[IDLE][isRight]->Play();
+
+	traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
+	traceRange->SetColor(YELLOW);
+	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
+	attackRange->SetColor(RED);
+}
+
 Monster::~Monster()
 {
 	for (vector<Animation*> animationArray : animations)
@@ -84,6 +100,8 @@ void Monster::Collision()
 {
 	if (curState == HIT)
 		return;
+
+
 }
 
 void Monster::CreateTexture()

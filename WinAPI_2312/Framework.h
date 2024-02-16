@@ -70,9 +70,18 @@ using namespace std;
 #include "Objects/Character.h"
 
 //Kirbys
-#include "Objects/Monsters/Monster.h"
 
-//커비 디폴트 액션
+//Monsters
+#include "Objects/Monsters/Monster.h"
+#include "Objects/Monsters/MonsterManager.h"
+
+//Effects
+#include "Objects/Effects/Effect.h"
+
+
+//Kirbys
+//------------ Action
+//Default
 #include "Objects/Kirbys/Action/Default/KirbyIdle.h"
 #include "Objects/Kirbys/Action/Default/KirbyWalk.h"
 #include "Objects/Kirbys/Action/Default/KirbyJump.h"
@@ -81,19 +90,24 @@ using namespace std;
 #include "Objects/Kirbys/Action/Default/KirbySit.h"
 #include "Objects/Kirbys/Action/Default/KirbyAttack.h"
 
+//Eat
 #include "Objects/Kirbys/Action/Eat/KirbyIdleEat.h"
 #include "Objects/Kirbys/Action/Eat/KirbyWalkEat.h"
 #include "Objects/Kirbys/Action/Eat/KirbyJumpUpEat.h"
 #include "Objects/Kirbys/Action/Eat/KirbyJumpDownEat.h"
 #include "Objects/Kirbys/Action/Eat/KirbySitEat.h"
 #include "Objects/Kirbys/Action/Eat/KirbyAttackEat.h"
+//------------ Action End
 
 #include "Objects/Kirbys/Kirby.h"
 
 //Scene
+#include "Manager/DataManager.h"
 #include "Scenes/Scene.h"
 #include "Manager/SceneManager.h"
 #include "Manager/GameManager.h"
+
+
 
 extern HWND hWnd;
 extern Vector2 mousePos;

@@ -69,8 +69,14 @@ void Kirby::Control()
 	{
 		SetAction(SIT, isRight);
 	}
+	
+	if (KEY->Down('S') && curActionState != JUMPUP && curActionState != JUMPDOWN)
+	{
+		SetAction(SIT, isRight);
+	}
 
-	if (KEY->Up('S') && curActionState == SIT) {
+	if (KEY->Up('S') && curActionState == SIT && curModeState == DEFAULT) {
+		//if (curModeState == EAT || curModeState == FLY) { SetMode(DEFAULT); }
 		SetIdle();
 	}
 }
@@ -124,14 +130,13 @@ void Kirby::CreateModeAction(ModeState mode)
 		if (curModeState == EAT || curModeState == FLY) SetMode(DEFAULT);
 		});
 
-	actions[mode][SIT]->GetAnimation(0)->SetEndEvent([this]() 
-{
-		if (curModeState == EAT || curModeState == FLY) { SetIdle(); SetMode(DEFAULT); }
-		});
+	actions[mode][SIT]->GetAnimation(0)->SetEndEvent([this]() {
+		if (curModeState == EAT || curModeState == FLY) { SetMode(DEFAULT); SetIdle();
+		}});
 
 	actions[mode][SIT]->GetAnimation(1)->SetEndEvent([this]() {
-		if (curModeState == EAT || curModeState == FLY) { SetIdle(); SetMode(DEFAULT); }
-		});
+		if (curModeState == EAT || curModeState == FLY) {  SetMode(DEFAULT); SetIdle();
+		}});
 }
 
 void Kirby::SetIdle()

@@ -140,6 +140,7 @@
     <ClInclude Include="Objects\Basic\Image.h" />
     <ClInclude Include="Objects\Basic\Rect.h" />
     <ClInclude Include="Objects\Character.h" />
+    <ClInclude Include="Objects\Effects\Effect.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyJumpUp.h" />
     <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyAttackEat.h" />
     <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyIdleEat.h" />
@@ -155,7 +156,9 @@
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyJumpDown.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbySit.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyWalk.h" />
+    <ClInclude Include="Manager\DataManager.h" />
     <ClInclude Include="Objects\Monsters\Monster.h" />
+    <ClInclude Include="Objects\Monsters\MonsterManager.h" />
     <ClInclude Include="Objects\UI\ProgressBar.h" />
     <ClInclude Include="Render\Animation.h" />
     <ClInclude Include="Render\Camera.h" />
@@ -174,6 +177,7 @@
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Manager\DataManager.cpp" />
     <ClCompile Include="Manager\GameManager.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Math\Math.cpp" />
@@ -196,6 +200,7 @@
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbySit.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyWalk.cpp" />
     <ClCompile Include="Objects\Monsters\Monster.cpp" />
+    <ClCompile Include="Objects\Monsters\MonsterManager.cpp" />
     <ClCompile Include="Objects\UI\ProgressBar.cpp" />
     <ClCompile Include="Render\Animation.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
