@@ -65,6 +65,8 @@ void Monster::Update()
 	traceRange->SetPos(pos + offset);
 	attackRange->SetPos(pos + offset);
 	Vector2 t = { -50.0f, 0.0f };
+	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
+	attackCollider->SetPos(pos + direction * 50.0f);
 	attackCollider->SetPos(pos + offset + t);
 
 	image->SetPos(pos);
