@@ -39,6 +39,9 @@ public :
 	ModeState GetModeState() { return curModeState; }
 	ActionState GetActionState() { return curActionState; }
 
+public:
+	static void AddCollider(Rect* collider);
+	static Rect* AttackCollision(Rect* rect);
 
 private:
 	map<ModeState, vector<Action*>> actions;
@@ -47,4 +50,6 @@ private:
 	ActionState curActionState = IDLE;
 
 	bool isRight = true;
+
+	static vector<Rect*> colliders;
 };

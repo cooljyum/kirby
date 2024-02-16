@@ -56,8 +56,11 @@ private:
 
 private:
 	Image* image;
+
 	bool isRight = false, isStay = true;
+
 	Vector2 velocity, destPos;
+
 	float stayTime = 0.0f;
 
 	AnimationState curState = IDLE;
@@ -73,6 +76,8 @@ private:
 
 	Rect* traceRange;
 	Rect* attackRange;
+
+	Rect* attackCollider;
 
 	Vector2 offset = {0,-20};
 };

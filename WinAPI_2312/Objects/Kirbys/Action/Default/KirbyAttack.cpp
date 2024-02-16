@@ -19,6 +19,8 @@ KirbyAttack::KirbyAttack(Rect* owner) : Action(owner)
 	GetAnimation(LEFT)->SetSpeed(2.3f);
 	GetAnimation(RIGHT)->SetSpeed(2.3f);
 
+	Kirby::AddCollider(collider);
+
 }
 
 KirbyAttack::~KirbyAttack()

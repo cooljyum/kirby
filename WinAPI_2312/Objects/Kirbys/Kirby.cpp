@@ -1,5 +1,8 @@
 #include "Framework.h"
 
+
+vector<Rect*> Kirby::colliders;
+
 Kirby::Kirby() : Character()
 {
 	size = { 100, 100 };
@@ -152,4 +155,20 @@ void Kirby::SetAction(ActionState state, bool isRight, bool isForce)
 	actions[curModeState][curActionState]->End();
 	curActionState = state;
 	actions[curModeState][state]->Start(isRight);
+}
+
+void Kirby::AddCollider(Rect* collider)
+{
+	colliders.push_back(collider);
+}
+
+Rect* Kirby::AttackCollision(Rect* rect)
+{
+	for (Rect* collider : colliders)
+	{
+		if (collider->IsCollision(rect))
+			return collider;
+	}
+
+	return nullptr;
 }

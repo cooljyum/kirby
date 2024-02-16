@@ -10,7 +10,10 @@ Monster::Monster() : Character()
 	traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
 	traceRange->SetColor(YELLOW);
 	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
-	attackRange->SetColor(RED);
+	attackRange->SetColor(BLUE);
+	attackCollider = new Rect(Vector2(), Vector2(40, 10));
+	attackCollider->SetColor(RED);
+
 }
 
 Monster::Monster(int type, int x, int y, int hp) 
@@ -26,7 +29,9 @@ Monster::Monster(int type, int x, int y, int hp)
 	traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
 	traceRange->SetColor(YELLOW);
 	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
-	attackRange->SetColor(RED);
+	attackRange->SetColor(BLUE);
+	attackCollider = new Rect(Vector2(), Vector2(50, 50));
+	attackCollider->SetColor(RED);
 }
 
 Monster::~Monster()
@@ -59,8 +64,10 @@ void Monster::Update()
 	animations[curState][isRight]->Update();
 	traceRange->SetPos(pos + offset);
 	attackRange->SetPos(pos + offset);
+	Vector2 t = { -50.0f, 0.0f };
+	attackCollider->SetPos(pos + offset + t);
 
-	image->SetPos(pos + offset);
+	image->SetPos(pos);
 
 }
 
@@ -68,6 +75,7 @@ void Monster::Render(HDC hdc)
 {
 	traceRange->CamRender(hdc);
 	attackRange->CamRender(hdc);
+	attackCollider->CamRender(hdc);
 
 	image->CamRender(hdc, animations[curState][isRight]->GetFrame());
 }
@@ -187,7 +195,7 @@ void Monster::DoAction()
 		Attack();
 		break;
 	case ActionState::HIT:
-		//velocity = {};
+		velocity = {};
 		break;
 	}
 }
