@@ -26,7 +26,7 @@ void KirbyJumpUp::Start(bool isRight)
 	SetState(isRight, true);
 
 	velocity = { 0, JUMP_POWER };
-	SetJumpCount(1);
+	//SetJumpCount(jumpcoun);
 }
 
 

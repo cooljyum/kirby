@@ -155,6 +155,7 @@
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyJumpDown.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbySit.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyWalk.h" />
+    <ClInclude Include="Objects\Kirbys\Monster.h" />
     <ClInclude Include="Objects\UI\ProgressBar.h" />
     <ClInclude Include="Render\Animation.h" />
     <ClInclude Include="Render\Camera.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyJumpDown.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbySit.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyWalk.cpp" />
+    <ClCompile Include="Objects\Kirbys\Monster.cpp" />
     <ClCompile Include="Objects\UI\ProgressBar.cpp" />
     <ClCompile Include="Render\Animation.cpp" />
     <ClCompile Include="Render\Camera.cpp" />

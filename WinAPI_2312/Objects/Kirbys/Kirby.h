@@ -39,6 +39,7 @@ public :
 
 	Vector2 GetOffset() { return imageOffset; }
 	
+	ModeState GetModeState() { return curModeState; }
 	ActionState GetActionState() { return curActionState; }
 
 

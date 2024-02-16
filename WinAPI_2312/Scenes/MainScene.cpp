@@ -17,6 +17,11 @@ MainScene::MainScene()
 	CAM->SetOffset(CENTER_X, 550.0f);
 
 	CAM->SetMapRect(bg1);
+
+	monster = new Monster();
+	monster->SetPos(SCREEN_WIDTH, kirby->Bottom());
+	monster->SetTarget(kirby);
+
 }
 
 MainScene::~MainScene()
@@ -29,6 +34,7 @@ MainScene::~MainScene()
 void MainScene::Update()
 {
 	kirby->Update();
+	monster->Update();
 }
 
 void MainScene::Render(HDC hdc)
@@ -36,4 +42,5 @@ void MainScene::Render(HDC hdc)
 	bg1->CamRender(hdc);
 	bg2->CamRender(hdc);
 	kirby->Render(hdc);
+	monster->Render(hdc);
 }

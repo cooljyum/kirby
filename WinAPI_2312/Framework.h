@@ -69,6 +69,9 @@ using namespace std;
 
 #include "Objects/Character.h"
 
+//Kirbys
+#include "Objects/Kirbys/Monster.h"
+
 //커비 디폴트 액션
 #include "Objects/Kirbys/Action/Default/KirbyIdle.h"
 #include "Objects/Kirbys/Action/Default/KirbyWalk.h"
