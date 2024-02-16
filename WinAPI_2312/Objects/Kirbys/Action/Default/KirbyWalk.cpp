@@ -1,8 +1,7 @@
 #include "Framework.h"
 
-KirbyWalk::KirbyWalk(Rect* owner, int state) : Action(owner)
+KirbyWalk::KirbyWalk(Rect* owner) : Action(owner)
 {
-	if (state == 0) {
 		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
 		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
 
@@ -12,19 +11,6 @@ KirbyWalk::KirbyWalk(Rect* owner, int state) : Action(owner)
 		AddAnimation(RIGHT)->SetPart(6, 15, true);
 
 		SetState(RIGHT);
-	}
-	else if (state == 1) 
-	{
-		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
-		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
-
-		SetTexture(rightTexture);
-
-		AddAnimation(LEFT)->SetPart(44, 56, true);
-		AddAnimation(RIGHT)->SetPart(44, 56, true);
-
-		SetState(RIGHT);
-	}
 }
 
 KirbyWalk::~KirbyWalk()
@@ -47,14 +33,14 @@ void KirbyWalk::Control()
 {
 	if (KEY->Press('A'))
 	{
-		(KEY->Press(VK_SHIFT)) ? velocity.x = -RUN_SPEED : velocity.x = -MOVE_SPEED;
+		(KEY->Press(VK_SHIFT) && isRun) ? velocity.x = - speed * 2 : velocity.x = -speed;
 		SetState(LEFT);
 		SetTex(false);
 		Push(false);
 	}
 	else if (KEY->Press('D'))
 	{
-		(KEY->Press(VK_SHIFT))? velocity.x = +RUN_SPEED :  velocity.x = +MOVE_SPEED;
+		(KEY->Press(VK_SHIFT) && isRun)? velocity.x = + speed * 2 :  velocity.x = +speed;
 		SetState(RIGHT);
 		SetTex(true);
 		Push(true);

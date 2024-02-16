@@ -74,14 +74,14 @@ using namespace std;
 #include "Objects/Kirbys/Action/Default/KirbyWalk.h"
 #include "Objects/Kirbys/Action/Default/KirbyJump.h"
 #include "Objects/Kirbys/Action/Default/KirbyJumpUp.h"
-#include "Objects/Kirbys/Action/Default/KirbyJumpEnd.h"
+#include "Objects/Kirbys/Action/Default/KirbyJumpDown.h"
 #include "Objects/Kirbys/Action/Default/KirbySit.h"
 #include "Objects/Kirbys/Action/Default/KirbyAttack.h"
 
 #include "Objects/Kirbys/Action/Eat/KirbyIdleEat.h"
 #include "Objects/Kirbys/Action/Eat/KirbyWalkEat.h"
 #include "Objects/Kirbys/Action/Eat/KirbyJumpUpEat.h"
-#include "Objects/Kirbys/Action/Eat/KirbyJumpEndEat.h"
+#include "Objects/Kirbys/Action/Eat/KirbyJumpDownEat.h"
 #include "Objects/Kirbys/Action/Eat/KirbySitEat.h"
 #include "Objects/Kirbys/Action/Eat/KirbyAttackEat.h"
 

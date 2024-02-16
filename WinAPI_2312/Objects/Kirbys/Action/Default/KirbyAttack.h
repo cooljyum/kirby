@@ -3,7 +3,7 @@
 class KirbyAttack : public Action
 {
 public:
-	KirbyAttack(Rect* owner, int state);
+	KirbyAttack(Rect* owner);
 	~KirbyAttack();
 
 	void Render(HDC hdc) override;
@@ -11,6 +11,6 @@ public:
 
 	void Start(bool isRight) override;
 
-private:
+protected:
 	Rect* collider;
 };

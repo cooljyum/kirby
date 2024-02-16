@@ -1,43 +1,24 @@
 #include "Framework.h"
 
-KirbyAttack::KirbyAttack(Rect* owner, int state) : Action(owner)
+KirbyAttack::KirbyAttack(Rect* owner) : Action(owner)
 {
-	if (state == 0)
-	{
-		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
-		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
 
-		SetTexture(rightTexture);
+	leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
+	rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
 
-		AddAnimation(LEFT)->SetPart(30, 34);
-		AddAnimation(RIGHT)->SetPart(30, 34);
+	SetTexture(rightTexture);
 
-		SetState(RIGHT);
+	AddAnimation(LEFT)->SetPart(30, 34);
+	AddAnimation(RIGHT)->SetPart(30, 34);
 
-		collider = new Rect(Vector2(), { 200, 100 });
-		collider->SetActive(false);
+	SetState(RIGHT);
 
-		GetAnimation(LEFT)->SetSpeed(2.3f);
-		GetAnimation(RIGHT)->SetSpeed(2.3f);
-	}
-	else if (state == 1)
-	{
-		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
-		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
+	collider = new Rect(Vector2(), { 200, 100 });
+	collider->SetActive(false);
 
-		SetTexture(rightTexture);
+	GetAnimation(LEFT)->SetSpeed(2.3f);
+	GetAnimation(RIGHT)->SetSpeed(2.3f);
 
-		AddAnimation(LEFT)->SetPart(34, 30);
-		AddAnimation(RIGHT)->SetPart(34, 30);
-
-		SetState(RIGHT);
-
-		collider = new Rect(Vector2(), { 200, 100 });
-		collider->SetActive(false);
-
-		GetAnimation(LEFT)->SetSpeed(2.0f);
-		GetAnimation(RIGHT)->SetSpeed(2.0f);
-	}
 }
 
 KirbyAttack::~KirbyAttack()

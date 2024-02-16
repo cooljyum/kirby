@@ -8,9 +8,6 @@ protected:
 		LEFT, RIGHT
 	};
 
-	const float MOVE_SPEED = 100.0f;
-	const float RUN_SPEED = 200.0f;
-
 public:		
 	Action(wstring file, int frameX = 1, int frameY = 1, bool isTrans = false, COLORREF transColor = MAGENTA);
 	Action(Texture* texture = nullptr);	
@@ -36,6 +33,9 @@ public:
 
 	Texture* GetTexture(bool isRight) { return isRight ? this->rightTexture : this->leftTexture; }
 
+	void SetSpeed(float speed) { this->speed = speed; }
+	//float GetSpeed() { return speed; }
+
 protected:
 	void SetTex(bool isRight);
 
@@ -44,7 +44,9 @@ protected:
 
 	map<int, Animation*> animations;
 	map<int, function<void()>> events;
+
 	int curState = -1;
+	float speed = 100.0f;
 
 	Texture* rightTexture;
 	Texture* leftTexture;
@@ -53,6 +55,7 @@ protected:
 	Vector2 offset;
 
 	Texture* landTexture = nullptr;
+	
 
 
 };

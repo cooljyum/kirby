@@ -1,7 +1,7 @@
 #include "KirbyJumpUp.h"
 #include "Framework.h"
 
-KirbyJumpUp::KirbyJumpUp(Rect* owner, int state) : KirbyJump(owner)
+KirbyJumpUp::KirbyJumpUp(Rect* owner) : KirbyJump(owner)
 {
 	Texture* leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
 	Texture* rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
@@ -11,16 +11,9 @@ KirbyJumpUp::KirbyJumpUp(Rect* owner, int state) : KirbyJump(owner)
 
 	SetTexture(rightTexture);
 
-	if (state == 0)
-	{
-		AddAnimation(LEFT)->SetPart(78, 78);//JumpUpLeft
-		AddAnimation(RIGHT)->SetPart(78, 78);//JumpUpRight
-	}
-	else if (state == 1)
-	{
-		AddAnimation(LEFT)->SetPart(56, 58, true);//JumpUpLeft
-		AddAnimation(RIGHT)->SetPart(58, 58, true);//JumpUpRight
-	}
+	AddAnimation(LEFT)->SetPart(78, 78);//JumpUpLeft
+	AddAnimation(RIGHT)->SetPart(78, 78);//JumpUpRight
+
 }
 
 KirbyJumpUp::~KirbyJumpUp()
@@ -45,7 +38,7 @@ void KirbyJumpUp::Jump()
 	if (velocity.y >= 0)
 	{
 		Kirby* kirby = (Kirby*)owner;
-		kirby->SetAction(Kirby::JUMPEND, curState);
+		kirby->SetAction(Kirby::JUMPDOWN, curState);
 	}
 }
 

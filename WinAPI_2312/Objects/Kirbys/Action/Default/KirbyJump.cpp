@@ -29,8 +29,17 @@ void KirbyJump::Jump()
 
 	if (jumpCount <= MAX_JUMP && KEY->Down('W') && owner->GetPos().y > owner->GetSize().y)
 	{
-		velocity.y = JUMP_POWER;
-		SetJumpCount(jumpCount++);
+		Kirby* kirby = (Kirby*)owner;
+		if (kirby->GetActionState() == Kirby::JUMPDOWN) 
+		{
+			velocity.y = 0;
+			kirby->SetAction(Kirby::JUMPUP, curState);
+		}
+		else 
+		{
+			velocity.y = JUMP_POWER;
+			SetJumpCount(jumpCount++);
+		}
 	}
 }
 
@@ -39,13 +48,13 @@ void KirbyJump::Move()
 
 	if (KEY->Press('A'))
 	{
-		velocity.x = -MOVE_SPEED;
+		velocity.x = -speed;
 		SetState(LEFT, false, false);
 		SetTex(false);
 	}
 	else if (KEY->Press('D'))
 	{
-		velocity.x = +MOVE_SPEED;
+		velocity.x = +speed;
 		SetState(RIGHT, false, false);
 		SetTex(true);
 	}

@@ -40,7 +40,7 @@ void Kirby::SetLandTexture(Texture* texture)
 
 void Kirby::Move()
 {
-	if (curActionState == JUMP || curActionState == JUMPEND || curActionState == SIT || curActionState == ATTACK) return;
+	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK) return;
 	bool isMove = false;
 	bool isRun = false;
 
@@ -60,12 +60,12 @@ void Kirby::Move()
 
 void Kirby::Control()
 {
-	if (KEY->Down('W') && curActionState != JUMP && curActionState != JUMPEND)
+	if (KEY->Down('W') && curActionState != JUMPUP && curActionState != JUMPDOWN)
 	{
-		SetAction(JUMP, isRight);
+		SetAction(JUMPUP, isRight);
 	}
 
-	if (KEY->Down('S') && curActionState != JUMP && curActionState != JUMPEND) 
+	if (KEY->Down('S') && curActionState != JUMPUP && curActionState != JUMPDOWN) 
 	{
 		SetAction(SIT, isRight);
 	}
@@ -77,7 +77,7 @@ void Kirby::Control()
 
 void Kirby::Attack()
 {
-	if (curActionState == JUMP || curActionState == JUMPEND || curActionState == SIT || curActionState == ATTACK) return;
+	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK) return;
 	if (KEY->Down('F'))
 	{
 		SetAction(ATTACK, isRight);
@@ -93,15 +93,26 @@ void Kirby::CreateActions()
 
 void Kirby::CreateModeAction(ModeState mode)
 {
-	if(mode == DEFAULT) actions[mode].push_back(new KirbyIdle(this, mode));
+	if (mode == DEFAULT) 
+	{ 
+		actions[mode].push_back(new KirbyIdle(this)); 
+		actions[mode].push_back(new KirbyWalk(this));
+		actions[mode].push_back(new KirbySit(this));
+		actions[mode].push_back(new KirbyAttack(this));
+		actions[mode].push_back(new KirbyJumpUp(this));
+		actions[mode].push_back(new KirbyJumpDown(this));
+	}
 	
-	if (mode == EAT) actions[mode].push_back(new KirbyIdleEat(this));
+	if (mode == EAT) 
+	{ 
+		actions[mode].push_back(new KirbyIdleEat(this)); 
+		actions[mode].push_back(new KirbyWalkEat(this));
+		actions[mode].push_back(new KirbySitEat(this));
+		actions[mode].push_back(new KirbyAttackEat(this));
+		actions[mode].push_back(new KirbyJumpUpEat(this));
+		actions[mode].push_back(new KirbyJumpDownEat(this));
+	}
 
-	actions[mode].push_back(new KirbyWalk(this, mode));
-	actions[mode].push_back(new KirbySit(this, mode));
-	actions[mode].push_back(new KirbyAttack(this, mode));
-	actions[mode].push_back(new KirbyJumpUp(this, mode));
-	actions[mode].push_back(new KirbyJumpEnd(this, mode));
 	
 	actions[mode][ATTACK]->GetAnimation(0)->SetEndEvent([this]() {
 		SetIdle();

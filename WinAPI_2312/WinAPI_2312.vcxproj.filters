@@ -99,7 +99,7 @@
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyJump.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Kirbys\Action\Default\KirbyJumpEnd.h">
+    <ClInclude Include="Objects\Kirbys\Action\Default\KirbyJumpDown.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbySit.h">
@@ -123,7 +123,7 @@
     <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyJumpUpEat.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyJumpEndEat.h">
+    <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyJumpDownEat.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -191,7 +191,7 @@
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyJump.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Kirbys\Action\Default\KirbyJumpEnd.cpp">
+    <ClCompile Include="Objects\Kirbys\Action\Default\KirbyJumpDown.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbySit.cpp">
@@ -204,6 +204,21 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Kirbys\Action\Eat\KirbyIdleEat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Kirbys\Action\Eat\KirbyWalkEat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Kirbys\Action\Eat\KirbySitEat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Kirbys\Action\Eat\KirbyJumpUpEat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Kirbys\Action\Eat\KirbyJumpDownEat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Kirbys\Action\Eat\KirbyAttackEat.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

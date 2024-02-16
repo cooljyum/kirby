@@ -3,7 +3,7 @@
 class KirbySit : public Action
 {
 public:
-	KirbySit(Rect* owner, int state);
+	KirbySit(Rect* owner);
 	~KirbySit();
 
 	void Update() override;

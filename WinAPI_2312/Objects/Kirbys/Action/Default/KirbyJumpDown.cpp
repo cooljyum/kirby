@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-KirbyJumpEnd::KirbyJumpEnd(Rect* owner, int state) : KirbyJump(owner)
+KirbyJumpDown::KirbyJumpDown(Rect* owner) : KirbyJump(owner)
 {
 	Texture* leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
 	Texture* rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
@@ -10,30 +10,19 @@ KirbyJumpEnd::KirbyJumpEnd(Rect* owner, int state) : KirbyJump(owner)
 
 	SetTexture(rightTexture);
 
-	if (state == 0)
-	{
-		AddAnimation(LEFT)->SetPart(77, 67);
-		AddAnimation(RIGHT)->SetPart(77, 67);
-	}
-	else if (state == 1)
-	{
-		AddAnimation(LEFT)->SetPart(59, 64);
-		AddAnimation(RIGHT)->SetPart(59, 64);
-	}
+
+	AddAnimation(LEFT)->SetPart(77, 67);
+	AddAnimation(RIGHT)->SetPart(77, 67);
+
 	GetAnimation(LEFT)->SetSpeed(2.3f);
 	GetAnimation(RIGHT)->SetSpeed(2.3f);
 }
 
-KirbyJumpEnd::~KirbyJumpEnd()
+KirbyJumpDown::~KirbyJumpDown()
 {
 }
 
-void KirbyJumpEnd::End()
-{
-	owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
-}
-
-void KirbyJumpEnd::Jump()
+void KirbyJumpDown::Jump()
 {
 	KirbyJump::Jump();
 	landHeight = landTexture->GetPixelHeight(owner->GetPos());
