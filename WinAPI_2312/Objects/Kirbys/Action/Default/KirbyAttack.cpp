@@ -8,8 +8,8 @@ KirbyAttack::KirbyAttack(Rect* owner) : Action(owner)
 
 	SetTexture(rightTexture);
 
-	AddAnimation(LEFT)->SetPart(30, 34);
-	AddAnimation(RIGHT)->SetPart(30, 34);
+	AddAnimation(LEFT)->SetPart(30, 34,true);
+	AddAnimation(RIGHT)->SetPart(30, 34, true);
 
 	SetState(RIGHT);
 
@@ -37,6 +37,19 @@ void KirbyAttack::Render(HDC hdc)
 void KirbyAttack::Update()
 {
 	Action::Update();
+	Monster* monster = MonsterManager::Get()->Collision(collider);
+	if (monster != nullptr) 
+	{
+		monster->SetPos(owner->GetPos());
+	}
+
+	//
+
+	if (KEY->Up('F'))
+	{
+		Kirby* kirby = (Kirby*)owner;
+		kirby->SetIdle();		
+	}
 }
 
 void KirbyAttack::Start(bool isRight)

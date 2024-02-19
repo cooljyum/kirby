@@ -28,12 +28,9 @@ void KirbtStarBullet::Update()
 {
 	if (!isActive) return;
 
-	velocity.x +=  DELTA;
-
-	Translate(velocity * SPEED * DELTA);
+	Translate({ velocity.x * SPEED * DELTA, 0.0f });
 
 	animation->Update();
-
 
 }
 

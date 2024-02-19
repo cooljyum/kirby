@@ -22,6 +22,7 @@ public:
 	bool Down(UINT key) { return mapState[key] == DOWN; }
 	bool Up(UINT key) { return mapState[key] == UP; }
 	bool Press(UINT key) { return mapState[key] == PRESS; }
+	void Set(UINT key) { mapState[key] = UP; }
 
 private:
 	BYTE curState[KEY_MAX] = {};

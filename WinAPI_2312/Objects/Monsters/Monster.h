@@ -22,7 +22,6 @@ private:
 
 	const float PATROL_STAY_TIME = 1.0f;
 	const float ATTACK_STAY_TIME = 1.0f;
-	//const float HIT_STAY_TIME = 3.0f;
 	const float PATROL_RANGE = 200.0f;
 
 public:
@@ -53,11 +52,14 @@ private:
 	void Patrol();
 	void Trace();
 	void Attack();
+	void Die();
 	void SetDirectionState();
 
 	void SetDestPos();
 
-	void SetAllActive(bool isActive) { this->image->SetActive(false); this->traceRange->SetActive(false);this->attackRange->SetActive(false);}
+	void SetAllActive(bool isActive);
+	
+
 
 private:
 	Image* image;

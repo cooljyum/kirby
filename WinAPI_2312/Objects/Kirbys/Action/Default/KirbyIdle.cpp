@@ -21,3 +21,9 @@ KirbyIdle::KirbyIdle(Rect* owner) : Action(owner)
 KirbyIdle::~KirbyIdle()
 {
 }
+
+void KirbyIdle::Start(bool isRight)
+{
+	SetTex(isRight);
+	SetState(isRight, true);
+}

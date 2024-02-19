@@ -48,3 +48,15 @@ void MonsterManager::SetTarget(Character* target)
 	for (Monster*& monster : monsters)
 		monster->SetTarget(target);
 }
+
+Monster* MonsterManager::Collision(Rect* rect)
+{
+	for (Monster*& monster : monsters)
+	{
+		if (monster->IsCollision(rect))
+			return monster;
+	}
+
+	return nullptr;
+
+}

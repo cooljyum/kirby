@@ -15,5 +15,4 @@ private:
 
 	Kirby* kirby;
 	Monster* monster;
-	MonsterManager* monsterManager;
 };

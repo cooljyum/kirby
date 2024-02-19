@@ -26,7 +26,6 @@ void KirbyJumpUp::Start(bool isRight)
 	SetState(isRight, true);
 
 	if (owner->GetPos().y > owner->GetSize().y) velocity = { 0, JUMP_POWER };
-	//SetJumpCount(jumpcoun);
 }
 
 

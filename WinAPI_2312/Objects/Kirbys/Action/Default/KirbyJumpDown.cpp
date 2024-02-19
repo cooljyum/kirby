@@ -32,9 +32,9 @@ void KirbyJumpDown::Jump()
 	{
 		velocity.y = 0.0f;		
 		owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
-		curState ? SetState(RIGHT) : SetState(LEFT);
 
 		Kirby* kirby = (Kirby*)owner;
 		kirby->SetIdle();
+	
 	}
 }

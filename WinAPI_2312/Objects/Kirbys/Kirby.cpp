@@ -53,7 +53,7 @@ void Kirby::SetLandTexture(Texture* texture)
 
 void Kirby::Move()
 {
-	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK) return;
+	
 	bool isMove = false;
 	bool isRun = false;
 
@@ -68,6 +68,7 @@ void Kirby::Move()
 		isRight = false;
 	}
 
+	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK) return;
 	isMove ?  SetAction(WALK, isRight) : SetIdle();
 }
 
@@ -97,10 +98,12 @@ void Kirby::Control()
 void Kirby::Attack()
 {
 	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK) return;
-	if (KEY->Press('F'))
+	if (KEY->Down('F'))
 	{
+		//if(curModeState == EAT)
 		SetAction(ATTACK, isRight);
 	}
+
 	
 }
 
@@ -165,6 +168,7 @@ void Kirby::SetAction(ActionState state, bool isRight, bool isForce)
 	actions[curModeState][curActionState]->End();
 	curActionState = state;
 	actions[curModeState][state]->Start(isRight);
+
 }
 
 void Kirby::AddCollider(Rect* collider)

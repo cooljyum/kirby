@@ -116,10 +116,16 @@ void Monster::Collision()
 	if (curState == HIT)
 		return;
 
+	if (KirbtStarBullet::IsBulletsCollision(this))
+	{
+		this->DamageHp(100);
+		SetAnimation(HIT);
+		actionState = ActionState::HIT;
+	}
+
 	if (attackCollider->IsCollision(target)) {
 		target->DamageHp(1);
 	}
-
 
 	//hit target
 	for (Rect* collider : hitColliders)
@@ -133,14 +139,14 @@ void Monster::Collision()
 		Kirby* kirby = (Kirby*)target;
 		if(kirby->GetActionState() == Kirby::ATTACK )
 		{
-			this->SetActive(false);
-			this->SetAllActive(false);
+			this->Die();
 			kirby->SetMode(Kirby::EAT);
 			kirby->SetIdle();
+			//키를 막거나 action이 바뀔때 bool 조건 하나 주면될거 같은데 혹시 전자 방법이 있을까요..?
 
 		}
 		else {
-			target->DamageHp(10);
+			target->DamageHp(10); // Attack력을 나눠줘야함..
 			DamageHp(10);
 			Vector2 direction = isRight ? Vector2::Left() : Vector2::Right();
 
@@ -153,11 +159,12 @@ void Monster::Collision()
 
 	if (collider != nullptr) 
 	{
-		
-		velocity.x = ((target->GetPos() - pos).Normalized() * HIT_DAMAGE_SPEED).x;
-		velocity = velocity.Normalized() * HIT_DAMAGE_SPEED;
+		//velocity.x = ((target->GetPos() - pos).Normalized() * HIT_DAMAGE_SPEED).x;
+		//velocity = velocity.Normalized() * HIT_DAMAGE_SPEED;
 	}
 
+	if (IsDie()) 
+		Die();
 }
 
 void Monster::CreateTexture()
@@ -302,6 +309,12 @@ void Monster::Attack()
 	
 }
 
+void Monster::Die()
+{
+	this->SetAllActive(false);
+	SetAnimation(DEAD);
+}
+
 void Monster::SetDirectionState()
 {
 	bool isCurRight = target->GetPos().x > pos.x;
@@ -325,4 +338,12 @@ void Monster::SetDestPos()
 		destPos.x = Half().x;
 
 	isRight = distance > 0.0f;
+}
+
+void Monster::SetAllActive(bool isActive)
+{
+	this->SetActive(false); 
+	this->image->SetActive(false); 
+	this->traceRange->SetActive(false); 
+	this->attackRange->SetActive(false);
 }

@@ -1,12 +1,11 @@
 #pragma once
 
-class KirbyAttackEat : public KirbyAttack
+class KirbyAttackEat : public Action
 {
 public:
 	KirbyAttackEat(Rect* owner);
 	~KirbyAttackEat();
 
-
-
-	void Start(bool isRight);
+	void Start(bool isRight)override;
+	void End() override;
 };
