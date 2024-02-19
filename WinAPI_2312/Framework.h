@@ -99,6 +99,7 @@ using namespace std;
 #include "Objects/Kirbys/Action/Eat/KirbyAttackEat.h"
 //------------ Action End
 
+#include "Objects/Kirbys/KirbtStarBullet.h"
 #include "Objects/Kirbys/Kirby.h"
 
 //Scene

@@ -15,4 +15,5 @@ public:
 
 public:
 	int hp = 100;
+
 };

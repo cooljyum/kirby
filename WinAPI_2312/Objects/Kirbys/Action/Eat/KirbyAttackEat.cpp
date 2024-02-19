@@ -22,3 +22,9 @@ KirbyAttackEat::KirbyAttackEat(Rect* owner) : KirbyAttack(owner)
 KirbyAttackEat::~KirbyAttackEat()
 {
 }
+
+void KirbyAttackEat::Start(bool isRight)
+{
+	KirbyAttack::Start(isRight);
+	KirbtStarBullet::Shot(owner->GetPos(), isRight);
+}

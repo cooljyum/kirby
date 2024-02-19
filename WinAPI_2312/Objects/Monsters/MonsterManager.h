@@ -12,7 +12,7 @@ public:
 	void Render(HDC hdc);
 
 	void SpawnMonsters(vector<vector<int>> mapData);
-	void SetTarget(Rect* target);
+	void SetTarget(Character* target);
 
 	static void KillEnemy() { score++; }
 

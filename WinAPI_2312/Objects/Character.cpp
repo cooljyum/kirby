@@ -2,6 +2,7 @@
 
 Character::Character()
 {
+	
 }
 
 Character::~Character()

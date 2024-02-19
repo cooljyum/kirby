@@ -13,7 +13,8 @@ Monster::Monster() : Character()
 	attackRange->SetColor(BLUE);
 	attackCollider = new Rect(Vector2(), Vector2(40, 10));
 	attackCollider->SetColor(RED);
-
+	attackCollider->SetActive(false);
+	SetSize({ 50.0f, 50.0f });
 }
 
 Monster::Monster(int type, int x, int y, int hp) 
@@ -32,6 +33,8 @@ Monster::Monster(int type, int x, int y, int hp)
 	attackRange->SetColor(BLUE);
 	attackCollider = new Rect(Vector2(), Vector2(50, 50));
 	attackCollider->SetColor(RED);
+	attackCollider->SetActive(false);
+	SetSize({ 50.0f, 50.0f });
 }
 
 Monster::~Monster()
@@ -45,6 +48,8 @@ Monster::~Monster()
 
 void Monster::Update()
 {
+	attackCollider->SetActive(false);
+
 	SetActionState();
 	DoAction();
 
@@ -64,10 +69,9 @@ void Monster::Update()
 	animations[curState][isRight]->Update();
 	traceRange->SetPos(pos + offset);
 	attackRange->SetPos(pos + offset);
-	Vector2 t = { -50.0f, 0.0f };
+
 	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
-	attackCollider->SetPos(pos + direction * 50.0f);
-	attackCollider->SetPos(pos + offset + t);
+	attackCollider->SetPos(pos + direction * 50.0f - Vector2{0.0f, attackCollider->Half().y});
 
 	image->SetPos(pos);
 
@@ -75,6 +79,7 @@ void Monster::Update()
 
 void Monster::Render(HDC hdc)
 {
+	CamRender(hdc);
 	traceRange->CamRender(hdc);
 	attackRange->CamRender(hdc);
 	attackCollider->CamRender(hdc);
@@ -111,6 +116,47 @@ void Monster::Collision()
 	if (curState == HIT)
 		return;
 
+	if (attackCollider->IsCollision(target)) {
+		target->DamageHp(1);
+	}
+
+
+	//hit target
+	for (Rect* collider : hitColliders)
+	{
+		if (collider == target)
+			return;
+	}
+
+	if (this->IsCollision(target)) 
+	{
+		Kirby* kirby = (Kirby*)target;
+		if(kirby->GetActionState() == Kirby::ATTACK )
+		{
+			this->SetActive(false);
+			this->SetAllActive(false);
+			kirby->SetMode(Kirby::EAT);
+			kirby->SetIdle();
+
+		}
+		else {
+			target->DamageHp(10);
+			DamageHp(10);
+			Vector2 direction = isRight ? Vector2::Left() : Vector2::Right();
+
+			velocity = (direction * 1300.0f).Normalized() * HIT_DAMAGE_SPEED;
+			hitColliders.push_back(target);
+		}
+	}
+	
+	Rect* collider = Kirby::AttackCollision(this);
+
+	if (collider != nullptr) 
+	{
+		
+		velocity.x = ((target->GetPos() - pos).Normalized() * HIT_DAMAGE_SPEED).x;
+		velocity = velocity.Normalized() * HIT_DAMAGE_SPEED;
+	}
 
 }
 
@@ -242,11 +288,18 @@ void Monster::Trace()
 
 void Monster::Attack()
 {
-	velocity = {};
+	if (stayAttackTime <= 0)
+	{
+		attackCollider->SetActive(true);
+		stayAttackTime = ATTACK_STAY_TIME;
+		velocity = {};
 
-	SetDirectionState();
+		SetDirectionState();
 
-	SetAnimation(ATTACK);
+		SetAnimation(ATTACK);
+	}
+	stayAttackTime -= DELTA;
+	
 }
 
 void Monster::SetDirectionState()

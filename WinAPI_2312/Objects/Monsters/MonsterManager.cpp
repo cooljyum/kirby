@@ -43,7 +43,7 @@ void MonsterManager::SpawnMonsters(vector<vector<int>> mapData)
 	}
 }
 
-void MonsterManager::SetTarget(Rect* target)
+void MonsterManager::SetTarget(Character* target)
 {
 	for (Monster*& monster : monsters)
 		monster->SetTarget(target);

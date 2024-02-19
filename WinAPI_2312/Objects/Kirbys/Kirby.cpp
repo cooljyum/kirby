@@ -7,11 +7,12 @@ Kirby::Kirby() : Character()
 {
 	size = { 100, 100 };
 	CreateActions();
-	
+	KirbtStarBullet::CreateBullets();
 }
 
 Kirby::~Kirby()
 {
+	KirbtStarBullet::Delete();
 }
 
 void Kirby::Update()
@@ -21,12 +22,21 @@ void Kirby::Update()
 	Move();
 	Control();
 	Attack();
+
+	KirbtStarBullet::UpdateBullets();
 }
 
 void Kirby::Render(HDC hdc)
 {
 	Rect::CamRender(hdc);
 	actions[curModeState][curActionState]->Render(hdc);
+
+	string str = "Kirby Hp : " + to_string(hp);
+
+	TextOutA(hdc, CENTER_X, 20, str.c_str(), str.size());
+
+	KirbtStarBullet::RenderBullets(hdc);
+
 }
 
 void Kirby::SetLandTexture(Texture* texture)
@@ -38,7 +48,7 @@ void Kirby::SetLandTexture(Texture* texture)
 		for (Action* action : actionList.second) 
 			action->SetLandTexture(texture);
 		
-	
+	KirbtStarBullet::SetLandTexture(texture);
 }
 
 void Kirby::Move()
@@ -87,7 +97,7 @@ void Kirby::Control()
 void Kirby::Attack()
 {
 	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK) return;
-	if (KEY->Down('F'))
+	if (KEY->Press('F'))
 	{
 		SetAction(ATTACK, isRight);
 	}

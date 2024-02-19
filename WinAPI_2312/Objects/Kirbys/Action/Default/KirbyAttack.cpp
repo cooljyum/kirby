@@ -51,3 +51,4 @@ void KirbyAttack::Start(bool isRight)
 }
 
 
+

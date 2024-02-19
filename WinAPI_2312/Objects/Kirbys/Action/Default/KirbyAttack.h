@@ -11,6 +11,7 @@ public:
 
 	void Start(bool isRight) override;
 
+
 protected:
 	Rect* collider;
 };

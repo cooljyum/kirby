@@ -18,8 +18,11 @@ private:
 
 	const float PATROL_SPEED = 50.0f;
 	const float TRACE_SPEED = 50.0f;
+	const float HIT_DAMAGE_SPEED = 200.0f;
 
 	const float PATROL_STAY_TIME = 1.0f;
+	const float ATTACK_STAY_TIME = 1.0f;
+	//const float HIT_STAY_TIME = 3.0f;
 	const float PATROL_RANGE = 200.0f;
 
 public:
@@ -30,7 +33,7 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void SetTarget(Rect* target) { this->target = target; }
+	void SetTarget(Character* target) { this->target = target; }
 
 private:
 	void SetActionState();
@@ -54,6 +57,8 @@ private:
 
 	void SetDestPos();
 
+	void SetAllActive(bool isActive) { this->image->SetActive(false); this->traceRange->SetActive(false);this->attackRange->SetActive(false);}
+
 private:
 	Image* image;
 
@@ -62,6 +67,7 @@ private:
 	Vector2 velocity, destPos;
 
 	float stayTime = 0.0f;
+	float stayAttackTime = 0.0f;
 
 	AnimationState curState = IDLE;
 	ActionState actionState = ActionState::PATROL;
@@ -72,7 +78,8 @@ private:
 	Texture* rightTexture;
 
 	vector<Rect*> hitColliders;
-	Rect* target;
+
+	Character* target;
 
 	Rect* traceRange;
 	Rect* attackRange;
