@@ -12,7 +12,7 @@ public:
 	//커비 액션 상태들
 	enum ActionState
 	{
-		IDLE, WALK, SIT, ATTACK, JUMPUP, JUMPDOWN
+		IDLE, WALK, SIT, ATTACK, JUMPUP, JUMPDOWN , INHALE
 	};
 
 public :

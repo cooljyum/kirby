@@ -14,5 +14,6 @@ private:
 	Image* bg2;
 
 	Kirby* kirby;
-	Monster* monster;
+	//Monster* monster;
+	Boss* boss;
 };

@@ -90,7 +90,6 @@ void Kirby::Control()
 	}
 
 	if (KEY->Up('S') && curActionState == SIT && curModeState == DEFAULT) {
-		//if (curModeState == EAT || curModeState == FLY) { SetMode(DEFAULT); }
 		SetIdle();
 	}
 }
@@ -100,10 +99,8 @@ void Kirby::Attack()
 	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK) return;
 	if (KEY->Down('F'))
 	{
-		//if(curModeState == EAT)
 		SetAction(ATTACK, isRight);
 	}
-
 	
 }
 
@@ -120,7 +117,7 @@ void Kirby::CreateModeAction(ModeState mode)
 		actions[mode].push_back(new KirbyIdle(this)); 
 		actions[mode].push_back(new KirbyWalk(this));
 		actions[mode].push_back(new KirbySit(this));
-		actions[mode].push_back(new KirbyAttack(this));
+		actions[mode].push_back(new KirbyInhole(this));
 		actions[mode].push_back(new KirbyJumpUp(this));
 		actions[mode].push_back(new KirbyJumpDown(this));
 	}
@@ -137,27 +134,32 @@ void Kirby::CreateModeAction(ModeState mode)
 
 	
 	actions[mode][ATTACK]->GetAnimation(0)->SetEndEvent([this]() {
-		SetIdle();
-		if (curModeState == EAT || curModeState == FLY) SetMode(DEFAULT);
-		});
+		if (curModeState == EAT || curModeState == FLY) {
+			SetMode(DEFAULT); SetIdle();
+		}});
 
 	actions[mode][ATTACK]->GetAnimation(1)->SetEndEvent([this]() {
-		SetIdle();
-		if (curModeState == EAT || curModeState == FLY) SetMode(DEFAULT);
-		});
+		if (curModeState == EAT || curModeState == FLY) {
+			SetMode(DEFAULT); SetIdle();
+		}});
 
 	actions[mode][SIT]->GetAnimation(0)->SetEndEvent([this]() {
-		if (curModeState == EAT || curModeState == FLY) { SetMode(DEFAULT); SetIdle();
+		if (curModeState == EAT || curModeState == FLY) { 
+			SetMode(DEFAULT); SetIdle();
 		}});
 
 	actions[mode][SIT]->GetAnimation(1)->SetEndEvent([this]() {
-		if (curModeState == EAT || curModeState == FLY) {  SetMode(DEFAULT); SetIdle();
+		if (curModeState == EAT || curModeState == FLY) {  
+			SetMode(DEFAULT); SetIdle();
 		}});
 }
 
 void Kirby::SetIdle()
 {
-	SetAction(IDLE, isRight);
+
+	if (curModeState == DEFAULT) SetAction(IDLE, isRight);
+	if (curActionState == IDLE) return;
+	SetAction(IDLE, isRight,true);
 }
 
 void Kirby::SetAction(ActionState state, bool isRight, bool isForce)

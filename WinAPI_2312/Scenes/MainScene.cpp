@@ -18,9 +18,9 @@ MainScene::MainScene()
 
 	CAM->SetMapRect(bg1);
 
-	monster = new Monster();
-	monster->SetPos(SCREEN_WIDTH+500, kirby->Bottom());
-	monster->SetTarget(kirby);
+	//monster = new Monster();
+	//monster->SetPos(SCREEN_WIDTH+500, kirby->Bottom());
+	//monster->SetTarget(kirby);
 
 	DataManager::Get()->LoadData("Kirby_Resources/Monster/MonsterData.csv", 1);
 	FOR(DataManager::Get()->GetMapSize())
@@ -33,6 +33,9 @@ MainScene::MainScene()
 		//map->SetPos(Vector2::Right() * i * SCREEN_WIDTH);
 		//maps.push_back(map);
 	}
+	boss = new Boss();
+	boss->SetPos(SCREEN_WIDTH + 500, kirby->Bottom());
+	boss->SetTarget(kirby);
 }
 
 MainScene::~MainScene()
@@ -40,13 +43,15 @@ MainScene::~MainScene()
 	delete bg1;
 	delete bg2;
 	delete kirby;
+	delete boss;
 	MonsterManager::Delete();
 }
 
 void MainScene::Update()
 {
 	kirby->Update();
-	monster->Update();
+	//monster->Update();
+	boss->Update();
 	MonsterManager::Get()->Update();
 }
 
@@ -55,7 +60,8 @@ void MainScene::Render(HDC hdc)
 	bg1->CamRender(hdc);
 	bg2->CamRender(hdc);
 	kirby->Render(hdc);
-	monster->Render(hdc);
+	//monster->Render(hdc);
+	boss->Render(hdc);
 
 	MonsterManager::Get()->Render(hdc);
 }

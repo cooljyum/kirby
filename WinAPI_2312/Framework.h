@@ -74,6 +74,7 @@ using namespace std;
 //Monsters
 #include "Objects/Monsters/Monster.h"
 #include "Objects/Monsters/MonsterManager.h"
+#include "Objects/Monsters/Boss.h"
 
 //Effects
 #include "Objects/Effects/Effect.h"
@@ -88,7 +89,7 @@ using namespace std;
 #include "Objects/Kirbys/Action/Default/KirbyJumpUp.h"
 #include "Objects/Kirbys/Action/Default/KirbyJumpDown.h"
 #include "Objects/Kirbys/Action/Default/KirbySit.h"
-#include "Objects/Kirbys/Action/Default/KirbyAttack.h"
+#include "Objects/Kirbys/Action/Default/KirbyInhole.h"
 
 //Eat
 #include "Objects/Kirbys/Action/Eat/KirbyIdleEat.h"

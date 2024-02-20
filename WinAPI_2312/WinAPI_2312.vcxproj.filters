@@ -90,7 +90,7 @@
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyJumpUp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Kirbys\Action\Default\KirbyAttack.h">
+    <ClInclude Include="Objects\Kirbys\Action\Default\KirbyInhole.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyIdle.h">
@@ -139,6 +139,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Kirbys\KirbtStarBullet.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Monsters\Boss.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -197,7 +200,7 @@
     <ClCompile Include="Render\Camera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Kirbys\Action\Default\KirbyAttack.cpp">
+    <ClCompile Include="Objects\Kirbys\Action\Default\KirbyInhole.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyIdle.cpp">
@@ -246,6 +249,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Kirbys\KirbtStarBullet.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Monsters\Boss.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

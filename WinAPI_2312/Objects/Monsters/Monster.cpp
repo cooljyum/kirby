@@ -280,7 +280,8 @@ void Monster::Patrol()
 
 	if (direction.Magnitude() < 1.0f)
 		isStay = true;
-
+	velocity.x < 0 ? isRight = false : isRight = true;
+	isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
 	SetAnimation(MOVE);
 }
 
