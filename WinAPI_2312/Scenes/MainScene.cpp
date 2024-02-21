@@ -53,7 +53,7 @@ void MainScene::Update()
 	kirby->Update();
 	//monster->Update();
 	boss->Update();
-	//MonsterManager::Get()->Update();
+	MonsterManager::Get()->Update();
 }
 
 void MainScene::Render(HDC hdc)
@@ -64,5 +64,5 @@ void MainScene::Render(HDC hdc)
 	//monster->Render(hdc);
 	boss->Render(hdc);
 
-	//MonsterManager::Get()->Render(hdc);
+	MonsterManager::Get()->Render(hdc);
 }

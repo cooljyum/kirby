@@ -26,5 +26,5 @@ void KirbyAttackEat::Start(bool isRight)
 	SetTex(isRight);
 	SetState(isRight, true);
 
-	BossBullet::Shot(owner->GetPos(), isRight);
+	KirbyStarBullet::Shot(owner->GetPos(), isRight);
 }

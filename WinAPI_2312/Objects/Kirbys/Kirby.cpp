@@ -5,14 +5,14 @@ vector<Rect*> Kirby::colliders;
 
 Kirby::Kirby() : Character()
 {
-	size = { 100, 100 };
+	size = { 70, 70 };
 	CreateActions();
-	BossBullet::CreateBullets();
+	KirbyStarBullet::CreateBullets();
 }
 
 Kirby::~Kirby()
 {
-	BossBullet::Delete();
+	KirbyStarBullet::Delete();
 }
 
 void Kirby::Update()
@@ -22,8 +22,9 @@ void Kirby::Update()
 	Move();
 	Control();
 	Attack();
+	Collision();
 
-	BossBullet::UpdateBullets();
+	KirbyStarBullet::UpdateBullets();
 }
 
 void Kirby::Render(HDC hdc)
@@ -35,7 +36,7 @@ void Kirby::Render(HDC hdc)
 
 	TextOutA(hdc, CENTER_X, 20, str.c_str(), str.size());
 
-	BossBullet::RenderBullets(hdc);
+	KirbyStarBullet::RenderBullets(hdc);
 
 }
 
@@ -48,7 +49,7 @@ void Kirby::SetLandTexture(Texture* texture)
 		for (Action* action : actionList.second) 
 			action->SetLandTexture(texture);
 		
-	BossBullet::SetLandTexture(texture);
+	KirbyStarBullet::SetLandTexture(texture);
 }
 
 void Kirby::Move()
@@ -114,12 +115,13 @@ void Kirby::CreateModeAction(ModeState mode)
 {
 	if (mode == DEFAULT) 
 	{ 
-		actions[mode].push_back(new KirbyIdle(this)); 
+		actions[mode].push_back(new KirbyIdle(this));
 		actions[mode].push_back(new KirbyWalk(this));
 		actions[mode].push_back(new KirbySit(this));
 		actions[mode].push_back(new KirbyInhole(this));
 		actions[mode].push_back(new KirbyJumpUp(this));
 		actions[mode].push_back(new KirbyJumpDown(this));
+		actions[mode].push_back(new KirbyHit(this));
 	}
 	
 	if (mode == EAT) 
@@ -130,8 +132,16 @@ void Kirby::CreateModeAction(ModeState mode)
 		actions[mode].push_back(new KirbyAttackEat(this));
 		actions[mode].push_back(new KirbyJumpUpEat(this));
 		actions[mode].push_back(new KirbyJumpDownEat(this));
+		actions[mode].push_back(new KirbyHit(this));
 	}
 
+	//actions[mode][HIT]->GetAnimation(0)->SetEndEvent([this]() {
+	//		//SetMode(DEFAULT); SetIdle();
+	//	});
+
+	//actions[mode][HIT]->GetAnimation(1)->SetEndEvent([this]() {
+	//		//SetMode(DEFAULT); SetIdle();
+	//	});
 	
 	actions[mode][ATTACK]->GetAnimation(0)->SetEndEvent([this]() {
 		if (curModeState == EAT || curModeState == FLY) {
@@ -143,6 +153,7 @@ void Kirby::CreateModeAction(ModeState mode)
 			SetMode(DEFAULT); SetIdle();
 		}});
 
+	
 	actions[mode][SIT]->GetAnimation(0)->SetEndEvent([this]() {
 		if (curModeState == EAT || curModeState == FLY) { 
 			SetMode(DEFAULT); SetIdle();
@@ -152,6 +163,21 @@ void Kirby::CreateModeAction(ModeState mode)
 		if (curModeState == EAT || curModeState == FLY) {  
 			SetMode(DEFAULT); SetIdle();
 		}});
+
+	//actions[mode][JUMPDOWN]->GetAnimation(0)->SetEndEvent([this]() {
+	//	if (!isHit) 
+	//		SetIdle(); 
+	//	else 
+	//		SetAction(HIT, isRight);
+	//	});
+
+	//actions[mode][JUMPDOWN]->GetAnimation(1)->SetEndEvent([this]() {
+	//	if (!isHit) 
+	//		SetIdle(); 
+	//	else 
+	//		SetAction(HIT, isRight);
+	//	});
+
 }
 
 void Kirby::SetIdle()
@@ -171,6 +197,32 @@ void Kirby::SetAction(ActionState state, bool isRight, bool isForce)
 	curActionState = state;
 	actions[curModeState][state]->Start(isRight);
 
+}
+
+void Kirby::Collision()
+{
+	if (invincibilityTime <= 0.0f) 
+	{
+		Monster* monster = MonsterManager::Get()->Collision(this);
+		if (monster != nullptr)
+		{
+			DamageHp(10);
+			isHit = true;
+
+			monster->DamageHp(1);
+			Vector2 direction = isRight ? Vector2::Right() : Vector2::Left(); 
+			Vector2 velocity = { direction.x * 800.0f,0.0f };
+			monster->Hit();
+			monster->SetVelocity(velocity);
+			
+			SetAction(HIT, isRight);
+			
+			//invincibilityTime = INVINCIBILITY_TIME;
+		
+		}
+	}
+	else
+		invincibilityTime -= DELTA;
 }
 
 void Kirby::AddCollider(Rect* collider)

@@ -63,9 +63,6 @@ private:
 
 	void SetAllActive(bool isActive);
 
-	
-
-
 private:
 	Image* image;
 

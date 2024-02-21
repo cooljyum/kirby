@@ -141,6 +141,7 @@
     <ClInclude Include="Objects\Basic\Rect.h" />
     <ClInclude Include="Objects\Character.h" />
     <ClInclude Include="Objects\Effects\Effect.h" />
+    <ClInclude Include="Objects\Kirbys\Action\Default\KirbyHit.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyJumpUp.h" />
     <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyAttackEat.h" />
     <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyIdleEat.h" />
@@ -148,7 +149,7 @@
     <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyJumpUpEat.h" />
     <ClInclude Include="Objects\Kirbys\Action\Eat\KirbySitEat.h" />
     <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyWalkEat.h" />
-    <ClInclude Include="Objects\Kirbys\KirbtStarBullet.h" />
+    <ClInclude Include="Objects\Kirbys\KirbyStarBullet.h" />
     <ClInclude Include="Objects\Kirbys\Kirby.h" />
     <ClInclude Include="Objects\Kirbys\KirbyAction.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyInhole.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Objects\Basic\Image.cpp" />
     <ClCompile Include="Objects\Basic\Rect.cpp" />
     <ClCompile Include="Objects\Character.cpp" />
+    <ClCompile Include="Objects\Kirbys\Action\Default\KirbyHit.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyJumpUp.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Eat\KirbyAttackEat.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Eat\KirbyIdleEat.cpp" />
@@ -195,7 +197,7 @@
     <ClCompile Include="Objects\Kirbys\Action\Eat\KirbyJumpUpEat.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Eat\KirbySitEat.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Eat\KirbyWalkEat.cpp" />
-    <ClCompile Include="Objects\Kirbys\KirbtStarBullet.cpp" />
+    <ClCompile Include="Objects\Kirbys\KirbyStarBullet.cpp" />
     <ClCompile Include="Objects\Kirbys\Kirby.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyInhole.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyIdle.cpp" />

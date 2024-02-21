@@ -11,7 +11,7 @@ Boss::Boss() : Character()
 	traceRange->SetColor(YELLOW);
 	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
 	attackRange->SetColor(BLUE);
-	attackCollider = new Rect(Vector2(), Vector2(40, 10));
+	attackCollider = new Rect(Vector2(), Vector2(200, 200));
 	attackCollider->SetColor(RED);
 	attackCollider->SetActive(false);
 	SetSize({ 100.0f, 100.0f });
@@ -32,7 +32,7 @@ Boss::Boss(int type, int x, int y, int hp)
 	traceRange->SetColor(YELLOW);
 	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
 	attackRange->SetColor(BLUE);
-	attackCollider = new Rect(Vector2(), Vector2(50, 50));
+	attackCollider = new Rect(Vector2(), Vector2(200, 200));
 	attackCollider->SetColor(RED);
 	attackCollider->SetActive(false);
 	SetSize({ 50.0f, 50.0f });
@@ -49,7 +49,7 @@ Boss::~Boss()
 
 void Boss::Update()
 {
-	attackCollider->SetActive(false);
+	if(actionState != ActionState::ATTACK) attackCollider->SetActive(false);
 
 	SetActionState();
 	DoAction();
@@ -72,13 +72,9 @@ void Boss::Update()
 	attackRange->SetPos(pos + offset);
 
 	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
-	attackCollider->SetPos(pos + direction * 50.0f - Vector2{ 0.0f, attackCollider->Half().y });
+	attackCollider->SetPos(pos + direction * 100.0f);
 
 	image->SetPos(pos+ offset);
-
-	//velocity.x < 0 ? isRight = false : isRight = true;
-	//isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
-
 
 	velocity.y += GRAVITY * DELTA;
 
@@ -130,7 +126,7 @@ void Boss::Collision()
 	if (curState == HIT)
 		return;
 
-	if (KirbtStarBullet::IsBulletsCollision(this))
+	if (KirbyStarBullet::IsBulletsCollision(this))
 	{
 		this->DamageHp(100);
 		SetAnimation(HIT);
@@ -156,8 +152,6 @@ void Boss::Collision()
 			this->Die();
 			kirby->SetMode(Kirby::EAT);
 			kirby->SetIdle();
-			//키를 막거나 action이 바뀔때 bool 조건 하나 주면될거 같은데 혹시 전자 방법이 있을까요..?
-
 		}
 	}
 
@@ -165,6 +159,7 @@ void Boss::Collision()
 
 	if (collider != nullptr)
 	{
+		//잠시 막아둠요
 		//velocity.x = ((target->GetPos() - pos).Normalized() * HIT_DAMAGE_SPEED).x;
 		//velocity = velocity.Normalized() * HIT_DAMAGE_SPEED;
 	}
@@ -208,12 +203,22 @@ void Boss::CreateAnimation()
 	//L
 	animations[ATTACK].push_back(new Animation(leftTexture->GetFrame()));
 	animations[ATTACK].back()->SetPart(8, 13);
-	animations[ATTACK].back()->SetEndEvent([this]() {SetIdle(); BossBullet::Shot(GetPos(), isRight); });
+	animations[ATTACK].back()->SetEndEvent([this]() {
+		attackCollider->SetActive(true);  
+		SetIdle(); 
+		BossBullet::Shot(attackCollider->GetPos() + Vector2{ -150.0f,0}, isRight);
+		BossBullet::Shot(attackCollider->GetPos() + Vector2{ -50.0f,0 }, isRight);
+		});
 	animations[ATTACK].back()->SetSpeed(0.5f);
 	//R		   
 	animations[ATTACK].push_back(new Animation(rightTexture->GetFrame()));
 	animations[ATTACK].back()->SetPart(8, 13);
-	animations[ATTACK].back()-> SetEndEvent([this]() {SetIdle(); BossBullet::Shot(GetPos(), isRight); });
+	animations[ATTACK].back()-> SetEndEvent([this]() {
+		attackCollider->SetActive(true);  
+		SetIdle(); 
+		BossBullet::Shot(attackCollider->GetPos() + Vector2{ 150.0f,0 }, isRight);
+		BossBullet::Shot(attackCollider->GetPos() + Vector2{ 50.0f,0 }, isRight);
+		});
 	animations[ATTACK].back()->SetSpeed(0.5f);
 
 	//Hit
@@ -316,7 +321,7 @@ void Boss::Attack()
 {
 	if (stayAttackTime <= 0)
 	{
-		attackCollider->SetActive(true);
+		
 		stayAttackTime = ATTACK_STAY_TIME;
 		velocity = {};
 

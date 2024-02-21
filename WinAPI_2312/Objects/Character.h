@@ -13,8 +13,6 @@ public:
 
 	void DamageHp(int damage) { hp -= damage; }
 
-
 public:
 	int hp = 100;
-
 };

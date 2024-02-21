@@ -11,7 +11,7 @@ protected:
 public:		
 	Action(wstring file, int frameX = 1, int frameY = 1, bool isTrans = false, COLORREF transColor = MAGENTA);
 	Action(Texture* texture = nullptr);	
-	Action(Rect* owner, Vector2 offset = Vector2(0, 50));
+	Action(Rect* owner, Vector2 offset = Vector2(0, 35));
 	~Action();
 
 	virtual void Update();
@@ -46,7 +46,7 @@ protected:
 	map<int, function<void()>> events;
 
 	int curState = -1;
-	float speed = 100.0f;
+	float speed = 200.0f;
 
 	Texture* rightTexture;
 	Texture* leftTexture;

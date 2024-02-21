@@ -1,23 +1,6 @@
 #include "Framework.h"
 
-Monster::Monster() : Character()
-{
-	CreateTexture();
-	CreateAnimation();
-
-	animations[IDLE][isRight]->Play();
-
-	traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
-	traceRange->SetColor(YELLOW);
-	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
-	attackRange->SetColor(BLUE);
-	attackCollider = new Rect(Vector2(), Vector2(40, 10));
-	attackCollider->SetColor(RED);
-	attackCollider->SetActive(false);
-	SetSize({ 50.0f, 50.0f });
-}
-
-Monster::Monster(int type, int x, int y, int hp) 
+Monster::Monster(int type, int x, int y, int hp) : Character()
 {
 	SetPos(x, y);
 	SetHp(hp);
@@ -34,7 +17,7 @@ Monster::Monster(int type, int x, int y, int hp)
 	attackCollider = new Rect(Vector2(), Vector2(50, 50));
 	attackCollider->SetColor(RED);
 	attackCollider->SetActive(false);
-	SetSize({ 50.0f, 50.0f });
+	SetSize({ 70.0f, 70.0f });
 }
 
 Monster::~Monster()
@@ -67,13 +50,13 @@ void Monster::Update()
 	Translate(velocity * DELTA);
 
 	animations[curState][isRight]->Update();
-	traceRange->SetPos(pos + offset);
-	attackRange->SetPos(pos + offset);
+	traceRange->SetPos(pos );
+	attackRange->SetPos(pos );
 
 	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
 	attackCollider->SetPos(pos + direction * 50.0f - Vector2{0.0f, attackCollider->Half().y});
 
-	image->SetPos(pos);
+	image->SetPos(pos + offset);
 
 }
 
@@ -85,6 +68,19 @@ void Monster::Render(HDC hdc)
 	attackCollider->CamRender(hdc);
 
 	image->CamRender(hdc, animations[curState][isRight]->GetFrame());
+}
+
+void Monster::InHaled()
+{
+	SetAnimation(INHALED);
+	velocity = {};
+	
+}
+
+void Monster::Hit()
+{
+	SetAnimation(HIT);
+	actionState = ActionState::HIT;
 }
 
 void Monster::SetActionState()
@@ -116,7 +112,7 @@ void Monster::Collision()
 	if (curState == HIT)
 		return;
 
-	if (BossBullet::IsBulletsCollision(this))
+	if (KirbyStarBullet::IsBulletsCollision(this))
 	{
 		this->DamageHp(100);
 		SetAnimation(HIT);
@@ -136,23 +132,21 @@ void Monster::Collision()
 
 	if (this->IsCollision(target)) 
 	{
-		Kirby* kirby = (Kirby*)target;
-		if(kirby->GetActionState() == Kirby::ATTACK )
-		{
-			this->Die();
-			kirby->SetMode(Kirby::EAT);
-			kirby->SetIdle();
-			//키를 막거나 action이 바뀔때 bool 조건 하나 주면될거 같은데 혹시 전자 방법이 있을까요..?
+		//Kirby* kirby = (Kirby*)target;
+		//if(kirby->GetActionState() == Kirby::ATTACK )
+		//{
+		//	//this->Die();
+		//	kirby->SetMode(Kirby::EAT);
+		//	kirby->SetIdle();
+		//}
+		//else {
+		//	target->DamageHp(10); // Attack력을 나눠줘야함..
+		//	DamageHp(10);
+		//	Vector2 direction = isRight ? Vector2::Left() : Vector2::Right();
 
-		}
-		else {
-			target->DamageHp(10); // Attack력을 나눠줘야함..
-			DamageHp(10);
-			Vector2 direction = isRight ? Vector2::Left() : Vector2::Right();
-
-			velocity = (direction * 1300.0f).Normalized() * HIT_DAMAGE_SPEED;
-			hitColliders.push_back(target);
-		}
+		//	velocity = (direction * 1300.0f).Normalized() * HIT_DAMAGE_SPEED;
+		//	hitColliders.push_back(target);
+		//}
 	}
 	
 	Rect* collider = Kirby::AttackCollision(this);
@@ -225,6 +219,16 @@ void Monster::CreateAnimation()
 	//R		   
 	animations[DEAD].push_back(new Animation(rightTexture->GetFrame()));
 	animations[DEAD].back()->SetPart(9, 9);
+
+	//L
+	animations[INHALED].push_back(new Animation(leftTexture->GetFrame()));
+	animations[INHALED].back()->SetPart(9, 9);
+	//animations[INHALED].back()->SetEndEvent(bind(&Monster::SetIdle, this));
+	//R		   
+	animations[INHALED].push_back(new Animation(rightTexture->GetFrame()));
+	animations[INHALED].back()->SetPart(9, 9);
+	//animations[INHALED].back()->SetEndEvent(bind(&Monster::SetIdle, this));
+
 }
 
 void Monster::SetAnimation(AnimationState state)
@@ -238,6 +242,8 @@ void Monster::SetAnimation(AnimationState state)
 
 void Monster::DoAction()
 {
+	if ( curState == INHALED ) return;
+
 	switch (actionState)
 	{
 	case Monster::ActionState::PATROL:
@@ -250,7 +256,7 @@ void Monster::DoAction()
 		Attack();
 		break;
 	case ActionState::HIT:
-		velocity = {};
+		//velocity = {};
 		break;
 	}
 }

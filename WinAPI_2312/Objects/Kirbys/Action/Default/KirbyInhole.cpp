@@ -37,17 +37,32 @@ void KirbyInhole::Render(HDC hdc)
 void KirbyInhole::Update()
 {
 	Action::Update();
+
 	Monster* monster = MonsterManager::Get()->Collision(collider);
+
+	Kirby* kirby = (Kirby*)owner;
+
 	if (monster != nullptr) 
 	{
-		monster->SetPos(owner->GetPos());
+		Vector2 monVelocity;
+		monVelocity.x = ((owner->GetPos() - monster->GetPos()).Normalized() * speed).x;
+		monVelocity = monVelocity.Normalized() * speed;
+		monster->InHaled();
+		monster->SetVelocity(monVelocity);
+		if (owner->IsCollision(monster))
+		{
+			monster->DamageHp(monster->GetHp());
+			kirby->SetMode(Kirby::EAT);
+			kirby->SetIdle();
+		}
 	}
 
 	if (KEY->Up('F'))
 	{
-		Kirby* kirby = (Kirby*)owner;
 		kirby->SetIdle();		
 	}
+	
+
 }
 
 void KirbyInhole::Start(bool isRight)
