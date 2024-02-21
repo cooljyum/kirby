@@ -105,6 +105,13 @@ void Kirby::Attack()
 	
 }
 
+void Kirby::Hit()
+{
+	SetAction(Kirby::HIT, isRight);
+	isHit = false;
+
+}
+
 void Kirby::CreateActions()
 {
 	CreateModeAction(DEFAULT);
@@ -164,21 +171,21 @@ void Kirby::CreateModeAction(ModeState mode)
 			SetMode(DEFAULT); SetIdle();
 		}});
 
-	actions[mode][JUMPDOWN]->GetAnimation(0)->SetEndEvent([this]() {
-		if (!isHit) 
-			SetIdle(); 
-		else 
-			SetAction(HIT, isRight);
-		isHit = false;
-		});
+	//actions[mode][JUMPDOWN]->GetAnimation(0)->SetEndEvent([this]() {
+	//	if (!isHit) 
+	//		SetIdle(); 
+	//	else 
+	//		//SetAction(HIT, isRight);
+	//	isHit = false;
+	//	});
 
-	actions[mode][JUMPDOWN]->GetAnimation(1)->SetEndEvent([this]() {
-		if (!isHit) 
-			SetIdle(); 
-		else 
-			SetAction(HIT, isRight);
-		isHit = false;
-		});
+	//actions[mode][JUMPDOWN]->GetAnimation(1)->SetEndEvent([this]() {
+	//	if (!isHit) 
+	//		SetIdle(); 
+	//	else 
+	//		SetAction(HIT, isRight);
+	//	isHit = false;
+	//	});
 
 }
 

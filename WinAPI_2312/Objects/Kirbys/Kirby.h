@@ -30,6 +30,7 @@ public :
 	void Move();
 	void Control();
 	void Attack();
+	void Hit();
 
 	void CreateActions();
 	void CreateModeAction(ModeState mode);
@@ -41,6 +42,9 @@ public :
 	
 	ModeState GetModeState() { return curModeState; }
 	ActionState GetActionState() { return curActionState; }
+
+	bool GetIsHit() { return isHit; }
+	void SetIsHit(bool isHit) { this->isHit=isHit; }
 
 private:
 	void Collision();

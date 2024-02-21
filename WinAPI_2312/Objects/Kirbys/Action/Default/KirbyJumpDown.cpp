@@ -34,7 +34,12 @@ void KirbyJumpDown::Jump()
 		owner->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
 
 		Kirby* kirby = (Kirby*)owner;
-		kirby->SetIdle();
+		//kirby->SetIdle();
+
+		if (!kirby->GetIsHit())
+			kirby->SetIdle();
+		else
+			kirby->Hit();
 	
 	}
 }
