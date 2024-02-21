@@ -7,12 +7,12 @@ Kirby::Kirby() : Character()
 {
 	size = { 100, 100 };
 	CreateActions();
-	KirbtStarBullet::CreateBullets();
+	BossBullet::CreateBullets();
 }
 
 Kirby::~Kirby()
 {
-	KirbtStarBullet::Delete();
+	BossBullet::Delete();
 }
 
 void Kirby::Update()
@@ -23,7 +23,7 @@ void Kirby::Update()
 	Control();
 	Attack();
 
-	KirbtStarBullet::UpdateBullets();
+	BossBullet::UpdateBullets();
 }
 
 void Kirby::Render(HDC hdc)
@@ -35,7 +35,7 @@ void Kirby::Render(HDC hdc)
 
 	TextOutA(hdc, CENTER_X, 20, str.c_str(), str.size());
 
-	KirbtStarBullet::RenderBullets(hdc);
+	BossBullet::RenderBullets(hdc);
 
 }
 
@@ -48,7 +48,7 @@ void Kirby::SetLandTexture(Texture* texture)
 		for (Action* action : actionList.second) 
 			action->SetLandTexture(texture);
 		
-	KirbtStarBullet::SetLandTexture(texture);
+	BossBullet::SetLandTexture(texture);
 }
 
 void Kirby::Move()

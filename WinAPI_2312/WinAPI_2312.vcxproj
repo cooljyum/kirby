@@ -159,6 +159,7 @@
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyWalk.h" />
     <ClInclude Include="Manager\DataManager.h" />
     <ClInclude Include="Objects\Monsters\Boss.h" />
+    <ClInclude Include="Objects\Monsters\BossBullet.h" />
     <ClInclude Include="Objects\Monsters\Monster.h" />
     <ClInclude Include="Objects\Monsters\MonsterManager.h" />
     <ClInclude Include="Objects\UI\ProgressBar.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbySit.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyWalk.cpp" />
     <ClCompile Include="Objects\Monsters\Boss.cpp" />
+    <ClCompile Include="Objects\Monsters\BossBullet.cpp" />
     <ClCompile Include="Objects\Monsters\Monster.cpp" />
     <ClCompile Include="Objects\Monsters\MonsterManager.cpp" />
     <ClCompile Include="Objects\UI\ProgressBar.cpp" />

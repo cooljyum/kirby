@@ -11,6 +11,7 @@ KirbyWalk::KirbyWalk(Rect* owner) : Action(owner)
 		AddAnimation(RIGHT)->SetPart(6, 15, true);
 
 		SetState(RIGHT);
+		SetSpeed(250.0f);
 }
 
 KirbyWalk::~KirbyWalk()

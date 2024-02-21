@@ -14,7 +14,8 @@ Boss::Boss() : Character()
 	attackCollider = new Rect(Vector2(), Vector2(40, 10));
 	attackCollider->SetColor(RED);
 	attackCollider->SetActive(false);
-	SetSize({ 0.0f, 0.0f });
+	SetSize({ 100.0f, 100.0f });
+	startPos = pos.y;
 }
 
 Boss::Boss(int type, int x, int y, int hp)
@@ -73,10 +74,21 @@ void Boss::Update()
 	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
 	attackCollider->SetPos(pos + direction * 50.0f - Vector2{ 0.0f, attackCollider->Half().y });
 
-	image->SetPos(pos);
+	image->SetPos(pos+ offset);
 
 	//velocity.x < 0 ? isRight = false : isRight = true;
 	//isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
+
+
+	velocity.y += GRAVITY * DELTA;
+
+
+	if (this->Bottom() > landTexture->GetPixelHeight(this->GetPos()))
+	{
+		velocity.y = 0.0f;
+		this->SetPos({ this->GetPos().x, landTexture->GetPixelHeight(this->GetPos()) - this->Half().y });
+	}
+
 }
 
 void Boss::Render(HDC hdc)
@@ -196,11 +208,13 @@ void Boss::CreateAnimation()
 	//L
 	animations[ATTACK].push_back(new Animation(leftTexture->GetFrame()));
 	animations[ATTACK].back()->SetPart(8, 13);
-	animations[ATTACK].back()->SetEndEvent(bind(&Boss::SetIdle, this));
+	animations[ATTACK].back()->SetEndEvent([this]() {SetIdle(); BossBullet::Shot(GetPos(), isRight); });
+	animations[ATTACK].back()->SetSpeed(0.5f);
 	//R		   
 	animations[ATTACK].push_back(new Animation(rightTexture->GetFrame()));
 	animations[ATTACK].back()->SetPart(8, 13);
-	animations[ATTACK].back()->SetEndEvent(bind(&Boss::SetIdle, this));
+	animations[ATTACK].back()-> SetEndEvent([this]() {SetIdle(); BossBullet::Shot(GetPos(), isRight); });
+	animations[ATTACK].back()->SetSpeed(0.5f);
 
 	//Hit
 	//L
@@ -216,9 +230,13 @@ void Boss::CreateAnimation()
 	//L
 	animations[DEAD].push_back(new Animation(leftTexture->GetFrame()));
 	animations[DEAD].back()->SetPart(17, 19);
+
+
 	//R		   
 	animations[DEAD].push_back(new Animation(rightTexture->GetFrame()));
 	animations[DEAD].back()->SetPart(17, 19);
+	//animations[DEAD].back()->SetEndEvent(bind(&Boss::SetAllActive, this, false));
+
 }
 
 void Boss::SetAnimation(AnimationState state)
@@ -228,6 +246,11 @@ void Boss::SetAnimation(AnimationState state)
 	curState = state;
 	isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
 	animations[state][isRight]->Play();
+}
+
+void Boss::SetLandTexture(Texture* texture)
+{
+	landTexture = texture;
 }
 
 void Boss::DoAction()
@@ -297,18 +320,29 @@ void Boss::Attack()
 		stayAttackTime = ATTACK_STAY_TIME;
 		velocity = {};
 
+		velocity = { 0, -500.0f };
+
+	//	velocity.y += GRAVITY * DELTA;
+
 		SetDirectionState();
 
 		SetAnimation(ATTACK);
-	}
-	stayAttackTime -= DELTA;
 
+	}
+
+	stayAttackTime -= DELTA;
 }
 
 void Boss::Die()
 {
-	this->SetAllActive(false);
 	SetAnimation(DEAD);
+	stayDieTime += DELTA;
+
+	if (stayDieTime > DIE_STAY_TIME)
+	{
+		stayDieTime = 0.0f;
+		SetAllActive(false);
+	}
 }
 
 void Boss::SetDirectionState()

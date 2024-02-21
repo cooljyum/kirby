@@ -12,6 +12,7 @@ public:
 	void End();
 protected:
 	void SetIsRun(bool isRun) { this->isRun = isRun; }
+
 private:
 	void Control();
 	void Push(bool isRight);

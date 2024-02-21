@@ -75,6 +75,7 @@ using namespace std;
 #include "Objects/Monsters/Monster.h"
 #include "Objects/Monsters/MonsterManager.h"
 #include "Objects/Monsters/Boss.h"
+#include "Objects/Monsters/BossBullet.h"
 
 //Effects
 #include "Objects/Effects/Effect.h"

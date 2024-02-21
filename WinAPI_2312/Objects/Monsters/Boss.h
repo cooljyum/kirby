@@ -21,8 +21,10 @@ private:
 	const float HIT_DAMAGE_SPEED = 200.0f;
 
 	const float PATROL_STAY_TIME = 1.0f;
-	const float ATTACK_STAY_TIME = 1.0f;
+	const float ATTACK_STAY_TIME = 4.0f;
 	const float PATROL_RANGE = 200.0f;
+	const float DIE_STAY_TIME = 2.0f;
+	const float GRAVITY = 980.0f;
 
 public:
 	Boss();
@@ -33,6 +35,7 @@ public:
 	void Render(HDC hdc);
 
 	void SetTarget(Character* target) { this->target = target; }
+	void SetLandTexture(Texture* texture);
 
 private:
 	void SetActionState();
@@ -45,6 +48,7 @@ private:
 	void CreateAnimation();
 
 	void SetAnimation(AnimationState state);
+	
 
 private:
 	void DoAction();
@@ -59,6 +63,7 @@ private:
 
 	void SetAllActive(bool isActive);
 
+	
 
 
 private:
@@ -70,6 +75,7 @@ private:
 
 	float stayTime = 0.0f;
 	float stayAttackTime = 0.0f;
+	float stayDieTime = 0.0f;
 
 	AnimationState curState = IDLE;
 	ActionState actionState = ActionState::PATROL;
@@ -78,6 +84,7 @@ private:
 
 	Texture* leftTexture;
 	Texture* rightTexture;
+	Texture* landTexture;
 
 	vector<Rect*> hitColliders;
 
@@ -88,5 +95,6 @@ private:
 
 	Rect* attackCollider;
 
-	Vector2 offset = { 0,-20 };
+	Vector2 offset = { 0,50 };
+	float startPos;
 };

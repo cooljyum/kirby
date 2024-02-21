@@ -116,7 +116,7 @@ void Monster::Collision()
 	if (curState == HIT)
 		return;
 
-	if (KirbtStarBullet::IsBulletsCollision(this))
+	if (BossBullet::IsBulletsCollision(this))
 	{
 		this->DamageHp(100);
 		SetAnimation(HIT);

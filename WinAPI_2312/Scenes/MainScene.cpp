@@ -34,8 +34,9 @@ MainScene::MainScene()
 		//maps.push_back(map);
 	}
 	boss = new Boss();
-	boss->SetPos(SCREEN_WIDTH + 500, kirby->Bottom());
+	boss->SetPos(SCREEN_WIDTH, kirby->Bottom());
 	boss->SetTarget(kirby);
+	boss->SetLandTexture(Texture::Add(L"Kirby_Resources/Map/Land.bmp"));
 }
 
 MainScene::~MainScene()
@@ -52,7 +53,7 @@ void MainScene::Update()
 	kirby->Update();
 	//monster->Update();
 	boss->Update();
-	MonsterManager::Get()->Update();
+	//MonsterManager::Get()->Update();
 }
 
 void MainScene::Render(HDC hdc)
@@ -63,5 +64,5 @@ void MainScene::Render(HDC hdc)
 	//monster->Render(hdc);
 	boss->Render(hdc);
 
-	MonsterManager::Get()->Render(hdc);
+	//MonsterManager::Get()->Render(hdc);
 }
