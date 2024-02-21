@@ -69,7 +69,7 @@ void Kirby::Move()
 		isRight = false;
 	}
 
-	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK) return;
+	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK || curActionState == HIT) return;
 	isMove ?  SetAction(WALK, isRight) : SetIdle();
 }
 
@@ -135,13 +135,13 @@ void Kirby::CreateModeAction(ModeState mode)
 		actions[mode].push_back(new KirbyHit(this));
 	}
 
-	//actions[mode][HIT]->GetAnimation(0)->SetEndEvent([this]() {
-	//		//SetMode(DEFAULT); SetIdle();
-	//	});
+	actions[mode][HIT]->GetAnimation(0)->SetEndEvent([this]() {
+			SetMode(DEFAULT); SetIdle();
+		});
 
-	//actions[mode][HIT]->GetAnimation(1)->SetEndEvent([this]() {
-	//		//SetMode(DEFAULT); SetIdle();
-	//	});
+	actions[mode][HIT]->GetAnimation(1)->SetEndEvent([this]() {
+			SetMode(DEFAULT); SetIdle();
+		});
 	
 	actions[mode][ATTACK]->GetAnimation(0)->SetEndEvent([this]() {
 		if (curModeState == EAT || curModeState == FLY) {
@@ -164,19 +164,21 @@ void Kirby::CreateModeAction(ModeState mode)
 			SetMode(DEFAULT); SetIdle();
 		}});
 
-	//actions[mode][JUMPDOWN]->GetAnimation(0)->SetEndEvent([this]() {
-	//	if (!isHit) 
-	//		SetIdle(); 
-	//	else 
-	//		SetAction(HIT, isRight);
-	//	});
+	actions[mode][JUMPDOWN]->GetAnimation(0)->SetEndEvent([this]() {
+		if (!isHit) 
+			SetIdle(); 
+		else 
+			SetAction(HIT, isRight);
+		isHit = false;
+		});
 
-	//actions[mode][JUMPDOWN]->GetAnimation(1)->SetEndEvent([this]() {
-	//	if (!isHit) 
-	//		SetIdle(); 
-	//	else 
-	//		SetAction(HIT, isRight);
-	//	});
+	actions[mode][JUMPDOWN]->GetAnimation(1)->SetEndEvent([this]() {
+		if (!isHit) 
+			SetIdle(); 
+		else 
+			SetAction(HIT, isRight);
+		isHit = false;
+		});
 
 }
 
@@ -215,7 +217,7 @@ void Kirby::Collision()
 			monster->Hit();
 			monster->SetVelocity(velocity);
 			
-			SetAction(HIT, isRight);
+			SetAction(JUMPUP, isRight);
 			
 			//invincibilityTime = INVINCIBILITY_TIME;
 		
