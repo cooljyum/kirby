@@ -19,14 +19,9 @@ MainScene::MainScene()
 	DataManager::Get()->LoadData("Kirby_Resources/Monster/MonsterData.csv", 1);
 	FOR(DataManager::Get()->GetMapSize())
 	{
-
 		MonsterManager::Get()->SpawnMonsters(DataManager::Get()->GetMapData(i));
 		MonsterManager::Get()->SetTarget(kirby);
 	}
-	boss = new Boss();
-	boss->SetPos(SCREEN_WIDTH, kirby->Bottom());
-	boss->SetTarget(kirby);
-	boss->SetLandTexture(Texture::Add(L"Kirby_Resources/Map/Land.bmp"));
 
 	Texture* grass1Tex = Texture::Add(L"Kirby_Resources/Map/Grass1.bmp", 1, 4, true);
 	MapItemManager::Get()->Add("Grass1", 10, grass1Tex, 0.3f);
@@ -36,7 +31,7 @@ MainScene::MainScene()
 	MapItemManager::Get()->Add("Grass2", 10, grass2Tex, 0.3f);
 	MapItemManager::Get()->Play("Grass2", { 2090.0f, 290.0f });
 
-	kirby->SetPos({ 3350.0f, 380.0f });
+	//kirby->SetPos({ 3000.0f, 380.0f });
 	Texture* doorTex = Texture::Add(L"Kirby_Resources/Map/Door.bmp",1,1,true);
 	MapItemManager::Get()->Add("Door", 10, doorTex);
 	MapItemManager::Get()->Play("Door", { 3350.0f, 380.0f });
@@ -46,6 +41,12 @@ MainScene::MainScene()
 	Texture* dossDoorEffTex = Texture::Add(L"Kirby_Resources/Map/BossDoorEffect.bmp", 5, 1, true);
 	EffectManager::Get()->Add("BossDoorEffect", 10, dossDoorEffTex, 1.0f, true);
 	EffectManager::Get()->Play("BossDoorEffect", { 3348.0f, 320.0f });
+
+	Texture* m = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Left.bmp", 5, 2, true);
+	EffectManager::Get()->Add("m", 10, m, 1.0f, true);
+	//EffectManager::Get()->Play("m", { 1450.0f, 470.0f });
+	//EffectManager::Get()->Play("m", { 2700.0f, 430.0f });
+	//EffectManager::Get()->Play("m", { 3000.0f, 420.0f });
 }
 
 MainScene::~MainScene()
@@ -53,7 +54,6 @@ MainScene::~MainScene()
 	delete bg1;
 	delete bg2;
 	delete kirby;
-	delete boss;
 	MapItemManager::Delete();
 	MonsterManager::Delete();
 	EffectManager::Delete();
@@ -62,7 +62,6 @@ MainScene::~MainScene()
 void MainScene::Update()
 {
 	kirby->Update();
-	boss->Update();
 
 	MonsterManager::Get()->Update();
 	MapItemManager::Get()->Update();
@@ -77,7 +76,6 @@ void MainScene::Render(HDC hdc)
 	bg2->CamRender(hdc);
 
 	kirby->Render(hdc);
-	boss->Render(hdc);
 
 	MonsterManager::Get()->Render(hdc);
 

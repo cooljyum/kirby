@@ -2,7 +2,8 @@
 
 Monster::Monster(int type, int x, int y, int hp) : Character()
 {
-	SetPos(x, y);
+	SetSize({ 70.0f, 70.0f });
+	SetPos(x, y - Half().y);
 	SetHp(hp);
 
 	CreateTexture();
