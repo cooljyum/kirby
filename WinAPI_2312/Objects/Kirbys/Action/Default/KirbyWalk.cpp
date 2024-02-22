@@ -69,11 +69,11 @@ void KirbyWalk::Push(bool isRight)
 	Vector2 ownerPos = owner->GetPos();
 	if (isRight)
 	{
-		ownerPos.x = Lerp(owner->GetPos().x, offset - owner->Half().x, 5.0f * DELTA);
+		ownerPos.x = Lerp(owner->GetPos().x, offset - owner->Half().x * 3, 5.0f * DELTA);
 	}
 	else
-	{
-		ownerPos.x = Lerp(owner->GetPos().x, offset + owner->Half().x, 5.0f * DELTA);
+	{ 
+		ownerPos.x = Lerp(owner->GetPos().x, offset + owner->Half().x * 3, 5.0f * DELTA);
 	}
 	owner->SetPos(ownerPos);
 }
