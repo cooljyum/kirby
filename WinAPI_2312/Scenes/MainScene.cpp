@@ -10,17 +10,11 @@ MainScene::MainScene()
 	bg2->SetPos(bg2->Half());
 
 	kirby = new Kirby();
-	kirby->SetPos(CENTER);
 	kirby->SetLandTexture(Texture::Add(L"Kirby_Resources/Map/Land.bmp"));
 
 	CAM->SetTarget(kirby);
 	CAM->SetOffset(CENTER_X, 550.0f);
-
 	CAM->SetMapRect(bg1);
-
-	//monster = new Monster();
-	//monster->SetPos(SCREEN_WIDTH+500, kirby->Bottom());
-	//monster->SetTarget(kirby);
 
 	DataManager::Get()->LoadData("Kirby_Resources/Monster/MonsterData.csv", 1);
 	FOR(DataManager::Get()->GetMapSize())
@@ -28,15 +22,30 @@ MainScene::MainScene()
 
 		MonsterManager::Get()->SpawnMonsters(DataManager::Get()->GetMapData(i));
 		MonsterManager::Get()->SetTarget(kirby);
-		//monsterManager = new MonsterManager(DataManager::Get()->GetMapData(i));
-		//monsterManager->SetTarget(kirby);
-		//map->SetPos(Vector2::Right() * i * SCREEN_WIDTH);
-		//maps.push_back(map);
 	}
 	boss = new Boss();
 	boss->SetPos(SCREEN_WIDTH, kirby->Bottom());
 	boss->SetTarget(kirby);
 	boss->SetLandTexture(Texture::Add(L"Kirby_Resources/Map/Land.bmp"));
+
+	Texture* grass1Tex = Texture::Add(L"Kirby_Resources/Map/Grass1.bmp", 1, 4, true);
+	MapItemManager::Get()->Add("Grass1", 10, grass1Tex, 0.3f);
+	MapItemManager::Get()->Play("Grass1", { 548.0f, 450.0f});
+
+	Texture* grass2Tex = Texture::Add(L"Kirby_Resources/Map/Grass2.bmp", 1, 4, true);
+	MapItemManager::Get()->Add("Grass2", 10, grass2Tex, 0.3f);
+	MapItemManager::Get()->Play("Grass2", { 2090.0f, 290.0f });
+
+	kirby->SetPos({ 3350.0f, 380.0f });
+	Texture* doorTex = Texture::Add(L"Kirby_Resources/Map/Door.bmp",1,1,true);
+	MapItemManager::Get()->Add("Door", 10, doorTex);
+	MapItemManager::Get()->Play("Door", { 3350.0f, 380.0f });
+
+	MapItemManager::Get()->Play("Grass1", { 3000.0f, 400.0f });
+
+	Texture* dossDoorEffTex = Texture::Add(L"Kirby_Resources/Map/BossDoorEffect.bmp", 5, 1, true);
+	EffectManager::Get()->Add("BossDoorEffect", 10, dossDoorEffTex, 1.0f, true);
+	EffectManager::Get()->Play("BossDoorEffect", { 3348.0f, 320.0f });
 }
 
 MainScene::~MainScene()
@@ -45,24 +54,32 @@ MainScene::~MainScene()
 	delete bg2;
 	delete kirby;
 	delete boss;
+	MapItemManager::Delete();
 	MonsterManager::Delete();
+	EffectManager::Delete();
 }
 
 void MainScene::Update()
 {
 	kirby->Update();
-	//monster->Update();
 	boss->Update();
+
 	MonsterManager::Get()->Update();
+	MapItemManager::Get()->Update();
+	EffectManager::Get()->Update();
+	MapItemManager::Get()->Update();
 }
 
 void MainScene::Render(HDC hdc)
 {
 	bg1->CamRender(hdc);
+	MapItemManager::Get()->Render(hdc);
 	bg2->CamRender(hdc);
+
 	kirby->Render(hdc);
-	//monster->Render(hdc);
 	boss->Render(hdc);
 
 	MonsterManager::Get()->Render(hdc);
+
+	EffectManager::Get()->Render(hdc);
 }

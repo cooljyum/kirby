@@ -178,6 +178,8 @@ void Monster::CreateAnimation()
 
 	//Idle
 	//L
+
+	rightTexture = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Right.bmp", 5, 2, true);
 	animations[IDLE].push_back(new Animation(leftTexture->GetFrame()));
 	animations[IDLE].back()->SetPart(2, 2, true);
 	//R

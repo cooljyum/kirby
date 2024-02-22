@@ -19,12 +19,15 @@ void Kirby::Update()
 {
 	actions[curModeState][curActionState]->Update();
 	
+	Collision();
 	Move();
 	Control();
 	Attack();
-	Collision();
 
 	KirbyStarBullet::UpdateBullets();
+
+
+	MapItemManager::Get()->Play("BossDoorEffect", GetPos());
 }
 
 void Kirby::Render(HDC hdc)
@@ -209,6 +212,14 @@ void Kirby::SetAction(ActionState state, bool isRight, bool isForce)
 
 void Kirby::Collision()
 {
+	MapItem* door = MapItemManager::Get()->Collision("Door", this);
+	if (door != nullptr)
+	{
+		if (KEY->Down('W')) 
+		{
+			SCENE->ChangeScene("Boss");
+		}
+	}
 	
 	if (invincibilityTime <= 0.0f) 
 	{

@@ -137,10 +137,11 @@
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Objects\Basic\Action.h" />
+    <ClInclude Include="Objects\Basic\Effect.h" />
+    <ClInclude Include="Objects\Basic\EffectManager.h" />
     <ClInclude Include="Objects\Basic\Image.h" />
     <ClInclude Include="Objects\Basic\Rect.h" />
     <ClInclude Include="Objects\Character.h" />
-    <ClInclude Include="Objects\Effects\Effect.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyHit.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyJumpUp.h" />
     <ClInclude Include="Objects\Kirbys\Action\Eat\KirbyAttackEat.h" />
@@ -159,6 +160,8 @@
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbySit.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyWalk.h" />
     <ClInclude Include="Manager\DataManager.h" />
+    <ClInclude Include="Objects\Map\MapItem.h" />
+    <ClInclude Include="Objects\Map\MapItemManager.h" />
     <ClInclude Include="Objects\Monsters\Boss.h" />
     <ClInclude Include="Objects\Monsters\BossBullet.h" />
     <ClInclude Include="Objects\Monsters\Monster.h" />
@@ -169,6 +172,7 @@
     <ClInclude Include="Render\Texture.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\BossScene.h" />
+    <ClInclude Include="Scenes\IntroScene.h" />
     <ClInclude Include="Scenes\MainScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="targetver.h" />
@@ -187,6 +191,8 @@
     <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Math\Math.cpp" />
     <ClCompile Include="Objects\Basic\Action.cpp" />
+    <ClCompile Include="Objects\Basic\Effect.cpp" />
+    <ClCompile Include="Objects\Basic\EffectManager.cpp" />
     <ClCompile Include="Objects\Basic\Image.cpp" />
     <ClCompile Include="Objects\Basic\Rect.cpp" />
     <ClCompile Include="Objects\Character.cpp" />
@@ -206,6 +212,8 @@
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyJumpDown.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbySit.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyWalk.cpp" />
+    <ClCompile Include="Objects\Map\MapItem.cpp" />
+    <ClCompile Include="Objects\Map\MapItemManager.cpp" />
     <ClCompile Include="Objects\Monsters\Boss.cpp" />
     <ClCompile Include="Objects\Monsters\BossBullet.cpp" />
     <ClCompile Include="Objects\Monsters\Monster.cpp" />
@@ -215,6 +223,7 @@
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Texture.cpp" />
     <ClCompile Include="Scenes\BossScene.cpp" />
+    <ClCompile Include="Scenes\IntroScene.cpp" />
     <ClCompile Include="Scenes\MainScene.cpp" />
     <ClCompile Include="Utilities\Keyboard.cpp" />
     <ClCompile Include="Utilities\Timer.cpp" />

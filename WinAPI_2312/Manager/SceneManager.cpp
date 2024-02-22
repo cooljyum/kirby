@@ -11,6 +11,9 @@ void SceneManager::Update()
 	if (curScene == nullptr) return;
 
 	curScene->Update();
+
+	if (KEY->Down(VK_F2))
+		ChangeScene("Boss");
 }
 
 void SceneManager::Render(HDC hdc)
@@ -47,5 +50,5 @@ void SceneManager::ChangeScene(string key)
 		curScene->End();
 
 	curScene = scenes[key];
-	curScene->Start();
+	curScene->CreateIntroFrame();
 }

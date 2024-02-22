@@ -6,8 +6,8 @@
 #define WIN_START_X 100
 #define WIN_START_Y 0
 
-#define SCREEN_WIDTH 1740
-#define SCREEN_HEIGHT 720
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 
 #define CENTER_X (SCREEN_WIDTH * 0.5f)
 #define CENTER_Y (SCREEN_HEIGHT * 0.5f)
@@ -63,6 +63,8 @@ using namespace std;
 #include "Objects/Basic/Rect.h"
 #include "Objects/Basic/Image.h"
 #include "Objects/Basic/Action.h"
+#include "Objects/Basic/Effect.h"
+#include "Objects/Basic/EffectManager.h"
 
 #include "Objects/UI/ProgressBar.h"
 
@@ -71,15 +73,16 @@ using namespace std;
 
 //Kirbys
 
+//MapItems
+#include "Objects/Map/MapItem.h"
+#include "Objects/Map/MapItemManager.h"
+
+
 //Monsters
 #include "Objects/Monsters/Monster.h"
 #include "Objects/Monsters/MonsterManager.h"
 #include "Objects/Monsters/Boss.h"
 #include "Objects/Monsters/BossBullet.h"
-
-//Effects
-#include "Objects/Effects/Effect.h"
-
 
 //Kirbys
 //------------ Action

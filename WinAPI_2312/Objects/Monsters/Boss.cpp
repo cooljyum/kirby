@@ -13,7 +13,7 @@ Boss::Boss() : Character()
 	attackRange->SetColor(BLUE);
 	attackCollider = new Rect(Vector2(), Vector2(200, 200));
 	attackCollider->SetColor(RED);
-	attackCollider->SetActive(false);
+	attackCollider->SetActive(true);
 	SetSize({ 100.0f, 100.0f });
 	startPos = pos.y;
 
@@ -36,7 +36,7 @@ Boss::Boss(int type, int x, int y, int hp)
 	attackRange->SetColor(BLUE);
 	attackCollider = new Rect(Vector2(), Vector2(200, 200));
 	attackCollider->SetColor(RED);
-	attackCollider->SetActive(false);
+	attackCollider->SetActive(true);
 	SetSize({ 50.0f, 50.0f });
 }
 

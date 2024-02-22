@@ -1,7 +1,9 @@
 #include "Framework.h"
 
+#include "Scenes/IntroScene.h"
 #include "Scenes/MainScene.h"
 #include "Scenes/BossScene.h"
+
 
 GameManager::GameManager()
 {
@@ -15,10 +17,15 @@ GameManager::GameManager()
 
 	Create();
 	
-	SCENE->Add("Start", new MainScene());	
+	SCENE->Add("Intro", new IntroScene());
+	SCENE->Add("Start", new MainScene()); 
+	
 	//SCENE->Add("Start", new BossScene());
+	SCENE->Add("Boss", new BossScene());
+	//SCENE->Add("Start", new MainScene());
 
 	SCENE->ChangeScene("Start");
+//	SCENE->ChangeScene("Start");
 }
 
 GameManager::~GameManager()
@@ -31,7 +38,7 @@ void GameManager::Update()
 	Keyboard::Get()->Update();
 	Timer::Get()->Update();
 
-	if (KEY->Down(VK_F2))
+	if (KEY->Down(VK_F3))
 		Rect::OnDraw();
 
 	SCENE->Update();
@@ -39,6 +46,7 @@ void GameManager::Update()
 	CAM->Update();
 
 	InvalidateRect(hWnd, nullptr, false);
+
 }
 
 void GameManager::Render()

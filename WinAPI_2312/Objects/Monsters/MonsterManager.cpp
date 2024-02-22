@@ -12,7 +12,6 @@ MonsterManager::MonsterManager(vector<vector<int>> mapData)
 
 MonsterManager::~MonsterManager()
 {
-	
 	for (Monster*& monster : monsters)
 		delete monster;
 }
