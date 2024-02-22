@@ -5,13 +5,24 @@ vector<Rect*> Kirby::colliders;
 
 Kirby::Kirby() : Character()
 {
+	Texture* backTexture = Texture::Add(L"Kirby_Resources/UI/PlayerHPBottom.bmp");
+	Texture* frontTexture = Texture::Add(L"Kirby_Resources/UI/PlayerHP.bmp");
+	
+	hpBar = new ProgressBar(frontTexture, backTexture);
+	hpBar->SetPos({200,550});
+	UpdateHp();
+
 	size = { 70, 70 };
 	CreateActions();
 	KirbyStarBullet::CreateBullets();
+
+
 }
 
 Kirby::~Kirby()
 {
+	delete hpBar;
+
 	KirbyStarBullet::Delete();
 }
 
@@ -41,6 +52,7 @@ void Kirby::Render(HDC hdc)
 
 	KirbyStarBullet::RenderBullets(hdc);
 
+	hpBar->Render(hdc);
 }
 
 void Kirby::SetLandTexture(Texture* texture)
@@ -81,6 +93,7 @@ void Kirby::Control()
 	if (KEY->Down('W') && curActionState != JUMPUP && curActionState != JUMPDOWN)
 	{
 		SOUND->Play("Jump");
+		EffectManager::Get()->Play("kirbyEffect", pos);
 		SetAction(JUMPUP, isRight);
 	}
 

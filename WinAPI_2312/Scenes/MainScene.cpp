@@ -42,6 +42,11 @@ MainScene::MainScene()
 	EffectManager::Get()->Add("BossDoorEffect", 10, dossDoorEffTex, 1.0f, true);
 	EffectManager::Get()->Play("BossDoorEffect", { 3348.0f, 320.0f });
 
+	Texture* kirbyEffect = Texture::Add(L"Kirby_Resources/Map/Effect_Right.bmp", 10, 6, true);
+	EffectManager::Get()->Add("kirbyEffect", 10, kirbyEffect, 1.0f, true);
+	
+
+
 	Texture* m = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Left.bmp", 5, 2, true);
 	EffectManager::Get()->Add("m", 10, m, 1.0f, true);
 	//몬스터 위치 테스트 공간..
