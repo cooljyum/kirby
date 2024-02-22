@@ -28,7 +28,7 @@ void BossBullet::Update()
 {
 	if (!isActive) return;
 
-	//Translate({ velocity.x * SPEED * DELTA, 0.0f });
+	Translate({ velocity.x * SPEED * DELTA, 0.0f });
 
 	animation->Update();
 
@@ -45,9 +45,29 @@ void BossBullet::Fire(Vector2 pos, bool isRight)
 	this->isRight = isRight;
 	SetTexture(starTexture);
 
+	if (isRight)
+	{
+		//this->velocity = { +1.0f, 0 };
+	}
+	else
+	{
+		//this->velocity = { -1.0f, 0 };
+	}
+
 	animation->Play();
 
 	SetPos(pos);
+}
+
+void BossBullet::init()
+{
+	for (BossBullet*& bullet : bullets)
+	{
+		if (bullet->IsActive())
+		{
+			bullet->SetActive(false);
+		}
+	}
 }
 
 void BossBullet::CreateBullets()
@@ -100,6 +120,17 @@ bool BossBullet::IsBulletsCollision(Rect* rect)
 	}
 
 	return false;
+}
+
+BossBullet* BossBullet::Collision(Rect* rect)
+{
+	for (BossBullet*& bullet : bullets)
+	{
+		if (bullet->IsCollision(rect))
+			return bullet;
+	}
+
+	return nullptr;
 }
 
 void BossBullet::SetLandTexture(Texture* texture)

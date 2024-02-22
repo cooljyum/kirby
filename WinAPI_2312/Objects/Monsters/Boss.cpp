@@ -16,6 +16,8 @@ Boss::Boss() : Character()
 	attackCollider->SetActive(false);
 	SetSize({ 100.0f, 100.0f });
 	startPos = pos.y;
+
+	BossBullet::CreateBullets();
 }
 
 Boss::Boss(int type, int x, int y, int hp)
@@ -45,6 +47,7 @@ Boss::~Boss()
 		delete animationArray[0];
 		delete animationArray[1];
 	}
+	BossBullet::Delete();
 }
 
 void Boss::Update()
@@ -84,7 +87,7 @@ void Boss::Update()
 		velocity.y = 0.0f;
 		this->SetPos({ this->GetPos().x, landTexture->GetPixelHeight(this->GetPos()) - this->Half().y });
 	}
-
+	BossBullet::UpdateBullets();
 }
 
 void Boss::Render(HDC hdc)
@@ -95,6 +98,7 @@ void Boss::Render(HDC hdc)
 	attackCollider->CamRender(hdc);
 
 	image->CamRender(hdc, animations[curState][isRight]->GetFrame());
+	BossBullet::RenderBullets(hdc);
 }
 
 void Boss::SetActionState()
@@ -206,8 +210,9 @@ void Boss::CreateAnimation()
 	animations[ATTACK].back()->SetEndEvent([this]() {
 		attackCollider->SetActive(true);  
 		SetIdle(); 
+		BossBullet::init();
 		BossBullet::Shot(attackCollider->GetPos() + Vector2{ -150.0f,0}, isRight);
-		BossBullet::Shot(attackCollider->GetPos() + Vector2{ -50.0f,0 }, isRight);
+		BossBullet::Shot(attackCollider->GetPos() + Vector2{ -0.0f,0 }, isRight);
 		});
 	animations[ATTACK].back()->SetSpeed(0.5f);
 	//R		   
@@ -216,6 +221,7 @@ void Boss::CreateAnimation()
 	animations[ATTACK].back()-> SetEndEvent([this]() {
 		attackCollider->SetActive(true);  
 		SetIdle(); 
+		BossBullet::init();
 		BossBullet::Shot(attackCollider->GetPos() + Vector2{ 150.0f,0 }, isRight);
 		BossBullet::Shot(attackCollider->GetPos() + Vector2{ 50.0f,0 }, isRight);
 		});

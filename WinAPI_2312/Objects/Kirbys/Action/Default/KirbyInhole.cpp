@@ -57,6 +57,23 @@ void KirbyInhole::Update()
 		}
 	}
 
+	BossBullet* BossBullet = BossBullet::Collision(collider);	
+
+	if (BossBullet != nullptr)
+	{
+		Vector2 monVelocity;
+		monVelocity.x = ((owner->GetPos() - BossBullet->GetPos()).Normalized()).x;
+		monVelocity = monVelocity.Normalized() * speed;
+		//BossBullet->InHaled();
+		BossBullet->SetVelocity(monVelocity);
+		if (owner->IsCollision(BossBullet))
+		{
+		//	BossBullet->DamageHp(BossBullet->GetHp());
+			kirby->SetMode(Kirby::EAT);
+			kirby->SetIdle();
+		}
+	}
+
 	if (KEY->Up('F'))
 	{
 		kirby->SetIdle();		

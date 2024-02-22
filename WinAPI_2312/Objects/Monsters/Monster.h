@@ -33,6 +33,7 @@ public:
 
 	void SetTarget(Character* target) { this->target = target; }
 	void SetVelocity(Vector2 velocity) { this->velocity = velocity; }
+	AnimationState GetState() { return curState; }
 
 	void InHaled();
 	void Hit();

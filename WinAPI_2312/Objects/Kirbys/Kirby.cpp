@@ -210,13 +210,12 @@ void Kirby::SetAction(ActionState state, bool isRight, bool isForce)
 
 void Kirby::Collision()
 {
+	
 	if (invincibilityTime <= 0.0f) 
 	{
 		Monster* monster = MonsterManager::Get()->Collision(this);
 		if (monster != nullptr)
 		{
-			DamageHp(10);
-			isHit = true;
 
 			monster->DamageHp(1);
 			Vector2 direction = isRight ? Vector2::Right() : Vector2::Left(); 
@@ -224,9 +223,13 @@ void Kirby::Collision()
 			monster->Hit();
 			monster->SetVelocity(velocity);
 			
+			if (monster->GetState() == Monster::HIT) return;
+
+			DamageHp(10);
+			isHit = true;
 			SetAction(JUMPUP, isRight);
 			
-			//invincibilityTime = INVINCIBILITY_TIME;
+			//invincibilityTime = INVINCIBILITY_TIME; //
 		
 		}
 	}

@@ -15,4 +15,5 @@ public:
 
 protected:
 	Rect* collider;
+
 };
