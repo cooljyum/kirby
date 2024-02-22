@@ -8,9 +8,10 @@ KirbyHit::KirbyHit(Rect* owner) : Action(owner)
 
 	SetTexture(rightTexture);
 
-	int arr[] = { 0, 1, 0, 1, 0, 1};
+	int arr[] = { 9, 8, 9, 8, 9, 8};
 	AddAnimation(LEFT)->SetArray(arr, 6);
-	AddAnimation(RIGHT)->SetArray(arr, 6);
+	int arr_[] = { 0, 1, 0, 1, 0, 1 };
+	AddAnimation(RIGHT)->SetArray(arr_, 6);
 
 	SetState(RIGHT);
 }

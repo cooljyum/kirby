@@ -1,6 +1,7 @@
 #include "Framework.h"
 
 #include "Scenes/MainScene.h"
+#include "Scenes/BossScene.h"
 
 GameManager::GameManager()
 {
@@ -15,6 +16,7 @@ GameManager::GameManager()
 	Create();
 	
 	SCENE->Add("Start", new MainScene());	
+	//SCENE->Add("Start", new BossScene());
 
 	SCENE->ChangeScene("Start");
 }

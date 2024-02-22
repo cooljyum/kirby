@@ -191,7 +191,6 @@ void Kirby::CreateModeAction(ModeState mode)
 
 void Kirby::SetIdle()
 {
-
 	if (curModeState == DEFAULT) SetAction(IDLE, isRight);
 	if (curActionState == IDLE) return;
 	SetAction(IDLE, isRight,true);
@@ -216,6 +215,7 @@ void Kirby::Collision()
 		Monster* monster = MonsterManager::Get()->Collision(this);
 		if (monster != nullptr)
 		{
+			if (monster->GetState() == Monster::HIT) return;
 
 			monster->DamageHp(1);
 			Vector2 direction = isRight ? Vector2::Right() : Vector2::Left(); 
@@ -223,11 +223,10 @@ void Kirby::Collision()
 			monster->Hit();
 			monster->SetVelocity(velocity);
 			
-			if (monster->GetState() == Monster::HIT) return;
-
+			
 			DamageHp(10);
-			isHit = true;
-			SetAction(JUMPUP, isRight);
+			//isHit = true;
+			//SetAction(HIT, isRight);
 			
 			//invincibilityTime = INVINCIBILITY_TIME; //
 		

@@ -212,7 +212,7 @@ void Boss::CreateAnimation()
 		SetIdle(); 
 		BossBullet::init();
 		BossBullet::Shot(attackCollider->GetPos() + Vector2{ -150.0f,0}, isRight);
-		BossBullet::Shot(attackCollider->GetPos() + Vector2{ -0.0f,0 }, isRight);
+		//BossBullet::Shot(attackCollider->GetPos() + Vector2{ -0.0f,0 }, isRight);
 		});
 	animations[ATTACK].back()->SetSpeed(0.5f);
 	//R		   
@@ -223,7 +223,7 @@ void Boss::CreateAnimation()
 		SetIdle(); 
 		BossBullet::init();
 		BossBullet::Shot(attackCollider->GetPos() + Vector2{ 150.0f,0 }, isRight);
-		BossBullet::Shot(attackCollider->GetPos() + Vector2{ 50.0f,0 }, isRight);
+		//BossBullet::Shot(attackCollider->GetPos() + Vector2{ 50.0f,0 }, isRight);
 		});
 	animations[ATTACK].back()->SetSpeed(0.5f);
 

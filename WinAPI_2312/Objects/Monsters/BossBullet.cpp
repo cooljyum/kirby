@@ -45,14 +45,7 @@ void BossBullet::Fire(Vector2 pos, bool isRight)
 	this->isRight = isRight;
 	SetTexture(starTexture);
 
-	if (isRight)
-	{
-		//this->velocity = { +1.0f, 0 };
-	}
-	else
-	{
-		//this->velocity = { -1.0f, 0 };
-	}
+	velocity = {};
 
 	animation->Play();
 

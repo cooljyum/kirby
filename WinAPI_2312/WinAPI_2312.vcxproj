@@ -168,6 +168,7 @@
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Texture.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scenes\BossScene.h" />
     <ClInclude Include="Scenes\MainScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="targetver.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="Render\Animation.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Texture.cpp" />
+    <ClCompile Include="Scenes\BossScene.cpp" />
     <ClCompile Include="Scenes\MainScene.cpp" />
     <ClCompile Include="Utilities\Keyboard.cpp" />
     <ClCompile Include="Utilities\Timer.cpp" />
