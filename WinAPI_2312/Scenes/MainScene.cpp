@@ -44,9 +44,12 @@ MainScene::MainScene()
 
 	Texture* m = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Left.bmp", 5, 2, true);
 	EffectManager::Get()->Add("m", 10, m, 1.0f, true);
+	//몬스터 위치 테스트 공간..
 	//EffectManager::Get()->Play("m", { 1450.0f, 470.0f });
 	//EffectManager::Get()->Play("m", { 2700.0f, 430.0f });
 	//EffectManager::Get()->Play("m", { 3000.0f, 420.0f });
+
+	CreateSound();
 }
 
 MainScene::~MainScene()
@@ -80,4 +83,15 @@ void MainScene::Render(HDC hdc)
 	MonsterManager::Get()->Render(hdc);
 
 	EffectManager::Get()->Render(hdc);
+}
+
+void MainScene::CreateSound()
+{
+	SOUND->Add("BGM1", "Kirby_Resources/Sound/Stage1BGM.wav", true);
+	SOUND->Add("Jump", "Kirby_Resources/Sound/Jump.wav");
+}
+
+void MainScene::Start()
+{
+	SOUND->Play("BGM1");
 }

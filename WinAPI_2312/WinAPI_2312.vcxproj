@@ -176,6 +176,7 @@
     <ClInclude Include="Scenes\MainScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Utilities\Audio.h" />
     <ClInclude Include="Utilities\Keyboard.h" />
     <ClInclude Include="Utilities\Singleton.h" />
     <ClInclude Include="Utilities\Timer.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="Scenes\BossScene.cpp" />
     <ClCompile Include="Scenes\IntroScene.cpp" />
     <ClCompile Include="Scenes\MainScene.cpp" />
+    <ClCompile Include="Utilities\Audio.cpp" />
     <ClCompile Include="Utilities\Keyboard.cpp" />
     <ClCompile Include="Utilities\Timer.cpp" />
     <ClCompile Include="Utilities\Utility.cpp" />

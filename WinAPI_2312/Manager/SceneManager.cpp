@@ -51,4 +51,5 @@ void SceneManager::ChangeScene(string key)
 
 	curScene = scenes[key];
 	curScene->CreateIntroFrame();
+	curScene->Start();
 }

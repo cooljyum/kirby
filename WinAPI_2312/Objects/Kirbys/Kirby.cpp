@@ -80,6 +80,7 @@ void Kirby::Control()
 {
 	if (KEY->Down('W') && curActionState != JUMPUP && curActionState != JUMPDOWN)
 	{
+		SOUND->Play("Jump");
 		SetAction(JUMPUP, isRight);
 	}
 

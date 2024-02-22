@@ -28,6 +28,7 @@
 #define KEY Keyboard::Get()
 #define DELTA Timer::Get()->GetElapsedTime()
 #define SCENE SceneManager::Get()
+#define SOUND Audio::Get()
 #define CAM Camera::Get()
 
 #define FOR(n) for(int i = 0 ; i < n ; i++)
@@ -42,6 +43,9 @@
 #include <fstream>
 #include <assert.h>
 
+#include "Libraries/FMOD/fmod.hpp"
+#pragma comment(lib, "Libraries/fmod_vc.lib")
+
 using namespace std;
 
 //Framework Header
@@ -53,6 +57,7 @@ using namespace std;
 #include "Utilities/Singleton.h"
 #include "Utilities/Keyboard.h"
 #include "Utilities/Timer.h"
+#include "Utilities/Audio.h"
 
 #include "Render/Texture.h"
 #include "Render/Animation.h"
