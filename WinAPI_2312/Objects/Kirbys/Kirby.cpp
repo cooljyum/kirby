@@ -1,22 +1,18 @@
 #include "Framework.h"
 
-
-vector<Rect*> Kirby::colliders;
+vector<Rect*> Kirby::colliders; //전역 공격 콜라이더들 // 빼도 될듯?
 
 Kirby::Kirby() : Character()
 {
-	Texture* backTexture = Texture::Add(L"Kirby_Resources/UI/PlayerHPBottom.bmp");
-	Texture* frontTexture = Texture::Add(L"Kirby_Resources/UI/PlayerHP.bmp");
-	
-	hpBar = new ProgressBar(frontTexture, backTexture);
-	hpBar->SetPos({200,550});
+	CreateHpBar(Texture::Add(L"Kirby_Resources/UI/PlayerHP.bmp") 
+								,Texture::Add(L"Kirby_Resources/UI/PlayerHPBottom.bmp")
+								, {200.0f,550.0f}, true);
 	UpdateHp();
 
+	SetSize(SIZE);
 	size = { 70, 70 };
 	CreateActions();
 	KirbyStarBullet::CreateBullets();
-
-
 }
 
 Kirby::~Kirby()
@@ -115,6 +111,7 @@ void Kirby::Control()
 void Kirby::Attack()
 {
 	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK) return;
+
 	if (KEY->Down('F'))
 	{
 		SetAction(ATTACK, isRight);
@@ -187,23 +184,6 @@ void Kirby::CreateModeAction(ModeState mode)
 		if (curModeState == EAT || curModeState == FLY) {  
 			SetMode(DEFAULT); SetIdle();
 		}});
-
-	//actions[mode][JUMPDOWN]->GetAnimation(0)->SetEndEvent([this]() {
-	//	if (!isHit) 
-	//		SetIdle(); 
-	//	else 
-	//		//SetAction(HIT, isRight);
-	//	isHit = false;
-	//	});
-
-	//actions[mode][JUMPDOWN]->GetAnimation(1)->SetEndEvent([this]() {
-	//	if (!isHit) 
-	//		SetIdle(); 
-	//	else 
-	//		SetAction(HIT, isRight);
-	//	isHit = false;
-	//	});
-
 }
 
 void Kirby::SetIdle()
