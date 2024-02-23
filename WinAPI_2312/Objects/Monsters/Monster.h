@@ -24,7 +24,7 @@ private:
 
 	const float PATROL_STAY_TIME = 1.0f;
 	const float ATTACK_STAY_TIME = 2.0f;
-	const float DIE_STAY_TIME = 2.0f;
+	const float DIE_STAY_TIME = 0.0f;
 
 	const float GRAVITY = 980.0f;
 
