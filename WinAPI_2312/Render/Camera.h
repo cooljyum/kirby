@@ -18,6 +18,7 @@ public:
 	void SetTarget(Rect* target) { this->target = target; }
 	void SetMapRect(Rect* rect) { mapRect = rect; }
 	void SetOffset(float x, float y) { offset = { x, y }; }
+	void SetPos(float x, float y);
 
 private:
 	void FreeMode();

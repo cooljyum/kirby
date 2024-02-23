@@ -2,7 +2,6 @@
 
 KirbyHit::KirbyHit(Rect* owner) : Action(owner)
 {
-
 	leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Hit_Left.bmp", 10, 14);
 	rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Hit_Right.bmp", 10, 14);
 

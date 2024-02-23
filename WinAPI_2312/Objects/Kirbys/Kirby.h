@@ -6,7 +6,8 @@ class Kirby : public Character
 private:
 	//무적 시간 인데 Hit에서 쓸지말지 고민중
 	float INVINCIBILITY_TIME = 2.0f; 
-	Vector2 SIZE = { 70.0f,70.0f };
+
+	Vector2 SIZE = { 70.0f, 70.0f };
 
 public:
 	//커비 모드 상태

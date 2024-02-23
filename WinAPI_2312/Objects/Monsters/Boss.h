@@ -12,7 +12,9 @@ private:
 	{
 		PATROL, TRACE, ATTACK, HIT, DEAD
 	};
+	const Vector2 SIZE = { 150.0f, 100.0f };
 
+	const float PATROL_RANGE = 200.0f;
 	const float TRACE_RANGE = 700.0f;
 	const float ATTACK_RANGE = 500.0f;
 
@@ -22,13 +24,13 @@ private:
 
 	const float PATROL_STAY_TIME = 1.0f;
 	const float ATTACK_STAY_TIME = 4.0f;
-	const float PATROL_RANGE = 200.0f;
 	const float DIE_STAY_TIME = 2.0f;
+
 	const float GRAVITY = 980.0f;
 
 public:
-	Boss();
-	Boss(int type, int x, int y, int hp);
+	//Boss();
+	Boss( int x = 0, int y = 0, int hp = 100 );
 	~Boss();
 
 	void Update();
@@ -93,5 +95,5 @@ private:
 	Rect* attackCollider;
 
 	Vector2 offset = { 0,50 };
-	float startPos;
+	//float startPos;
 };

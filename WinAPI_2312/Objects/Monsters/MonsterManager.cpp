@@ -38,7 +38,8 @@ void MonsterManager::SpawnMonsters(vector<vector<int>> mapData)
 		//2는 몬스터 y
 		//3은 몬스터 체력
 
-		monsters.push_back(new Monster(mapData[y][0], mapData[y][1], mapData[y][2], mapData[y][3]));
+		int type = mapData[y][0];
+		monsters.push_back(new Monster(mapData[y][1], mapData[y][2], mapData[y][3]));
 	}
 }
 
@@ -46,6 +47,12 @@ void MonsterManager::SetTarget(Character* target)
 {
 	for (Monster*& monster : monsters)
 		monster->SetTarget(target);
+}
+
+void MonsterManager::SetLandTexture(Texture* texture)
+{
+	for (Monster*& monster : monsters)
+		monster->SetLandTexture(texture);
 }
 
 Monster* MonsterManager::Collision(Rect* rect)

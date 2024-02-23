@@ -37,56 +37,71 @@ void KirbyInhole::Render(HDC hdc)
 void KirbyInhole::Update()
 {
 	Action::Update();
+	
+	//다운 캐스팅
+	Kirby* kirby = (Kirby*)owner; // 이거 여러번 하는게 좋나욥,,?
 
+
+	//Monster
 	Monster* monster = MonsterManager::Get()->Collision(collider);
 
-	Kirby* kirby = (Kirby*)owner;
-
+	//몬스터랑 Inhole Collider랑 닿으면 
 	if (monster != nullptr) 
 	{
+		//몬스터를 사용자 쪽으로 다가가게 함
 		Vector2 monVelocity;
 		monVelocity.x = ((owner->GetPos() - monster->GetPos()).Normalized() * speed).x;
 		monVelocity = monVelocity.Normalized() * speed;
-		monster->InHaled();
 		monster->SetVelocity(monVelocity);
+
+		//몬스터 Action설정
+		monster->InHaled();
+
 		if (owner->IsCollision(monster))
 		{
-			monster->DamageHp(monster->GetHp());
+			//닿으면  
+			//Monster는 바로 Die
+			monster->DamageHp(monster->GetHp()); 
+			monster->SetActive(false);
+
+			//Kirby는 Mode 변경 //SetIdle
 			kirby->SetMode(Kirby::EAT);
 			kirby->SetIdle();
 		}
 	}
 
+	//Boss 
 	BossBullet* BossBullet = BossBullet::Collision(collider);	
 
+	//보스의 Bullet이랑 Inhole Collider랑 닿으면 
 	if (BossBullet != nullptr)
 	{
 		Vector2 monVelocity;
 		monVelocity.x = ((owner->GetPos() - BossBullet->GetPos()).Normalized()).x;
 		monVelocity = monVelocity.Normalized() * speed;
-		//BossBullet->InHaled();
+
 		BossBullet->SetVelocity(monVelocity);
 		if (owner->IsCollision(BossBullet))
 		{
-		//	BossBullet->DamageHp(BossBullet->GetHp());
 			kirby->SetMode(Kirby::EAT);
 			kirby->SetIdle();
 		}
 	}
 
+	//F키를 떼면 InHole False
 	if (KEY->Up('F'))
 	{
 		kirby->SetIdle();		
 	}
-	
-
 }
 
 void KirbyInhole::Start(bool isRight)
 {
+	//Tex Setting
 	SetTex(isRight);
 	SetState(isRight, true);
 
+	//InHole Collider Setting
 	Vector2 pos = owner->GetPos();
 	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
 	collider->SetPos({ pos.x + direction.x * 100.0f , pos.y });

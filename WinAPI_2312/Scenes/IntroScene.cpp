@@ -3,7 +3,6 @@
 
 IntroScene::IntroScene()
 {
-	//CreateFrame();
 }
 
 IntroScene::~IntroScene()
@@ -18,10 +17,11 @@ IntroScene::~IntroScene()
 
 void IntroScene::Update()
 {
-
+	//F2 누를시 Start로 전환 //테스트용 및 스킵용 
 	if (KEY->Down(VK_F2))
 		SCENE->ChangeScene("Start");
 
+	//인트로 프레임 끝나면 시작 화면 
 	if (cnt >= intros.size()) 
 	{
 		if (!openControl) 
@@ -63,11 +63,13 @@ void IntroScene::Update()
 		return;
 	}
 
+	//스페이스 누를 시 프레임 빠르게 재생
 	if (KEY->Press(VK_RETURN))
 		frameTime = FAST_FRAME_TIME;
 	else
 		frameTime = BASIC_FRAME_TIME;
 
+	//프레임 재생
 	if (time > frameTime)
 	{
 		if (cnt == intros.size() - 1)
@@ -97,8 +99,7 @@ void IntroScene::Render(HDC hdc)
 
 void IntroScene::CreateIntroFrame()
 {
-
-	//for (int i = 1; i <= 582; ++i) {
+	//Opening Setting
 	for (int i = 1; i <= 150; ++i) {
 		wstring filePath = L"Kirby_Resources/UI/Opening/opening (" + std::to_wstring(i) + L").bmp";
 		intros.push_back(new Image(filePath));
@@ -113,6 +114,7 @@ void IntroScene::CreateIntroFrame()
 
 	intros[0]->SetActive(true);
 
+	//Start Setting
 	startSelect = new Image(L"Kirby_Resources/UI/StartSelect.bmp");
 	startSelect->SetPos(startSelect->Half());
 	startSelect->SetActive(false);

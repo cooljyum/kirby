@@ -3,6 +3,8 @@
 
 KirbyJumpUp::KirbyJumpUp(Rect* owner) : KirbyJump(owner)
 {
+	//Tex, ANi Set
+	//Tex
 	Texture* leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
 	Texture* rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
 
@@ -11,9 +13,9 @@ KirbyJumpUp::KirbyJumpUp(Rect* owner) : KirbyJump(owner)
 
 	SetTexture(rightTexture);
 
-	AddAnimation(LEFT)->SetPart(78, 78);//JumpUpLeft
-	AddAnimation(RIGHT)->SetPart(78, 78);//JumpUpRight
-
+	//Ani
+	AddAnimation(LEFT)->SetPart(78, 78);
+	AddAnimation(RIGHT)->SetPart(78, 78);
 }
 
 KirbyJumpUp::~KirbyJumpUp()
@@ -22,10 +24,14 @@ KirbyJumpUp::~KirbyJumpUp()
 
 void KirbyJumpUp::Start(bool isRight)
 {
+	//Tex Setting
 	SetTex(isRight);
 	SetState(isRight, true);
 
-	if (owner->GetPos().y > owner->GetSize().y) velocity = { 0, JUMP_POWER };
+	//Jump
+	//ScreenHight Check
+	if (owner->GetPos().y > owner->GetSize().y) 
+		velocity = { 0, JUMP_POWER };
 }
 
 
@@ -33,9 +39,10 @@ void KirbyJumpUp::Jump()
 {
 	KirbyJump::Jump();
 	
-
+	//올라가다 떨어질때
 	if (velocity.y >= 0)
 	{
+		//Downcasting
 		Kirby* kirby = (Kirby*)owner;
 		kirby->SetAction(Kirby::JUMPDOWN, curState);
 	}

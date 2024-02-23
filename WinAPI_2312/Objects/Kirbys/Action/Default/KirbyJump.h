@@ -19,7 +19,4 @@ protected:
 	virtual void Jump();
 	virtual void Move();
 	virtual void Push(bool isRight);
-
-protected:
-	static int jumpCount;
 };

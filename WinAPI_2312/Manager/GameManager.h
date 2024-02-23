@@ -15,7 +15,7 @@ private:
 
 private:
 	HDC hdc = nullptr;
-
 	HDC backDC = nullptr;
+
 	HBITMAP backBitmap = nullptr;
 };

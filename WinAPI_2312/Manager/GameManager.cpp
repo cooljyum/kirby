@@ -19,13 +19,9 @@ GameManager::GameManager()
 	
 	SCENE->Add("Intro", new IntroScene());
 	SCENE->Add("Start", new MainScene()); 
-	
-	//SCENE->Add("Start", new BossScene());
 	SCENE->Add("Boss", new BossScene());
-	//SCENE->Add("Start", new MainScene());
 
 	SCENE->ChangeScene("Start");
-//	SCENE->ChangeScene("Start");
 }
 
 GameManager::~GameManager()

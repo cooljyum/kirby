@@ -206,35 +206,37 @@ void Kirby::SetAction(ActionState state, bool isRight, bool isForce)
 
 void Kirby::Collision()
 {
+	//Door
 	MapItem* door = MapItemManager::Get()->Collision("Door", this);
+
+	//When Door Touch
 	if (door != nullptr)
-	{
 		if (KEY->Down('W')) 
-		{
 			SCENE->ChangeScene("Boss");
-		}
-	}
 	
+	
+	//아 이부분 좀 이상한듯?
 	if (invincibilityTime <= 0.0f) 
 	{
 		Monster* monster = MonsterManager::Get()->Collision(this);
 		if (monster != nullptr)
 		{
+			if (curActionState == ATTACK) return;
 			if (monster->GetState() == Monster::HIT) return;
 
 			monster->DamageHp(1);
+
 			Vector2 direction = isRight ? Vector2::Right() : Vector2::Left(); 
 			Vector2 velocity = { direction.x * 800.0f,0.0f };
+
 			monster->Hit();
 			monster->SetVelocity(velocity);
-			
 			
 			DamageHp(10);
 			//isHit = true;
 			//SetAction(HIT, isRight);
 			
-			//invincibilityTime = INVINCIBILITY_TIME; //
-		
+			//invincibilityTime = INVINCIBILITY_TIME;
 		}
 	}
 	else

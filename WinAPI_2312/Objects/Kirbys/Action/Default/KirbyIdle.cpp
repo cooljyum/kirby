@@ -2,19 +2,18 @@
 
 KirbyIdle::KirbyIdle(Rect* owner) : Action(owner)
 {
+	leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
+	rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
 
-		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
-		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
+	SetTexture(rightTexture);
 
-		SetTexture(rightTexture);
+	AddAnimation(LEFT)->SetPart(0, 1, true, true);
+	AddAnimation(RIGHT)->SetPart(0, 1, true, true);
 
-		AddAnimation(LEFT)->SetPart(0, 1, true, true);
-		AddAnimation(RIGHT)->SetPart(0, 1, true, true);
+	SetState(RIGHT);
 
-		SetState(RIGHT);
-
-		GetAnimation(LEFT)->SetSpeed(0.8f);
-		GetAnimation(RIGHT)->SetSpeed(0.8f);
+	GetAnimation(LEFT)->SetSpeed(0.8f);
+	GetAnimation(RIGHT)->SetSpeed(0.8f);
 }
 
 

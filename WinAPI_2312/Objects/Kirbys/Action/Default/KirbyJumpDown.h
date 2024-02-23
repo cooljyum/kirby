@@ -8,6 +8,7 @@ public:
 
 private:
 	void Jump() override;
+
 private:
 	float landHeight;
 };

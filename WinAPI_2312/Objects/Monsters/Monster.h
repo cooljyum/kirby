@@ -12,7 +12,9 @@ private:
 	{
 		PATROL, TRACE, ATTACK, HIT, DEAD
 	};
+	const Vector2 SIZE = { 70.0f, 70.0f };
 
+	const float PATROL_RANGE = 200.0f;
 	const float TRACE_RANGE = 400.0f;
 	const float ATTACK_RANGE = 100.0f;
 
@@ -22,10 +24,12 @@ private:
 
 	const float PATROL_STAY_TIME = 1.0f;
 	const float ATTACK_STAY_TIME = 2.0f;
-	const float PATROL_RANGE = 200.0f;
+	const float DIE_STAY_TIME = 2.0f;
+
+	const float GRAVITY = 980.0f;
 
 public:
-	Monster(int type, int x, int y, int hp);
+	Monster( int x = 0, int y = 0, int hp = 100 );
 	~Monster();
 
 	void Update();
@@ -33,6 +37,8 @@ public:
 
 	void SetTarget(Character* target) { this->target = target; }
 	void SetVelocity(Vector2 velocity) { this->velocity = velocity; }
+	void SetLandTexture(Texture* texture) { this->landTexture = texture; }
+	
 	AnimationState GetState() { return curState; }
 
 	void InHaled();
@@ -65,17 +71,15 @@ private:
 
 	void SetAllActive(bool isActive); //사용자의 모든 Rect 키고 끔
 
-	
-
 private:
-	Image* image;
-
 	bool isRight = false, isStay = true;
 
 	Vector2 velocity, destPos;
+	Vector2 offset = { 0, 35 };
 
 	float stayTime = 0.0f;
 	float stayAttackTime = 0.0f;
+	float stayDieTime = 0.0f;
 
 	AnimationState curState = IDLE;
 	ActionState actionState = ActionState::PATROL;
@@ -84,6 +88,7 @@ private:
 
 	Texture* leftTexture;
 	Texture* rightTexture;
+	Texture* landTexture;
 
 	vector<Rect*> hitColliders;
 
@@ -94,5 +99,5 @@ private:
 
 	Rect* attackCollider;
 
-	Vector2 offset = { 0, 35 };
+	Image* image;
 };

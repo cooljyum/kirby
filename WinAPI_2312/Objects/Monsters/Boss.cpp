@@ -1,43 +1,60 @@
 #include "Framework.h"
 
-Boss::Boss() : Character()
+//Boss::Boss() : Character()
+//{
+//	SetSize(SIZE);
+//
+//	CreateTexture();
+//	CreateAnimation();
+//
+//	animations[IDLE][isRight]->Play();
+//
+//	traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
+//	traceRange->SetColor(YELLOW);
+//	
+//	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
+//	attackRange->SetColor(BLUE);
+//	
+//	attackCollider = new Rect(Vector2(), Vector2(200, 200));
+//	attackCollider->SetColor(RED);
+//	attackCollider->SetActive(true);
+//	
+//	startPos = pos.y;
+//
+//	BossBullet::CreateBullets();
+//}
+
+Boss::Boss(int x, int y, int hp) : Character()
 {
-	CreateTexture();
-	CreateAnimation();
-
-	animations[IDLE][isRight]->Play();
-
-	traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
-	traceRange->SetColor(YELLOW);
-	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
-	attackRange->SetColor(BLUE);
-	attackCollider = new Rect(Vector2(), Vector2(200, 200));
-	attackCollider->SetColor(RED);
-	attackCollider->SetActive(true);
-	SetSize({ 100.0f, 100.0f });
-	startPos = pos.y;
-
-	BossBullet::CreateBullets();
-}
-
-Boss::Boss(int type, int x, int y, int hp)
-{
+	//Init Set
+	SetSize(SIZE);
 	SetPos(x, y);
 	SetHp(hp);
 
+	//Tex, Ani Set
 	CreateTexture();
 	CreateAnimation();
 
+	//Ani Init Setting
 	animations[IDLE][isRight]->Play();
 
+	//Range Set
+	//Trace Range Rect
 	traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
 	traceRange->SetColor(YELLOW);
+
+	//Attack Range Rect
 	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
 	attackRange->SetColor(BLUE);
+
+	//Attack Collider
 	attackCollider = new Rect(Vector2(), Vector2(200, 200));
 	attackCollider->SetColor(RED);
 	attackCollider->SetActive(true);
-	SetSize({ 50.0f, 50.0f });
+
+	//Boss기능
+	//Bullet Create
+	BossBullet::CreateBullets();
 }
 
 Boss::~Boss()
@@ -52,11 +69,14 @@ Boss::~Boss()
 
 void Boss::Update()
 {
-	if(actionState != ActionState::ATTACK) attackCollider->SetActive(false);
+	//Attack Collider Setting false
+	attackCollider->SetActive(false);
 
+	//Action State Set & Play
 	SetActionState();
 	DoAction();
 
+	//HitColliders Erase (When Anymore No Collision )
 	for (int i = 0; i < hitColliders.size(); i++)
 	{
 		if (!hitColliders[i]->IsCollision(this))
@@ -66,27 +86,40 @@ void Boss::Update()
 		}
 	}
 
+	//Check Collision 
 	Collision();
 
+	//Move follow velocity
 	Translate(velocity * DELTA);
 
+	//curState Ani Update
 	animations[curState][isRight]->Update();
-	traceRange->SetPos(pos + offset);
-	attackRange->SetPos(pos + offset);
-
+	
+	//Rects follow this
+	//Range Rect
+	traceRange->SetPos(pos);
+	attackRange->SetPos(pos);
+	//Collider Rect
 	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
-	attackCollider->SetPos(pos + direction * 100.0f);
+	//이거 체크체크체크체크체크체크체크체크체ㅡ케츠케츠
+	attackCollider->SetPos(pos + direction * 50.0f - Vector2{ 0.0f, attackCollider->Half().y });
+	//attackCollider->SetPos(pos + direction * 100.0f);
 
+	//image follow this
 	image->SetPos(pos+ offset);
 
+	//Gravity Setting
 	velocity.y += GRAVITY * DELTA;
 
-
+	//Bottom Check Map Land
 	if (this->Bottom() > landTexture->GetPixelHeight(this->GetPos()))
 	{
 		velocity.y = 0.0f;
 		this->SetPos({ this->GetPos().x, landTexture->GetPixelHeight(this->GetPos()) - this->Half().y });
 	}
+
+	//Boss기능
+	//BossBullet 
 	BossBullet::UpdateBullets();
 }
 
@@ -98,6 +131,8 @@ void Boss::Render(HDC hdc)
 	attackCollider->CamRender(hdc);
 
 	image->CamRender(hdc, animations[curState][isRight]->GetFrame());
+
+	//Boss기능
 	BossBullet::RenderBullets(hdc);
 }
 
@@ -148,8 +183,9 @@ void Boss::Collision()
 			return;
 	}
 
-	if (this->IsCollision(target))
+	if (this->IsCollision(target)) // 보스기능
 	{
+		//어허 이거 고쳐야함 !?
 		Kirby* kirby = (Kirby*)target;
 		if (kirby->GetActionState() == Kirby::ATTACK)
 		{
@@ -159,32 +195,37 @@ void Boss::Collision()
 		}
 	}
 
-	Rect* collider = Kirby::AttackCollision(this);
+	//쓸모x //안쓸거 같은데요
+	//Rect* collider = Kirby::AttackCollision(this);
 
-	if (collider != nullptr)
-	{
-		//잠시 막아둠요
-		//velocity.x = ((target->GetPos() - pos).Normalized() * HIT_DAMAGE_SPEED).x;
-		//velocity = velocity.Normalized() * HIT_DAMAGE_SPEED;
-	}
-
+	//if (collider != nullptr)
+	//{
+	//	//잠시 막아둠요
+	//	//velocity.x = ((target->GetPos() - pos).Normalized() * HIT_DAMAGE_SPEED).x;
+	//	//velocity = velocity.Normalized() * HIT_DAMAGE_SPEED;
+	//}
+	// 
+	//Check Die
 	if (IsDie())
 		Die();
 }
 
 void Boss::CreateTexture()
 {
+	//Boss랑 Monster랑 texture가 다릅니다~
+	//Tex Set
 	leftTexture = Texture::Add(L"Kirby_Resources/Monster/Boss/Hammer_Left.bmp", 5, 4, true);
 	rightTexture = Texture::Add(L"Kirby_Resources/Monster/Boss/Hammer_Right.bmp", 5, 4, true);
 
+	//Image Set
 	image = new Image(rightTexture);
-
 	image->SetTexture(rightTexture);
 
 }
 
 void Boss::CreateAnimation()
 {
+	//ANi Resize
 	animations.resize(END);
 
 	//Idle
@@ -203,7 +244,7 @@ void Boss::CreateAnimation()
 	animations[MOVE].push_back(new Animation(rightTexture->GetFrame()));
 	animations[MOVE].back()->SetPart(4, 7, true);
 
-	//Attack
+	//Attack //Boss기능 
 	//L
 	animations[ATTACK].push_back(new Animation(leftTexture->GetFrame()));
 	animations[ATTACK].back()->SetPart(8, 13);
@@ -215,6 +256,7 @@ void Boss::CreateAnimation()
 		//BossBullet::Shot(attackCollider->GetPos() + Vector2{ -0.0f,0 }, isRight);
 		});
 	animations[ATTACK].back()->SetSpeed(0.5f);
+
 	//R		   
 	animations[ATTACK].push_back(new Animation(rightTexture->GetFrame()));
 	animations[ATTACK].back()->SetPart(8, 13);
@@ -241,7 +283,6 @@ void Boss::CreateAnimation()
 	//L
 	animations[DEAD].push_back(new Animation(leftTexture->GetFrame()));
 	animations[DEAD].back()->SetPart(17, 19);
-
 
 	//R		   
 	animations[DEAD].push_back(new Animation(rightTexture->GetFrame()));
@@ -278,15 +319,13 @@ void Boss::DoAction()
 		Attack();
 		break;
 	case ActionState::HIT:
-		velocity = {};
+	//	velocity = {};
 		break;
 	}
 }
 
 void Boss::Patrol()
 {
-	velocity.x < 0 ? isRight = false : isRight = true;
-	isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
 	if (isStay)
 	{
 		velocity = {};
@@ -297,13 +336,15 @@ void Boss::Patrol()
 		{
 			stayTime = 0.0f;
 			isStay = false;
-			SetDestPos();
+			SetDestPos(); //Auto destPos Set
 		}
 
 		SetAnimation(IDLE);
+
 		return;
 	}
 
+	//Move follow destPos
 	Vector2 direction = destPos - pos;
 
 	velocity = direction.Normalized() * PATROL_SPEED;
@@ -311,11 +352,15 @@ void Boss::Patrol()
 	if (direction.Magnitude() < 1.0f)
 		isStay = true;
 
+	//Tex, Ani Setting follow direction
+	velocity.x < 0 ? isRight = false : isRight = true;
+	isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
 	SetAnimation(MOVE);
 }
 
 void Boss::Trace()
 {
+	//Target Follow Move
 	velocity.x = ((target->GetPos() - pos).Normalized() * TRACE_SPEED).x;
 
 	SetDirectionState();
@@ -327,20 +372,18 @@ void Boss::Attack()
 {
 	if (stayAttackTime <= 0)
 	{
-		
 		stayAttackTime = ATTACK_STAY_TIME;
+		
+		//Check 필요할뜻
 		velocity = {};
 
-		velocity = { 0, -500.0f };
-
-	//	velocity.y += GRAVITY * DELTA;
+		velocity = { 0, -500.0f }; //Boss이게 다름 
 
 		SetDirectionState();
 
 		SetAnimation(ATTACK);
 
 	}
-
 	stayAttackTime -= DELTA;
 }
 
@@ -358,6 +401,7 @@ void Boss::Die()
 
 void Boss::SetDirectionState()
 {
+	//Set IsRight follow Target
 	bool isCurRight = target->GetPos().x > pos.x;
 
 	if (isCurRight != isRight)
@@ -369,6 +413,7 @@ void Boss::SetDirectionState()
 
 void Boss::SetDestPos()
 {
+	//Patrol 때 거리 설정 
 	float distance = Random(-PATROL_RANGE, +PATROL_RANGE);
 
 	destPos = pos + Vector2::Right() * distance;
@@ -383,8 +428,9 @@ void Boss::SetDestPos()
 
 void Boss::SetAllActive(bool isActive)
 {
-	this->SetActive(false);
-	this->image->SetActive(false);
-	this->traceRange->SetActive(false);
-	this->attackRange->SetActive(false);
+	//All Rect Active
+	this->SetActive(isActive);
+	this->image->SetActive(isActive);
+	this->traceRange->SetActive(isActive);
+	this->attackRange->SetActive(isActive);
 }

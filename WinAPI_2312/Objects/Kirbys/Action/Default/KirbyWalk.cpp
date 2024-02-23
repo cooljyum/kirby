@@ -2,16 +2,16 @@
 
 KirbyWalk::KirbyWalk(Rect* owner) : Action(owner)
 {
-		leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
-		rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
+	leftTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Left.bmp", 10, 14);
+	rightTexture = Texture::Add(L"Kirby_Resources/Kirby/Default_Right.bmp", 10, 14);
 
-		SetTexture(rightTexture);
+	SetTexture(rightTexture);
 
-		AddAnimation(LEFT)->SetPart(6, 15, true);
-		AddAnimation(RIGHT)->SetPart(6, 15, true);
+	AddAnimation(LEFT)->SetPart(6, 15, true);
+	AddAnimation(RIGHT)->SetPart(6, 15, true);
 
-		SetState(RIGHT);
-		SetSpeed(250.0f);
+	SetState(RIGHT);
+	SetSpeed(250.0f);
 }
 
 KirbyWalk::~KirbyWalk()
@@ -20,6 +20,7 @@ KirbyWalk::~KirbyWalk()
 
 void KirbyWalk::Update()
 {
+	//Control
 	Control();
 
 	Action::Update();

@@ -1,24 +1,32 @@
 #include "Framework.h"
 
-Monster::Monster(int type, int x, int y, int hp) : Character()
+Monster::Monster(int x, int y, int hp) : Character()
 {
-	SetSize({ 70.0f, 70.0f });
+	//Init Set
+	SetSize(SIZE);
 	SetPos(x, y - Half().y);
 	SetHp(hp);
 
+	//Tex, Ani Set
 	CreateTexture();
 	CreateAnimation();
-
+	
+	//Ani Init Setting
 	animations[IDLE][isRight]->Play();
 
-	traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
+	//Range Set
+	//Trace Range Rect
+ 	traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
 	traceRange->SetColor(YELLOW);
+	
+	//Attack Range Rect
 	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
 	attackRange->SetColor(BLUE);
+	
+	//Attack Collider
 	attackCollider = new Rect(Vector2(), Vector2(50, 50));
 	attackCollider->SetColor(RED);
 	attackCollider->SetActive(false);
-	SetSize({ 70.0f, 70.0f });
 }
 
 Monster::~Monster()
@@ -32,11 +40,14 @@ Monster::~Monster()
 
 void Monster::Update()
 {
+	//Attack Collider Setting false
 	attackCollider->SetActive(false);
 
+	//Action State Set & Play
 	SetActionState();
 	DoAction();
 
+	//HitColliders Erase (When Anymore No Collision )
 	for (int i = 0; i < hitColliders.size(); i++)
 	{
 		if (!hitColliders[i]->IsCollision(this))
@@ -46,19 +57,35 @@ void Monster::Update()
 		}
 	}
 
+	//Check Collision 
 	Collision();
-
+	
+	//Move follow velocity
 	Translate(velocity * DELTA);
 
+	//curState Ani Update
 	animations[curState][isRight]->Update();
-	traceRange->SetPos(pos );
-	attackRange->SetPos(pos );
-
+	
+	//Rects follow this
+	//Range Rect
+	traceRange->SetPos(pos);
+	attackRange->SetPos(pos);
+	//Collider Rect
 	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
 	attackCollider->SetPos(pos + direction * 50.0f - Vector2{0.0f, attackCollider->Half().y});
 
+	//image follow this
 	image->SetPos(pos + offset);
 
+	//Gravity Setting
+	velocity.y += GRAVITY * DELTA;
+
+	//Bottom Check Map Land
+	if (this->Bottom() > landTexture->GetPixelHeight(this->GetPos()))
+	{
+		velocity.y = 0.0f;
+		this->SetPos({ this->GetPos().x, landTexture->GetPixelHeight(this->GetPos()) - this->Half().y });
+	}
 }
 
 void Monster::Render(HDC hdc)
@@ -71,14 +98,13 @@ void Monster::Render(HDC hdc)
 	image->CamRender(hdc, animations[curState][isRight]->GetFrame());
 }
 
-void Monster::InHaled()
+void Monster::InHaled()//Monster 기능!
 {
 	SetAnimation(INHALED);
-	velocity = {};
-	
+	//velocity = {};
 }
 
-void Monster::Hit()
+void Monster::Hit() // 이거 쓸모 x
 {
 	SetAnimation(HIT);
 	actionState = ActionState::HIT;
@@ -130,57 +156,39 @@ void Monster::Collision()
 		if (collider == target)
 			return;
 	}
-
-	if (this->IsCollision(target)) 
-	{
-		//Kirby* kirby = (Kirby*)target;
-		//if(kirby->GetActionState() == Kirby::ATTACK )
-		//{
-		//	//this->Die();
-		//	kirby->SetMode(Kirby::EAT);
-		//	kirby->SetIdle();
-		//}
-		//else {
-		//	target->DamageHp(10); // Attack력을 나눠줘야함..
-		//	DamageHp(10);
-		//	Vector2 direction = isRight ? Vector2::Left() : Vector2::Right();
-
-		//	velocity = (direction * 1300.0f).Normalized() * HIT_DAMAGE_SPEED;
-		//	hitColliders.push_back(target);
-		//}
-	}
 	
-	Rect* collider = Kirby::AttackCollision(this);
+	//쓸모 x // 안쓸거 같은데
+	//Rect* collider = Kirby::AttackCollision(this);
 
-	if (collider != nullptr) 
-	{
-		//velocity.x = ((target->GetPos() - pos).Normalized() * HIT_DAMAGE_SPEED).x;
-		//velocity = velocity.Normalized() * HIT_DAMAGE_SPEED;
-	}
+	//if (collider != nullptr) 
+	//{
+	//	//velocity.x = ((target->GetPos() - pos).Normalized() * HIT_DAMAGE_SPEED).x;
+	//	//velocity = velocity.Normalized() * HIT_DAMAGE_SPEED;
+	//}
 
+	//Check Die
 	if (IsDie()) 
 		Die();
 }
 
 void Monster::CreateTexture()
 {
+	//Tex Set
 	leftTexture = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Left.bmp", 5, 2, true);
 	rightTexture = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Right.bmp", 5, 2, true);
 
+	//Image Set
 	image = new Image(rightTexture);
-
 	image->SetTexture(rightTexture);
-
 }
 
 void Monster::CreateAnimation()
 {
+	//ANi Resize
 	animations.resize(END);
 
 	//Idle
 	//L
-
-	rightTexture = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Right.bmp", 5, 2, true);
 	animations[IDLE].push_back(new Animation(leftTexture->GetFrame()));
 	animations[IDLE].back()->SetPart(2, 2, true);
 	//R
@@ -223,6 +231,7 @@ void Monster::CreateAnimation()
 	animations[DEAD].push_back(new Animation(rightTexture->GetFrame()));
 	animations[DEAD].back()->SetPart(9, 9);
 
+	//InHaled //Monster 기능
 	//L
 	animations[INHALED].push_back(new Animation(leftTexture->GetFrame()));
 	animations[INHALED].back()->SetPart(9, 9);
@@ -259,6 +268,7 @@ void Monster::DoAction()
 		Attack();
 		break;
 	case ActionState::HIT:
+		//Hit를 어찌하면 조흘꼬 ㅋㅋ
 		//velocity = {};
 		break;
 	}
@@ -266,36 +276,42 @@ void Monster::DoAction()
 
 void Monster::Patrol()
 {
+	//Check IsStay //가만히 있는지
 	if (isStay)
 	{
 		velocity = {};
 
 		stayTime += DELTA;
 
-		if (stayTime > PATROL_STAY_TIME)
+		if (stayTime > PATROL_STAY_TIME) 
 		{
 			stayTime = 0.0f;
 			isStay = false;
-			SetDestPos();
+			SetDestPos(); //Auto destPos Set
 		}
 
 		SetAnimation(IDLE);
+
 		return;
 	}
 
+	//Move follow destPos
 	Vector2 direction = destPos - pos;
 
 	velocity = direction.Normalized() * PATROL_SPEED;
 
 	if (direction.Magnitude() < 1.0f)
 		isStay = true;
+
+	//Tex, Ani Setting follow direction
 	velocity.x < 0 ? isRight = false : isRight = true;
 	isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
 	SetAnimation(MOVE);
 }
 
 void Monster::Trace()
-{
+{ 
+	//Target Follow Move
 	velocity.x = ((target->GetPos() - pos).Normalized() * TRACE_SPEED ).x;
 
 	SetDirectionState();
@@ -307,8 +323,11 @@ void Monster::Attack()
 {
 	if (stayAttackTime <= 0)
 	{
-		attackCollider->SetActive(true);
+		//Attack
 		stayAttackTime = ATTACK_STAY_TIME;
+
+		attackCollider->SetActive(true);
+		
 		velocity = {};
 
 		SetDirectionState();
@@ -321,12 +340,20 @@ void Monster::Attack()
 
 void Monster::Die()
 {
-	this->SetAllActive(false);
+	//Die
 	SetAnimation(DEAD);
+
+	stayDieTime += DELTA;
+	if (stayDieTime > DIE_STAY_TIME)
+	{
+		stayDieTime = 0.0f;
+		SetAllActive(false);
+	}
 }
 
 void Monster::SetDirectionState()
 {
+	//Set IsRight follow Target
 	bool isCurRight = target->GetPos().x > pos.x;
 
 	if (isCurRight != isRight)
@@ -336,8 +363,9 @@ void Monster::SetDirectionState()
 	}
 }
 
-void Monster::SetDestPos()
+void Monster::SetDestPos() 
 {
+	//Patrol 때 거리 설정 
 	float distance = Random(-PATROL_RANGE, +PATROL_RANGE);
 
 	destPos = pos + Vector2::Right() * distance;
@@ -352,8 +380,9 @@ void Monster::SetDestPos()
 
 void Monster::SetAllActive(bool isActive)
 {
-	this->SetActive(false); 
-	this->image->SetActive(false); 
-	this->traceRange->SetActive(false); 
-	this->attackRange->SetActive(false);
+	//All Rect Active
+	this->SetActive(isActive);
+	this->image->SetActive(isActive);
+	this->traceRange->SetActive(isActive);
+	this->attackRange->SetActive(isActive);
 }

@@ -16,6 +16,7 @@ public:
 public:
 	void SpawnMonsters(vector<vector<int>> mapData);
 	void SetTarget(Character* target);
+	void SetLandTexture(Texture* texture);
 
 	static void KillEnemy() { score++; }
 

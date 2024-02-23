@@ -30,9 +30,6 @@ void SceneManager::Add(string key, Scene* scene)
 		assert(false);
 	}
 
-	//scenes.insert({ key, scene });
-	//scenes.insert(make_pair(key, scene));
-	//scenes.insert(pair<string, Scene*>(key, scene));
 	scenes[key] = scene;
 }
 

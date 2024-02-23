@@ -26,6 +26,11 @@ Vector2 Camera::GetPos()
 	return rect->GetPos();
 }
 
+void Camera::SetPos(float x, float y)
+{
+	rect->SetPos(x, y);
+}
+
 void Camera::FreeMode()
 {
 	if (KEY->Press(VK_RBUTTON))
