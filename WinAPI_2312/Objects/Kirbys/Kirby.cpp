@@ -215,7 +215,7 @@ void Kirby::Collision()
 			SCENE->ChangeScene("Boss");
 	
 	
-	//아 이부분 좀 이상한듯?
+	///무력 시간 인데 뺄 수도 있음
 	if (invincibilityTime <= 0.0f) 
 	{
 		Monster* monster = MonsterManager::Get()->Collision(this);
