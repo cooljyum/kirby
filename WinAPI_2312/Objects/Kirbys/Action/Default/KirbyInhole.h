@@ -14,4 +14,6 @@ public:
 protected:
 	Rect* collider;
 
+	bool isRight;
+
 };

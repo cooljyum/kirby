@@ -33,6 +33,7 @@ void KirbyJump::Jump()
 	//Possible Repeat Jump
 	if (KEY->Down('W'))
 	{
+		SOUND->Play("Fly");
 		Kirby* kirby = (Kirby*)owner;
 
 		//When double jumping

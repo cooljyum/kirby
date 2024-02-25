@@ -4,7 +4,8 @@
 vector<BossBullet*> BossBullet::bullets;
 
 BossBullet::BossBullet() : Image(nullptr)
-{
+{ 
+	//Boss Bullet Set
 	starTexture = Texture::Add(L"Kirby_Resources/Effect/ShotEffect.bmp", 8, 1, true);
 
 	SetTexture(starTexture);
@@ -50,6 +51,8 @@ void BossBullet::Fire(Vector2 pos, bool isRight)
 	animation->Play();
 
 	SetPos(pos);
+
+	EffectManager::Get()->Play("StarEffect",this->GetPos());
 }
 
 void BossBullet::init()

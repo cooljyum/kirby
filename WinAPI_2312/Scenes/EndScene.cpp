@@ -5,7 +5,7 @@ bool EndScene::isEnd = true;
 
 EndScene::EndScene()
 {
-	SOUND->Add("EndingBgm", "Kirby_Resources/Sound/Ending.mp3", true);
+	SOUND->Add("End", "Kirby_Resources/Sound/End.wav", true);
 }
 
 EndScene::~EndScene()
@@ -64,7 +64,7 @@ void EndScene::Render(HDC hdc)
 
 void EndScene::Start()
 {
-	SOUND->Play("EndingBgm");
+	SOUND->Play("End", 0.7f);
 }
 
 void EndScene::CreateIntroFrame()
@@ -92,6 +92,11 @@ void EndScene::CreateIntroFrame()
 	gameoverImg->SetActive(false);
 
 	if (isEnd) endings[0]->SetActive(true);
+}
+
+void EndScene::CreateSound()
+{
+	SOUND->Add("End", "Kirby_Resources/Sound/End.wav", true);
 }
 
 void EndScene::CloseWindow()

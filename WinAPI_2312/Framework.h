@@ -86,8 +86,8 @@ using namespace std;
 //Monsters
 #include "Objects/Monsters/Monster.h"
 #include "Objects/Monsters/MonsterManager.h"
-#include "Objects/Monsters/Boss.h"
 #include "Objects/Monsters/BossBullet.h"
+#include "Objects/Monsters/HamerBoss.h"
 
 //Kirbys
 //------------ Action
@@ -100,6 +100,7 @@ using namespace std;
 #include "Objects/Kirbys/Action/Default/KirbySit.h"
 #include "Objects/Kirbys/Action/Default/KirbyInhole.h"
 #include "Objects/Kirbys/Action/Default/KirbyHit.h"
+#include "Objects/Kirbys/Action/Default/KirbyDie.h"
 
 //Eat
 #include "Objects/Kirbys/Action/Eat/KirbyIdleEat.h"

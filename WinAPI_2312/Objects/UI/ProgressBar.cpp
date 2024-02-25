@@ -1,8 +1,9 @@
 #include "Framework.h"
 
-ProgressBar::ProgressBar(Texture* frontTexture, Texture* backTexture)
+ProgressBar::ProgressBar(Texture* frontTexture, Texture* backTexture, bool isActive)
 	: Image(frontTexture), backTexture(backTexture)
 {
+	this->SetActive(isActive);
 }
 
 ProgressBar::~ProgressBar()
@@ -11,6 +12,8 @@ ProgressBar::~ProgressBar()
 
 void ProgressBar::Render(HDC hdc)
 {
+	if (!this->IsActive()) return;
+
 	if (backTexture)
 	{
 		backTexture->Render(hdc, this);

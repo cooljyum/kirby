@@ -7,11 +7,16 @@ public:
 	{
 		IDLE, MOVE, ATTACK, HIT, DEAD, INHALED, END
 	};
-private:
+
 	enum class ActionState
 	{
 		PATROL, TRACE, ATTACK, HIT, DEAD
 	};
+
+protected:
+	const float GRAVITY = 980.0f;
+
+private:
 	const Vector2 SIZE = { 70.0f, 70.0f };
 
 	const float PATROL_RANGE = 200.0f;
@@ -26,14 +31,12 @@ private:
 	const float ATTACK_STAY_TIME = 2.0f;
 	const float DIE_STAY_TIME = 0.0f;
 
-	const float GRAVITY = 980.0f;
-
 public:
 	Monster( int x = 0, int y = 0, int hp = 100 );
 	~Monster();
 
 	void Update();
-	void Render(HDC hdc);
+	virtual void Render(HDC hdc);
 
 	void SetTarget(Character* target) { this->target = target; }
 	void SetVelocity(Vector2 velocity) { this->velocity = velocity; }
@@ -44,34 +47,35 @@ public:
 	void InHaled();
 	void Hit();
 
-private:
+	void SetAllActive(bool isActive); 
+
+protected:
 	void SetActionState();
 
 	void SetIdle();
 
-	void Collision();
+	virtual void Collision();
 
-	void CreateTexture();
-	void CreateAnimation();
+	virtual void CreateTexture();
+	virtual void CreateAnimation();
 
 	void SetAnimation(AnimationState state);
 
-private:
-	void DoAction(); // AnimationState 따라 Action 함수 호출
+	void DoAction();
 
-	//Action 함수들
+	//Action 
 	void Patrol();
 	void Trace();
-	void Attack();
-	void Die();
 
-	void SetDirectionState(); //Target 따라서 IsRight설정
+	//virtual Fun
+	virtual void Attack();
+	virtual void Die();
 
-	void SetDestPos(); //Patrol 할때 거리설정
+	void SetDirectionState(); 
 
-	void SetAllActive(bool isActive); //사용자의 모든 Rect 키고 끔
+	void SetDestPos();
 
-private:
+protected:
 	bool isRight = false, isStay = true;
 
 	Vector2 velocity, destPos;

@@ -28,6 +28,19 @@ void MonsterManager::Render(HDC hdc)
 		monster->Render(hdc);
 }
 
+void MonsterManager::AllActive(bool isActive)
+{
+	for (Monster*& monster : monsters)
+	{
+		monster->SetAllActive(isActive);
+	}
+}
+
+void MonsterManager::Spawn(int x, int y)
+{
+	monsters.push_back(new Monster(x, y));
+}
+
 void MonsterManager::SpawnMonsters(vector<vector<int>> mapData)
 {
 	for (int y = 0; y < mapData.size(); y++)
@@ -53,6 +66,18 @@ void MonsterManager::SetLandTexture(Texture* texture)
 {
 	for (Monster*& monster : monsters)
 		monster->SetLandTexture(texture);
+}
+
+void MonsterManager::SetHitAudioKey(string key)
+{
+	for (Monster*& monster : monsters)
+		monster->SetHitAudioKey(key);
+}
+
+void MonsterManager::SetOffAllHpBar()
+{
+	for (Monster*& monster : monsters)
+		monster->SetActiveHpBar(false);
 }
 
 Monster* MonsterManager::Collision(Rect* rect)

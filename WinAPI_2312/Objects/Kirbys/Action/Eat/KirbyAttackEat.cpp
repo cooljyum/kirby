@@ -26,5 +26,16 @@ void KirbyAttackEat::Start(bool isRight)
 	SetTex(isRight);
 	SetState(isRight, true);
 
-	KirbyStarBullet::Shot(owner->GetPos(), isRight);
+	if (Kirby::isEatBullet)
+	{
+		KirbyStarBullet::Shot(owner->GetPos(), isRight);
+		EffectManager::Get()->Play("KirbyStarEffect", { isRight ? owner->GetPos().x + 50.0f : owner->GetPos().x - 50.0f, owner->GetPos().y });
+		Kirby::isEatBullet = false;
+	}
+	else 
+	{
+		SOUND->Play("Breath");
+		isRight? EffectManager::Get()->Play("KirbyBreathEffectR", { owner->GetPos().x + 50.0f, owner->GetPos().y }):
+			EffectManager::Get()->Play("KirbyBreathEffectL", { owner->GetPos().x - 50.0f, owner->GetPos().y });
+	}
 }

@@ -3,7 +3,7 @@
 class ProgressBar : public Image
 {
 public:
-	ProgressBar(Texture* frontTexture, Texture* backTexture = nullptr);
+	ProgressBar(Texture* frontTexture, Texture* backTexture = nullptr, bool isActive = true);
 	~ProgressBar();
 
 	void Render(HDC hdc);

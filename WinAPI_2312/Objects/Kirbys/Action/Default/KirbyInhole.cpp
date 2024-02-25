@@ -37,10 +37,12 @@ void KirbyInhole::Render(HDC hdc)
 void KirbyInhole::Update()
 {
 	Action::Update();
+
+	isRight ? EffectManager::Get()->Play("KirbyInhaleEffectR", { owner->GetPos().x + 100.0f, owner->GetPos().y + 50.0f })
+		: EffectManager::Get()->Play("KirbyInhaleEffectL", { owner->GetPos().x - 100.0f, owner->GetPos().y + 50.0f }) ;
 	
 	//다운 캐스팅
-	Kirby* kirby = (Kirby*)owner; // 이거 여러번 하는게 좋나욥,,?
-
+	Kirby* kirby = (Kirby*)owner; 
 
 	//Monster
 	Monster* monster = MonsterManager::Get()->Collision(collider);
@@ -59,14 +61,18 @@ void KirbyInhole::Update()
 
 		if (owner->IsCollision(monster))
 		{
+			SOUND->Stop("Attack");
+
 			//닿으면  
 			//Monster는 바로 Die
 			monster->DamageHp(monster->GetHp()); 
-			monster->SetActive(false);
+			monster->SetAllActive(false);
 
 			//Kirby는 Mode 변경 //SetIdle
 			kirby->SetMode(Kirby::EAT);
 			kirby->SetIdle();
+
+			Kirby::isEatBullet = true;
 		}
 	}
 
@@ -77,26 +83,35 @@ void KirbyInhole::Update()
 	if (BossBullet != nullptr)
 	{
 		Vector2 monVelocity;
-		monVelocity.x = ((owner->GetPos() - BossBullet->GetPos()).Normalized()).x;
-		monVelocity = monVelocity.Normalized() * speed;
-
+		monVelocity.x = ((owner->GetPos() - BossBullet->GetPos()).Normalized() ).x;
+		monVelocity = monVelocity.Normalized();
 		BossBullet->SetVelocity(monVelocity);
+
 		if (owner->IsCollision(BossBullet))
 		{
+			SOUND->Stop("Attack");
+
+			BossBullet->SetActive(false);
+
 			kirby->SetMode(Kirby::EAT);
 			kirby->SetIdle();
+			Kirby::isEatBullet = true;
 		}
 	}
 
 	//F키를 떼면 InHole False
 	if (KEY->Up('F'))
 	{
+		SOUND->Stop("Attack");
+
 		kirby->SetIdle();		
 	}
 }
 
 void KirbyInhole::Start(bool isRight)
 {
+	SOUND->Play("Attack");
+
 	//Tex Setting
 	SetTex(isRight);
 	SetState(isRight, true);
@@ -106,6 +121,8 @@ void KirbyInhole::Start(bool isRight)
 	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
 	collider->SetPos({ pos.x + direction.x * 100.0f , pos.y });
 	collider->SetActive(true);
+
+	this->isRight = isRight;
 }
 
 

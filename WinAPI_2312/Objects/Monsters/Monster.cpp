@@ -2,6 +2,11 @@
 
 Monster::Monster(int x, int y, int hp) : Character()
 {
+	//HpBar Set
+	this->CreateHpBar(Texture::Add(L"Kirby_Resources/UI/MonsterHP.bmp")
+		, Texture::Add(L"Kirby_Resources/UI/MonsterHPBottom.bmp")
+		, { 600.0f,550.0f });
+
 	//Init Set
 	SetSize(SIZE);
 	SetPos(x, y - Half().y);
@@ -31,6 +36,8 @@ Monster::Monster(int x, int y, int hp) : Character()
 
 Monster::~Monster()
 {
+	delete hpBar;
+
 	for (vector<Animation*> animationArray : animations)
 	{
 		delete animationArray[0];
@@ -40,8 +47,8 @@ Monster::~Monster()
 
 void Monster::Update()
 {
-	//Attack Collider Setting false
-	attackCollider->SetActive(false);
+	//Check Active 
+	if (!IsActive()) return;
 
 	//Action State Set & Play
 	SetActionState();
@@ -86,6 +93,13 @@ void Monster::Update()
 		velocity.y = 0.0f;
 		this->SetPos({ this->GetPos().x, landTexture->GetPixelHeight(this->GetPos()) - this->Half().y });
 	}
+
+	if (this->Left() < 0.0f)
+	{
+		this->SetPos({ this->Half().x ,this->GetPos().y });
+		return;
+	}
+
 }
 
 void Monster::Render(HDC hdc)
@@ -96,15 +110,16 @@ void Monster::Render(HDC hdc)
 	attackCollider->CamRender(hdc);
 
 	image->CamRender(hdc, animations[curState][isRight]->GetFrame());
+	
+	hpBar->Render(hdc);
 }
 
-void Monster::InHaled()//Monster 기능!
+void Monster::InHaled()
 {
 	SetAnimation(INHALED);
-	//velocity = {};
 }
 
-void Monster::Hit() // 이거 쓸모 x
+void Monster::Hit() 
 {
 	SetAnimation(HIT);
 	actionState = ActionState::HIT;
@@ -141,13 +156,20 @@ void Monster::Collision()
 
 	if (KirbyStarBullet::IsBulletsCollision(this))
 	{
-		this->DamageHp(100);
+		this->DamageHp(1);
+
+		MonsterManager::Get()->SetOffAllHpBar();
+		this->SetActiveHpBar(true);
+
 		SetAnimation(HIT);
 		actionState = ActionState::HIT;
 	}
 
 	if (attackCollider->IsCollision(target)) {
 		target->DamageHp(1);
+
+		//Attack Collider Setting false
+		attackCollider->SetActive(false);
 	}
 
 	//hit target
@@ -156,15 +178,6 @@ void Monster::Collision()
 		if (collider == target)
 			return;
 	}
-	
-	//쓸모 x // 안쓸거 같은데
-	//Rect* collider = Kirby::AttackCollision(this);
-
-	//if (collider != nullptr) 
-	//{
-	//	//velocity.x = ((target->GetPos() - pos).Normalized() * HIT_DAMAGE_SPEED).x;
-	//	//velocity = velocity.Normalized() * HIT_DAMAGE_SPEED;
-	//}
 
 	//Check Die
 	if (IsDie()) 
@@ -231,16 +244,13 @@ void Monster::CreateAnimation()
 	animations[DEAD].push_back(new Animation(rightTexture->GetFrame()));
 	animations[DEAD].back()->SetPart(9, 9);
 
-	//InHaled //Monster 기능
+	//InHaled //Monster 
 	//L
 	animations[INHALED].push_back(new Animation(leftTexture->GetFrame()));
 	animations[INHALED].back()->SetPart(9, 9);
-	//animations[INHALED].back()->SetEndEvent(bind(&Monster::SetIdle, this));
 	//R		   
 	animations[INHALED].push_back(new Animation(rightTexture->GetFrame()));
 	animations[INHALED].back()->SetPart(9, 9);
-	//animations[INHALED].back()->SetEndEvent(bind(&Monster::SetIdle, this));
-
 }
 
 void Monster::SetAnimation(AnimationState state)
@@ -267,16 +277,14 @@ void Monster::DoAction()
 	case Monster::ActionState::ATTACK:
 		Attack();
 		break;
-	case ActionState::HIT:
-		//Hit를 어찌하면 조흘꼬 ㅋㅋ
-		//velocity = {};
-		break;
 	}
 }
 
 void Monster::Patrol()
 {
-	//Check IsStay //가만히 있는지
+	this->SetActiveHpBar(false);
+
+	//Check IsStay
 	if (isStay)
 	{
 		velocity = {};
@@ -311,6 +319,8 @@ void Monster::Patrol()
 
 void Monster::Trace()
 { 
+	this->SetActiveHpBar(true);
+
 	//Target Follow Move
 	velocity.x = ((target->GetPos() - pos).Normalized() * TRACE_SPEED ).x;
 
@@ -346,6 +356,7 @@ void Monster::Die()
 	stayDieTime += DELTA;
 	if (stayDieTime > DIE_STAY_TIME)
 	{
+		SOUND->Play("MonsterDie");
 		stayDieTime = 0.0f;
 		SetAllActive(false);
 	}
@@ -365,7 +376,7 @@ void Monster::SetDirectionState()
 
 void Monster::SetDestPos() 
 {
-	//Patrol 때 거리 설정 
+	//Patrol Distance Set
 	float distance = Random(-PATROL_RANGE, +PATROL_RANGE);
 
 	destPos = pos + Vector2::Right() * distance;
@@ -385,4 +396,5 @@ void Monster::SetAllActive(bool isActive)
 	this->image->SetActive(isActive);
 	this->traceRange->SetActive(isActive);
 	this->attackRange->SetActive(isActive);
+	this->SetActiveHpBar(isActive);
 }

@@ -13,6 +13,8 @@ MainScene::MainScene()
 	//Kirby Setting 
 	kirby = new Kirby();
 	kirby->SetLandTexture(Texture::Add(L"Kirby_Resources/Map/Land.bmp"));
+	kirby->SetPos({ kirby->GetPos().x + KIRBY_START_OFFSET, kirby->GetPos().y });
+	kirby->SetHitAudioKey("Hit");
 
 	//Camera Setting
 	CAM->SetTarget(kirby);
@@ -49,18 +51,21 @@ MainScene::MainScene()
 	EffectManager::Get()->Add("BossDoorEffect", 10, dossDoorEffTex, 1.0f, true);
 	EffectManager::Get()->Play("BossDoorEffect", { 3348.0f, 320.0f });
 
-	//KirbyEffect 
-	//여기 밑에는 아직 쓸모 없음.. ㅠ //쓸모 x
-	Texture* kirbyEffect = Texture::Add(L"Kirby_Resources/Map/Effect_Right.bmp", 10, 6, true);
-	EffectManager::Get()->Add("kirbyEffect", 10, kirbyEffect, 1.0f, true);
+	//Effect Setting
+	Texture* kirbyStarEffTex = Texture::Add(L"Kirby_Resources/Effect/Effect_Right.bmp", 10, 6, true);
+	EffectManager::Get()->Add("KirbyStarEffect", 50, kirbyStarEffTex, 1.0f, false, 14, 16);
 
-	Texture* m = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Left.bmp", 5, 2, true);
-	EffectManager::Get()->Add("m", 10, m, 1.0f, true);
+	Texture* kirbyInhaleEffTexLeft = Texture::Add(L"Kirby_Resources/Effect/Effect_Inhale_Left.bmp", 5, 1, true);
+	EffectManager::Get()->Add("KirbyInhaleEffectL", 1, kirbyInhaleEffTexLeft, 1.0f, false, 0, 1);
 
-	//몬스터 위치 테스트 해본고 //쓸모 x
-	//EffectManager::Get()->Play("m", { 1450.0f, 470.0f });
-	//EffectManager::Get()->Play("m", { 2700.0f, 430.0f });
-	//EffectManager::Get()->Play("m", { 3000.0f, 420.0f });
+	Texture* kirbyInhaleEffTexRight = Texture::Add(L"Kirby_Resources/Effect/Effect_Inhale_Right.bmp", 5, 1, true);
+	EffectManager::Get()->Add("KirbyInhaleEffectR", 1, kirbyInhaleEffTexRight, 1.0f, false, 0, 1);
+
+	Texture* kirbyBreathEffTexLeft = Texture::Add(L"Kirby_Resources/Effect/Effect_Left.bmp", 10, 6, true);
+	EffectManager::Get()->Add("KirbyBreathEffectL", 1, kirbyBreathEffTexLeft, 1.5f, false, 0, 5);
+
+	Texture* kirbyBreathEffTexRight = Texture::Add(L"Kirby_Resources/Effect/Effect_Right.bmp", 10, 6, true);
+	EffectManager::Get()->Add("KirbyBreathEffectR", 1, kirbyBreathEffTexRight, 1.5f, false, 0, 5);
 
 	//Sound Setting
 	CreateSound();
@@ -94,20 +99,45 @@ void MainScene::Render(HDC hdc)
 
 	bg2->CamRender(hdc);
 
-	kirby->Render(hdc);
-
 	MonsterManager::Get()->Render(hdc);
+
+	kirby->Render(hdc);
 
 	EffectManager::Get()->Render(hdc);
 }
 
 void MainScene::CreateSound()
 {
+	//Audip
+	//Bgm
 	SOUND->Add("BGM1", "Kirby_Resources/Sound/Stage1BGM.wav", true);
+
+	//Kirby
 	SOUND->Add("Jump", "Kirby_Resources/Sound/Jump.wav");
+	SOUND->Add("Fly", "Kirby_Resources/Sound/Fly.wav");
+	SOUND->Add("Attack", "Kirby_Resources/Sound/Attack.mp3");
+	SOUND->Add("Hit", "Kirby_Resources/Sound/Hit.wav");
+	SOUND->Add("Die", "Kirby_Resources/Sound/Die.wav");
+	SOUND->Add("StarBullet", "Kirby_Resources/Sound/StarBullet.wav");
+	SOUND->Add("Breath", "Kirby_Resources/Sound/Breath.wav");
+
+	//Monster
+	SOUND->Add("MonsterDie", "Kirby_Resources/Sound/MonsterDie.wav");
+
+	//MapItem
+	SOUND->Add("Door", "Kirby_Resources/Sound/Door.wav");
+
 }
 
 void MainScene::Start()
 {
-	SOUND->Play("BGM1");
+	SOUND->Play("BGM1", 0.2f);
+
+	//MapItem
+	MapItemManager::Get()->Play("BossDoorEffect", { 3348.0f, 320.0f });
+}
+
+void MainScene::End()
+{
+	SOUND->Stop("BGM1");
 }

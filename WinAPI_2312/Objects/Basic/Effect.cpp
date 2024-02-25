@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-Effect::Effect(Texture* texture, float speed, bool loop, int imageX = -1, int imageY = -1)
+Effect::Effect(Texture* texture, float speed, bool loop, int imageX, int imageY)
 	: Image(texture)
 {
 	animation = new Animation(texture->GetFrame(), speed);
@@ -39,5 +39,5 @@ void Effect::Play(const Vector2& pos)
 
 void Effect::Stop()
 {
-	isActive = false;
+	this->isActive = false;
 }

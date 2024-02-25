@@ -13,13 +13,21 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-public:
+	void AllActive(bool isActive);
+
+	void Spawn(int x, int y);
 	void SpawnMonsters(vector<vector<int>> mapData);
+
 	void SetTarget(Character* target);
 	void SetLandTexture(Texture* texture);
+	void SetHitAudioKey(string key);
+	
+	void SetOffAllHpBar();
 
+	//static
 	static void KillEnemy() { score++; }
 
+	//Return Monster
 	Monster* Collision(Rect* rect);
 	
 private:

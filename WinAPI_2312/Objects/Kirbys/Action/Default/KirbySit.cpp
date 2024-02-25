@@ -29,4 +29,6 @@ void KirbySit::Start(bool isRight)
 {
 	SetTex(isRight);
 	SetState(isRight, true);
+
+	Kirby::isEatBullet = false;
 }

@@ -33,8 +33,15 @@ void KirbyWalk::End()
 
 void KirbyWalk::Control()
 {
+
 	if (KEY->Press('A'))
 	{
+		if (owner->Left() < 0.0f)
+		{
+			owner->SetPos({ owner->Half().x ,owner->GetPos().y });
+			return;
+		}
+
 		(KEY->Press(VK_SHIFT) && isRun) ? velocity.x = - speed * 2 : velocity.x = -speed;
 		SetState(LEFT);
 		SetTex(false);
@@ -42,13 +49,14 @@ void KirbyWalk::Control()
 	}
 	else if (KEY->Press('D'))
 	{
+
 		(KEY->Press(VK_SHIFT) && isRun)? velocity.x = + speed * 2 :  velocity.x = +speed;
 		SetState(RIGHT);
 		SetTex(true);
 		Push(true);
 	}
 
-	landHeight = landTexture->GetPixelHeight(owner->GetPos());
+	landHeight = landTexture->GetPixelHeight(owner->GetPos());	
 
 	if (owner->Bottom() < landHeight)
 	{

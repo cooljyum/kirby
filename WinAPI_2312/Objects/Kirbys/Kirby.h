@@ -19,7 +19,7 @@ public:
 	//커비 액션 상태들
 	enum ActionState
 	{
-		IDLE, WALK, SIT, ATTACK, JUMPUP, JUMPDOWN , HIT
+		IDLE, WALK, SIT, ATTACK, JUMPUP, JUMPDOWN , HIT, DIE
 	};
 	
 public :
@@ -51,10 +51,12 @@ public :
 	//Default Action
 	void SetIdle();
 
-	//Kirby Hit State // 수정 필요 ㅠ 일단 뺴둠 ..없다 생각하고 나중에 추가하던지 빼던지..
+	//Kirby Hit State
 	void Hit();
 	bool GetIsHit() { return isHit; }
 	void SetIsHit(bool isHit) { this->isHit = isHit; }
+
+	void Die();
 
 private:
 	//Collision Check
@@ -71,6 +73,7 @@ private:
 	bool isRight = true;
 
 	float invincibilityTime = 0.0f;
+	float dieStayTime = 0.0f;
 
 	map<ModeState, vector<Action*>> actions;
 
@@ -78,4 +81,7 @@ private:
 	ActionState curActionState = IDLE;
 	
 	static vector<Rect*> colliders;
+
+public:
+	static bool isEatBullet;
 };

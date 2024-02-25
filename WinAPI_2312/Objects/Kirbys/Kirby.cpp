@@ -2,8 +2,11 @@
 
 vector<Rect*> Kirby::colliders; //전역 공격 콜라이더들 // 빼도 될듯?
 
+bool Kirby::isEatBullet = false;
+
 Kirby::Kirby() : Character()
 {
+	//HpBar Set
 	CreateHpBar(Texture::Add(L"Kirby_Resources/UI/PlayerHP.bmp") 
 								,Texture::Add(L"Kirby_Resources/UI/PlayerHPBottom.bmp")
 								, {200.0f,550.0f}, true);
@@ -33,8 +36,15 @@ void Kirby::Update()
 
 	KirbyStarBullet::UpdateBullets();
 
+	//Check Die
+	if (IsDie() && curActionState != DIE)
+	{
+		if (dieStayTime <= 0.0f)
+			SetAction(Kirby::DIE, isRight);
 
-	MapItemManager::Get()->Play("BossDoorEffect", GetPos());
+		dieStayTime += DELTA;
+		return;
+	}
 }
 
 void Kirby::Render(HDC hdc)
@@ -80,15 +90,17 @@ void Kirby::Move()
 		isRight = false;
 	}
 
-	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK || curActionState == HIT) return;
+	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK || curActionState == HIT || curActionState == DIE) return;
 	isMove ?  SetAction(WALK, isRight) : SetIdle();
 }
 
 void Kirby::Control()
 {
+	if (curActionState == DIE) return;
+
 	if (KEY->Down('W') && curActionState != JUMPUP && curActionState != JUMPDOWN)
 	{
-		SOUND->Play("Jump");
+		SOUND->Play("Jump", 0.2f);
 		EffectManager::Get()->Play("kirbyEffect", pos);
 		SetAction(JUMPUP, isRight);
 	}
@@ -110,7 +122,7 @@ void Kirby::Control()
 
 void Kirby::Attack()
 {
-	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK) return;
+	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK || curActionState == DIE) return;
 
 	if (KEY->Down('F'))
 	{
@@ -123,7 +135,11 @@ void Kirby::Hit()
 {
 	SetAction(Kirby::HIT, isRight);
 	isHit = false;
+}
 
+void Kirby::Die()
+{
+	SetAction(Kirby::DIE, isRight);
 }
 
 void Kirby::CreateActions()
@@ -143,6 +159,7 @@ void Kirby::CreateModeAction(ModeState mode)
 		actions[mode].push_back(new KirbyJumpUp(this));
 		actions[mode].push_back(new KirbyJumpDown(this));
 		actions[mode].push_back(new KirbyHit(this));
+		actions[mode].push_back(new KirbyDie(this));
 	}
 	
 	if (mode == EAT) 
@@ -154,6 +171,7 @@ void Kirby::CreateModeAction(ModeState mode)
 		actions[mode].push_back(new KirbyJumpUpEat(this));
 		actions[mode].push_back(new KirbyJumpDownEat(this));
 		actions[mode].push_back(new KirbyHit(this));
+		actions[mode].push_back(new KirbyDie(this));
 	}
 
 	actions[mode][HIT]->GetAnimation(0)->SetEndEvent([this]() {
@@ -212,43 +230,44 @@ void Kirby::Collision()
 	//When Door Touch
 	if (door != nullptr)
 		if (KEY->Down('W')) 
+		{
+			SOUND->Play("Door");
+
 			SCENE->ChangeScene("Boss");
+		}
 
 	//Treasure
 	MapItem* treasure = MapItemManager::Get()->Collision("Treasure", this);
 
 	//When Door Touch
 	if (treasure != nullptr)
+		MapItemManager::Get()->Play("TreasureOpen", treasure->GetPos());
+
+	MapItem* treasureOpen = MapItemManager::Get()->Collision("TreasureOpen", this);
+
+	//When Door Touch
+	if (treasureOpen != nullptr)
 		if (KEY->Down('W'))
 			SCENE->ChangeScene("End");
 	
-	
 	///무력 시간 인데 뺄 수도 있음
-	if (invincibilityTime <= 0.0f) 
+	Monster* monster = MonsterManager::Get()->Collision(this);
+	if (monster != nullptr)
 	{
-		Monster* monster = MonsterManager::Get()->Collision(this);
-		if (monster != nullptr)
-		{
-			if (curActionState == ATTACK) return;
-			if (monster->GetState() == Monster::HIT) return;
+		if (curActionState == ATTACK) return;
+		if (monster->GetState() == Monster::HIT) return;
 
-			monster->DamageHp(1);
+		monster->DamageHp(30);
 
-			Vector2 direction = isRight ? Vector2::Right() : Vector2::Left(); 
-			Vector2 velocity = { direction.x * 800.0f,0.0f };
+		Vector2 direction = isRight ? Vector2::Right() : Vector2::Left(); 
+		Vector2 velocity = { direction.x * 800.0f,0.0f };
 
-			monster->Hit();
-			monster->SetVelocity(velocity);
+		monster->Hit();
+		monster->SetVelocity(velocity);
 			
-			DamageHp(10);
-			//isHit = true;
-			//SetAction(HIT, isRight);
-			
-			//invincibilityTime = INVINCIBILITY_TIME;
-		}
+		DamageHp(5);
 	}
-	else
-		invincibilityTime -= DELTA;
+
 }
 
 void Kirby::AddCollider(Rect* collider)

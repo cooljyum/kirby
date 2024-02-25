@@ -4,7 +4,7 @@ class EndScene : public Scene
 {
 private:
 	float BASIC_FRAME_TIME = 0.8f;
-	float FAST_FRAME_TIME = 0.3f;
+	float FAST_FRAME_TIME = 0.1f;
 public:
 	EndScene();
 	~EndScene();
@@ -14,7 +14,9 @@ public:
 
 	void Start() override; 
 
-	void CreateIntroFrame();
+	void CreateIntroFrame() override;
+	void CreateSound() override;
+
 	void CloseWindow();
 
 private:
@@ -28,5 +30,6 @@ private:
 
 	int cnt = 0;
 
+public:
 	static bool isEnd;
 };

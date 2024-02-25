@@ -135,9 +135,6 @@
     <ClInclude Include="Manager\DataManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Monsters\Boss.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\Monsters\BossBullet.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -169,6 +166,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Scenes\EndScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Monsters\HamerBoss.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Kirbys\Action\Default\KirbyDie.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -275,9 +278,6 @@
     <ClCompile Include="Objects\Monsters\MonsterManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Monsters\Boss.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\Monsters\BossBullet.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -309,6 +309,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\EndScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Monsters\HamerBoss.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Kirbys\Action\Default\KirbyDie.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

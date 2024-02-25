@@ -31,7 +31,6 @@ void KirbyStarBullet::Update()
 	Translate({ velocity.x * SPEED * DELTA, 0.0f });
 
 	animation->Update();
-
 }
 
 void KirbyStarBullet::Render(HDC hdc)
@@ -41,6 +40,8 @@ void KirbyStarBullet::Render(HDC hdc)
 
 void KirbyStarBullet::Fire(Vector2 pos, bool isRight)
 {
+	SOUND->Play("StarBullet");
+
 	isActive = true;
 	this->isRight = isRight;
 	SetTexture(starTexture);

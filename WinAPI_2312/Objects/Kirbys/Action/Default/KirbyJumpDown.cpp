@@ -48,20 +48,5 @@ void KirbyJumpDown::Jump()
 		//Kirby Idle
 		kirby->SetIdle();
 
-		//여기서 질문이 다운 캐스팅 하는데 이왕할거면 이게 낫나
-		//Downcasting
-		/*
-		Kirby* kirby = (Kirby*)owner;
-
-		kirby->SetPos({ owner->GetPos().x, landHeight - owner->Half().y });
-		kirby->SetIdle();
-		*/
-
-		//쓸모 x
-		// Hit 기능 넣다가 ..
-		//if (!kirby->GetIsHit())
-		//	kirby->SetIdle();
-		//else
-		//	kirby->Hit();
 	}
 }

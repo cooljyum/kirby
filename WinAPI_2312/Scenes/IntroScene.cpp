@@ -28,6 +28,7 @@ void IntroScene::Update()
 		{
 			if (KEY->Down('A'))
 			{
+				SOUND->Play("Btn");
 				controlSelect->SetActive(true);
 				startSelect->SetActive(false);
 				isStart = false;
@@ -35,26 +36,59 @@ void IntroScene::Update()
 
 			if (KEY->Down('D'))
 			{
+				SOUND->Play("Btn");
 				startSelect->SetActive(true); 
 				controlSelect->SetActive(false);
 				isStart = true;
 			}
 			
-			if (KEY->Down(VK_RETURN))
+			if (KEY->Down(VK_RETURN) && !isStartIntro)
 			{
-				if (isStart)
-					SCENE->ChangeScene("Start");
+				if (isStart )
+				{
+					SOUND->Play("Btn");
+					isStartIntro = true;
+				}
 				else 
 				{
+					SOUND->Play("Btn");
 					openControl = true;
 					control->SetActive(true);
 				}
+			}
+
+			if (isStartIntro)
+			{
+				//스페이스 누를 시 프레임 빠르게 재생
+				if (KEY->Press(VK_RETURN))
+					frameTime = FAST_STARTINTRO_FRAME_TIME;
+				else
+					frameTime = BASIC_STARTINTRO_FRAME_TIME;
+
+				//프레임 재생
+				if (time > frameTime)
+				{
+					if (cntStartIntro == startIntros.size() - 1)
+					{
+						SOUND->Play("Door");
+						SCENE->ChangeScene("Start");
+					}
+
+					if (cntStartIntro != 0) startIntros[cntStartIntro - 1]->SetActive(false);
+
+					startIntros[cntStartIntro]->SetActive(true);
+					cntStartIntro += 1;
+					time -= frameTime;
+				}
+
+				time += DELTA;
 			}
 		}
 		else 
 		{
 			if (KEY->Down('X'))
 			{
+				SOUND->Play("Btn");
 				control->SetActive(false);
 				openControl = false;
 			}
@@ -75,6 +109,7 @@ void IntroScene::Update()
 		if (cnt == intros.size() - 1)
 		{
 			startSelect->SetActive(true);
+			SOUND->Play("StartBgm", 1.5f);
 		}
 
 		if(cnt != 0) intros[cnt - 1]->SetActive(false);
@@ -95,6 +130,9 @@ void IntroScene::Render(HDC hdc)
 	startSelect->Render(hdc);
 	controlSelect->Render(hdc);
 	control->Render(hdc);
+
+	FOR(startIntros.size())
+		startIntros[i]->Render(hdc);
 }
 
 void IntroScene::CreateIntroFrame()
@@ -115,6 +153,19 @@ void IntroScene::CreateIntroFrame()
 
 	intros[0]->SetActive(true);
 
+	//StartIntros Setting
+	for (int i = 1; i <= 9; ++i)
+	{
+		wstring filePath = L"Kirby_Resources/UI/StartIntro/StartIntro (" + std::to_wstring(i) + L").bmp";
+		startIntros.push_back(new Image(filePath));
+	}
+
+	FOR(startIntros.size())
+	{
+		startIntros[i]->SetActive(false);
+		startIntros[i]->SetPos(startIntros[i]->Half());
+	}
+
 	//Start Setting
 	startSelect = new Image(L"Kirby_Resources/UI/StartSelect.bmp");
 	startSelect->SetPos(startSelect->Half());
@@ -128,4 +179,21 @@ void IntroScene::CreateIntroFrame()
 	control->SetPos(control->Half());
 	control->SetActive(false);
 
+
+}
+
+void IntroScene::CreateSound()
+{
+	SOUND->Add("StartBgm", "Kirby_Resources/Sound/StartBgm.mp3", true);
+	SOUND->Add("Btn", "Kirby_Resources/Sound/ButtonChoice.wav");
+}
+
+void IntroScene::Start()
+{
+	CreateSound();
+}
+
+void IntroScene::End()
+{
+	SOUND->Stop("StartBgm");
 }
