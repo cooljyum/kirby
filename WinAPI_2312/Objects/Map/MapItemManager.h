@@ -14,7 +14,9 @@ public:
 
 	void Play(string key, Vector2 pos);
 
-	void Add(string key, int poolSize, Texture* texture, float speed = 1.0f, bool isLoop = true);
+	void AllActive(bool isActive);
+
+	void Add(string key, int poolSize, Texture* texture, float speed = 1.0f, bool isLoop = true, int imageX = -1, int imageY = -1);
 
 	MapItem* Collision(string key, Rect* rect);
 private:

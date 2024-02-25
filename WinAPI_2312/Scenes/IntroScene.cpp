@@ -100,7 +100,8 @@ void IntroScene::Render(HDC hdc)
 void IntroScene::CreateIntroFrame()
 {
 	//Opening Setting
-	for (int i = 1; i <= 150; ++i) {
+	for (int i = 1; i <= 150; ++i) 
+	{
 		wstring filePath = L"Kirby_Resources/UI/Opening/opening (" + std::to_wstring(i) + L").bmp";
 		intros.push_back(new Image(filePath));
 	}

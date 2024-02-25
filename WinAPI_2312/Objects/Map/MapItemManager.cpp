@@ -42,7 +42,16 @@ void MapItemManager::Play(string key, Vector2 pos)
 	}
 }
 
-void MapItemManager::Add(string key, int poolSize, Texture* texture, float speed, bool isLoop)
+void MapItemManager::AllActive( bool isActive)
+{
+	for (pair<string, MapItems> mapItems : totalMapItem)
+	{
+		for (MapItem* mapItem : mapItems.second)
+			mapItem->SetActive(isActive);
+	}
+}
+
+void MapItemManager::Add(string key, int poolSize, Texture* texture, float speed, bool isLoop, int imageX, int imageY)
 {
 	if (totalMapItem.count(key) > 0)
 		assert(false);
@@ -51,7 +60,10 @@ void MapItemManager::Add(string key, int poolSize, Texture* texture, float speed
 
 	for (MapItem*& mapItem : mapItems)
 	{
-		mapItem = new MapItem(texture, speed, isLoop);
+		if(imageX != -1)
+			mapItem = new MapItem(texture, speed, isLoop, imageX, imageY);
+		else 
+			mapItem = new MapItem(texture, speed, isLoop);
 		mapItem->SetActive(false);
 	}
 

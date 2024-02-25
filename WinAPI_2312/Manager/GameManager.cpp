@@ -3,6 +3,7 @@
 #include "Scenes/IntroScene.h"
 #include "Scenes/MainScene.h"
 #include "Scenes/BossScene.h"
+#include "Scenes/EndScene.h"
 
 
 GameManager::GameManager()
@@ -20,8 +21,9 @@ GameManager::GameManager()
 	SCENE->Add("Intro", new IntroScene());
 	SCENE->Add("Start", new MainScene()); 
 	SCENE->Add("Boss", new BossScene());
+	SCENE->Add("End", new EndScene());
 
-	SCENE->ChangeScene("Start");
+	SCENE->ChangeScene("Boss");
 }
 
 GameManager::~GameManager()

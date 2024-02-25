@@ -1,10 +1,14 @@
 #include "Framework.h"
 
-MapItem::MapItem(Texture* texture, float speed, bool loop)
+MapItem::MapItem(Texture* texture, float speed, bool loop, int imageX, int imageY)
 	: Image(texture)
 {
 	animation = new Animation(texture->GetFrame(), speed);
-	animation->SetDefault(loop);
+
+	if (imageX != -1)
+		animation->SetPart(imageX, imageY, loop);
+	else 
+		animation->SetDefault(loop);
 }
 
 MapItem::~MapItem()

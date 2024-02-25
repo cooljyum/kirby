@@ -11,6 +11,8 @@ public:
 
 	void Start() override;
 
+	void CreateSound();
+
 private:
 	Image* bg1;
 	Image* bg2;

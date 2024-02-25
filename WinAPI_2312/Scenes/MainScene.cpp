@@ -83,7 +83,6 @@ void MainScene::Update()
 	MonsterManager::Get()->Update();
 	MapItemManager::Get()->Update();
 	EffectManager::Get()->Update();
-	MapItemManager::Get()->Update();
 }
 
 void MainScene::Render(HDC hdc)

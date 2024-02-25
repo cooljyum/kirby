@@ -34,7 +34,7 @@
 #define FOR(n) for(int i = 0 ; i < n ; i++)
 
 #include <windows.h>
-#include <string>
+#include <string>r
 #include <vector>
 #include <list>
 #include <map>
