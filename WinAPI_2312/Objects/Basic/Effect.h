@@ -3,7 +3,7 @@
 class Effect : public Image
 {
 public:
-	Effect(Texture* texture, float speed = 1.0f, bool loop = false);
+	Effect(Texture* texture, float speed = 1.0f, bool loop = false, int imageX = -1, int imageY = -1);
 	~Effect();
 
 	void Update();

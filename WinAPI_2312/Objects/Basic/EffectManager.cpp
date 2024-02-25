@@ -42,7 +42,7 @@ void EffectManager::Play(string key, Vector2 pos)
 	}
 }
 
-void EffectManager::Add(string key, int poolSize, Texture* texture, float speed, bool isLoop)
+void EffectManager::Add(string key, int poolSize, Texture* texture, float speed, bool isLoop, int imageX = -1, int imageY = -1)
 {
 	if (totalEffect.count(key) > 0)
 		assert(false);
@@ -51,7 +51,10 @@ void EffectManager::Add(string key, int poolSize, Texture* texture, float speed,
 
 	for (Effect*& effect : effects)
 	{
-		effect = new Effect(texture, speed, isLoop);
+		if (imageX != -1)
+			effect = new Effect(texture, speed, isLoop, imageX, imageY);
+		else
+			effect = new Effect(texture, speed, isLoop);
 		effect->SetActive(false);
 	}
 

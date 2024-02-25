@@ -1,10 +1,15 @@
 #include "Framework.h"
 
-Effect::Effect(Texture* texture, float speed, bool loop)
+Effect::Effect(Texture* texture, float speed, bool loop, int imageX = -1, int imageY = -1)
 	: Image(texture)
 {
 	animation = new Animation(texture->GetFrame(), speed);
-	animation->SetDefault(loop);
+
+	if (imageX != -1)
+		animation->SetPart(imageX, imageY, loop);
+	else
+		animation->SetDefault(loop);
+
 	animation->SetEndEvent(bind(&Effect::Stop, this));
 }
 
