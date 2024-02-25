@@ -4,10 +4,13 @@
 class Kirby : public Character
 {
 private:
-	//무적 시간 인데 Hit에서 쓸지말지 고민중
-	float INVINCIBILITY_TIME = 2.0f; 
 
 	Vector2 SIZE = { 70.0f, 70.0f };
+
+	int DEMAGE_MONSTER = 5;
+	int ATTACK_MONSTER = 1;
+
+	float PUSH_FORCE = 800.0f;
 
 public:
 	//커비 모드 상태
@@ -72,7 +75,6 @@ private:
 	bool isHit = false;
 	bool isRight = true;
 
-	float invincibilityTime = 0.0f;
 	float dieStayTime = 0.0f;
 
 	map<ModeState, vector<Action*>> actions;

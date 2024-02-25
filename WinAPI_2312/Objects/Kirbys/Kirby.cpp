@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-vector<Rect*> Kirby::colliders; //전역 공격 콜라이더들 // 빼도 될듯?
+vector<Rect*> Kirby::colliders;
 
 bool Kirby::isEatBullet = false;
 
@@ -13,7 +13,6 @@ Kirby::Kirby() : Character()
 	UpdateHp();
 
 	SetSize(SIZE);
-	size = { 70, 70 };
 	CreateActions();
 	KirbyStarBullet::CreateBullets();
 }
@@ -51,10 +50,6 @@ void Kirby::Render(HDC hdc)
 {
 	Rect::CamRender(hdc);
 	actions[curModeState][curActionState]->Render(hdc);
-
-	string str = "Kirby Hp : " + to_string(hp);
-
-	TextOutA(hdc, CENTER_X, 20, str.c_str(), str.size());
 
 	KirbyStarBullet::RenderBullets(hdc);
 
@@ -250,22 +245,21 @@ void Kirby::Collision()
 		if (KEY->Down('W'))
 			SCENE->ChangeScene("End");
 	
-	///무력 시간 인데 뺄 수도 있음
 	Monster* monster = MonsterManager::Get()->Collision(this);
 	if (monster != nullptr)
 	{
 		if (curActionState == ATTACK) return;
 		if (monster->GetState() == Monster::HIT) return;
 
-		monster->DamageHp(30);
+		monster->DamageHp(DEMAGE_MONSTER);
 
 		Vector2 direction = isRight ? Vector2::Right() : Vector2::Left(); 
-		Vector2 velocity = { direction.x * 800.0f,0.0f };
+		Vector2 velocity = { direction.x * PUSH_FORCE , 0.0f };
 
 		monster->Hit();
 		monster->SetVelocity(velocity);
 			
-		DamageHp(5);
+		DamageHp(ATTACK_MONSTER);
 	}
 
 }

@@ -35,8 +35,10 @@ void Timer::Update()
 
 void Timer::Render(HDC hdc)
 {
-	wstring str = L"FPS : " + to_wstring(frameRate);
-	TextOut(hdc, 0, 0, str.c_str(), (int)str.length());
-	str = L"Delta : " + to_wstring(elpasedTime);
-	TextOut(hdc, 0, 20, str.c_str(), (int)str.length());
+	//Check FPS
+	 
+	//wstring str = L"FPS : " + to_wstring(frameRate);
+	//TextOut(hdc, 0, 0, str.c_str(), (int)str.length());
+	//str = L"Delta : " + to_wstring(elpasedTime);
+	//TextOut(hdc, 0, 20, str.c_str(), (int)str.length());
 }
