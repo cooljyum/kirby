@@ -215,12 +215,10 @@ void HamerBoss::CreateAnimation()
 	//L
 	animations[DEAD].push_back(new Animation(leftTexture->GetFrame()));
 	animations[DEAD].back()->SetPart(17, 19);
-	animations[DEAD].back()->SetEndEvent([this]() { TreasureSpawn(); });
 
 	//R		   
 	animations[DEAD].push_back(new Animation(rightTexture->GetFrame()));
 	animations[DEAD].back()->SetPart(17, 19);
-	animations[DEAD].back()->SetEndEvent([this]() { TreasureSpawn(); });
 }
 
 void HamerBoss::Attack()
@@ -244,6 +242,10 @@ void HamerBoss::Die()
 	//Die
 	SetAnimation(DEAD);
 
+	Kirby* kirby = (Kirby*)target;
+	kirby->Dance();
+	SOUND->Play("KirbyEndDance", 0.1f);
+
 	velocity = {};
 
 	stayDieTime += DELTA;
@@ -252,6 +254,8 @@ void HamerBoss::Die()
 		SOUND->Play("BossDie", 0.5f);
 		stayDieTime = 0.0f;
 		SetAllActive(false);
+
+		TreasureSpawn();
 	}
 }
 
@@ -275,7 +279,7 @@ void HamerBoss::AttackEnd(bool isRight)
 	SOUND->Play("BossAttack", 0.5f);
 	attackCollider->SetActive(true);
 
-	int randomNumber = rand() % 5;
+	int randomNumber = rand() % 3;
 	if (!randomNumber)
 		MonsterSpawn();
 	else

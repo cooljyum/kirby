@@ -85,13 +85,14 @@ void Kirby::Move()
 		isRight = false;
 	}
 
-	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT || curActionState == ATTACK || curActionState == HIT || curActionState == DIE) return;
+	if (curActionState == JUMPUP || curActionState == JUMPDOWN || curActionState == SIT 
+		|| curActionState == ATTACK || curActionState == HIT || curActionState == DIE || curActionState == DANCE) return;
 	isMove ?  SetAction(WALK, isRight) : SetIdle();
 }
 
 void Kirby::Control()
 {
-	if (curActionState == DIE) return;
+	if (curActionState == DIE || curActionState == DANCE) return;
 
 	if (KEY->Down('W') && curActionState != JUMPUP && curActionState != JUMPDOWN)
 	{
@@ -155,6 +156,7 @@ void Kirby::CreateModeAction(ModeState mode)
 		actions[mode].push_back(new KirbyJumpDown(this));
 		actions[mode].push_back(new KirbyHit(this));
 		actions[mode].push_back(new KirbyDie(this));
+		actions[mode].push_back(new KirbyDance(this));
 	}
 	
 	if (mode == EAT) 
@@ -167,6 +169,7 @@ void Kirby::CreateModeAction(ModeState mode)
 		actions[mode].push_back(new KirbyJumpDownEat(this));
 		actions[mode].push_back(new KirbyHit(this));
 		actions[mode].push_back(new KirbyDie(this));
+		actions[mode].push_back(new KirbyDance(this));
 	}
 
 	actions[mode][HIT]->GetAnimation(0)->SetEndEvent([this]() {
@@ -197,6 +200,10 @@ void Kirby::CreateModeAction(ModeState mode)
 		if (curModeState == EAT || curModeState == FLY) {  
 			SetMode(DEFAULT); SetIdle();
 		}});
+
+	actions[mode][DANCE]->GetAnimation(0)->SetEndEvent([this]() {SetMode(DEFAULT); SetIdle();});
+	actions[mode][DANCE]->GetAnimation(1)->SetEndEvent([this]() {SetMode(DEFAULT); SetIdle();});
+
 }
 
 void Kirby::SetIdle()
@@ -235,15 +242,20 @@ void Kirby::Collision()
 	MapItem* treasure = MapItemManager::Get()->Collision("Treasure", this);
 
 	//When Door Touch
-	if (treasure != nullptr)
+	if (treasure != nullptr) 
+	{
+		SOUND->Play("Door");
+		treasure->SetActive(false);
 		MapItemManager::Get()->Play("TreasureOpen", treasure->GetPos());
-
+	}
 	MapItem* treasureOpen = MapItemManager::Get()->Collision("TreasureOpen", this);
 
 	//When Door Touch
 	if (treasureOpen != nullptr)
-		if (KEY->Down('W'))
+	{
+		if (KEY->Down('W')) 
 			SCENE->ChangeScene("End");
+	}
 	
 	Monster* monster = MonsterManager::Get()->Collision(this);
 	if (monster != nullptr)
@@ -278,4 +290,9 @@ Rect* Kirby::AttackCollision(Rect* rect)
 	}
 
 	return nullptr;
+}
+
+void Kirby::Dance()
+{
+	SetAction(Kirby::DANCE, isRight);
 }

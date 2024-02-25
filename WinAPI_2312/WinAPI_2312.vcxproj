@@ -142,6 +142,7 @@
     <ClInclude Include="Objects\Basic\Image.h" />
     <ClInclude Include="Objects\Basic\Rect.h" />
     <ClInclude Include="Objects\Character.h" />
+    <ClInclude Include="Objects\Kirbys\Action\Default\KirbyDance.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyDie.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyHit.h" />
     <ClInclude Include="Objects\Kirbys\Action\Default\KirbyJumpUp.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Objects\Basic\Image.cpp" />
     <ClCompile Include="Objects\Basic\Rect.cpp" />
     <ClCompile Include="Objects\Character.cpp" />
+    <ClCompile Include="Objects\Kirbys\Action\Default\KirbyDance.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyDie.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyHit.cpp" />
     <ClCompile Include="Objects\Kirbys\Action\Default\KirbyJumpUp.cpp" />

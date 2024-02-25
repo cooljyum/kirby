@@ -101,6 +101,7 @@ using namespace std;
 #include "Objects/Kirbys/Action/Default/KirbyInhole.h"
 #include "Objects/Kirbys/Action/Default/KirbyHit.h"
 #include "Objects/Kirbys/Action/Default/KirbyDie.h"
+#include "Objects/Kirbys/Action/Default/KirbyDance.h"
 
 //Eat
 #include "Objects/Kirbys/Action/Eat/KirbyIdleEat.h"

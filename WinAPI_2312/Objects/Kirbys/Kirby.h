@@ -22,7 +22,7 @@ public:
 	//커비 액션 상태들
 	enum ActionState
 	{
-		IDLE, WALK, SIT, ATTACK, JUMPUP, JUMPDOWN , HIT, DIE
+		IDLE, WALK, SIT, ATTACK, JUMPUP, JUMPDOWN , HIT, DIE, DANCE
 	};
 	
 public :
@@ -61,6 +61,8 @@ public :
 
 	void Die();
 
+	void Dance();
+
 private:
 	//Collision Check
 	void Collision();
@@ -70,6 +72,7 @@ public:
 	//Collider
 	static void AddCollider(Rect* collider);
 	static Rect* AttackCollision(Rect* rect);
+
 
 private:
 	bool isHit = false;

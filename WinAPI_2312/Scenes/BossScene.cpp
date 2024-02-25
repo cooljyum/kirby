@@ -86,4 +86,6 @@ void BossScene::CreateSound()
 	SOUND->Add("BossDie", "Kirby_Resources/Sound/BossDie.wav");
 	SOUND->Add("BossHit", "Kirby_Resources/Sound/BossHit.wav");
 	SOUND->Add("BossAttack", "Kirby_Resources/Sound/BossAttack.wav");
+
+	SOUND->Add("KirbyEndDance", "Kirby_Resources/Sound/Ending.mp3");
 }
