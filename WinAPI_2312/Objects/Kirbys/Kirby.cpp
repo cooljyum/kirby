@@ -213,6 +213,14 @@ void Kirby::Collision()
 	if (door != nullptr)
 		if (KEY->Down('W')) 
 			SCENE->ChangeScene("Boss");
+
+	//Treasure
+	MapItem* treasure = MapItemManager::Get()->Collision("Treasure", this);
+
+	//When Door Touch
+	if (treasure != nullptr)
+		if (KEY->Down('W'))
+			SCENE->ChangeScene("End");
 	
 	
 	///무력 시간 인데 뺄 수도 있음
