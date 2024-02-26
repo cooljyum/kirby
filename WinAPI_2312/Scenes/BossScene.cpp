@@ -51,7 +51,7 @@ void BossScene::Update()
 	MapItemManager::Get()->Update();
 	EffectManager::Get()->Update();
 
-	if(!SOUND->IsPlaySound("BossBgm")) SOUND->Play("BossBgm", 0.7f);
+	//if(!SOUND->IsPlaySound("BossBgm")) SOUND->Play("BossBgm", 0.7f);
 }
 
 void BossScene::Render(HDC hdc)
@@ -69,6 +69,8 @@ void BossScene::Render(HDC hdc)
 
 void BossScene::Start()
 {
+	SOUND->Stop("StartBgm");
+	SOUND->Stop("BGM1");
 	SOUND->Play("BossBgm", 0.7f);
 
 	MonsterManager::Get()->AllActive(false);

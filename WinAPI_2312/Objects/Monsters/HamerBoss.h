@@ -14,7 +14,7 @@ private:
 	const float HIT_DAMAGE_SPEED = 200.0f;
 
 	const float PATROL_STAY_TIME = 1.0f;
-	const float ATTACK_STAY_TIME = 4.0f;
+	const float ATTACK_STAY_TIME = 3.0f;
 	const float DIE_STAY_TIME = 5.0f;
 
 	const float JUMP_POWER = 500.0f;

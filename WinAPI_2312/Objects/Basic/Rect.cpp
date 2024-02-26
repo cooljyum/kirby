@@ -2,7 +2,7 @@
 #include "Rect.h"
 
 map<COLORREF, HPEN> Rect::pens;
-bool Rect::isDraw = true;
+bool Rect::isDraw = false;
 
 Rect::Rect(Vector2 pos, Vector2 size) : pos(pos), size(size)
 {

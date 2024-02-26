@@ -5,7 +5,7 @@ bool EndScene::isEnd = true;
 
 EndScene::EndScene()
 {
-	SOUND->Add("End", "Kirby_Resources/Sound/End.wav", true);
+	CreateSound();
 }
 
 EndScene::~EndScene()
@@ -64,6 +64,8 @@ void EndScene::Render(HDC hdc)
 
 void EndScene::Start()
 {
+	SOUND->Stop("BossBgm");
+	SOUND->Stop("KirbyEndDance");
 	SOUND->Play("End", 0.7f);
 }
 

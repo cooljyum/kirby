@@ -156,7 +156,7 @@ void Monster::Collision()
 
 	if (KirbyStarBullet::IsBulletsCollision(this))
 	{
-		this->DamageHp(3);
+		this->DamageHp(8);
 
 		MonsterManager::Get()->SetOffAllHpBar();
 		this->SetActiveHpBar(true);

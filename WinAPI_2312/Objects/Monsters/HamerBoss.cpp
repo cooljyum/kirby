@@ -244,7 +244,7 @@ void HamerBoss::Die()
 
 	Kirby* kirby = (Kirby*)target;
 	kirby->Dance();
-	SOUND->Play("KirbyEndDance", 0.1f);
+	SOUND->Play("KirbyEndDance", 0.5f);
 
 	velocity = {};
 
