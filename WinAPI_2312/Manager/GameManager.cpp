@@ -39,6 +39,7 @@ void GameManager::Update()
 	if (KEY->Down(VK_F3))
 		Rect::OnDraw();
 
+	SOUND->Update();
 	SCENE->Update();
 
 	CAM->Update();
