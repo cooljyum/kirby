@@ -40,6 +40,11 @@ HamerBoss::HamerBoss(int x, int y, int hp) : Monster()
 
 }
 
+HamerBoss::~HamerBoss()
+{
+	MonsterManager::Get()->AllActive(false);
+}
+
 void HamerBoss::Update()
 {
 	//Check Active 

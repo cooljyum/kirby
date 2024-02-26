@@ -7,7 +7,7 @@ private:
 
 	const float PATROL_RANGE = 200.0f;
 	const float TRACE_RANGE = 800.0f;
-	const float ATTACK_RANGE = 400.0f;
+	const float ATTACK_RANGE = 500.0f;
 
 	const float PATROL_SPEED = 50.0f;
 	const float TRACE_SPEED = 50.0f;
@@ -22,10 +22,11 @@ private:
 	const float TREASURE_OFFSET_Y = 25.0f;
 
 	const int DAMAGE_STAR = 50;
-	const int ATTACK_STAR = 30;
+	const int ATTACK_STAR = 10;
 
 public:
 	HamerBoss(int x = 0, int y = 0, int hp = 100);
+	~HamerBoss();
 
 	void Update();
 	void Render(HDC hdc) override;
