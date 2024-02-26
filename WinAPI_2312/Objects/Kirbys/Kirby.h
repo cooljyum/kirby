@@ -7,19 +7,19 @@ private:
 
 	Vector2 SIZE = { 70.0f, 70.0f };
 
-	int DEMAGE_MONSTER = 5;
-	int ATTACK_MONSTER = 1;
+	int DEMAGE_MONSTER = 1;
+	int ATTACK_MONSTER = 10;
 
 	float PUSH_FORCE = 800.0f;
 
 public:
-	//커비 모드 상태
+	//Mode State
 	enum ModeState
 	{
-		DEFAULT, EAT , FLY
+		DEFAULT, EAT 
 	};
 
-	//커비 액션 상태들
+	//Action State
 	enum ActionState
 	{
 		IDLE, WALK, SIT, ATTACK, JUMPUP, JUMPDOWN , HIT, DIE, DANCE

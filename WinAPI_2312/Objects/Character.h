@@ -15,7 +15,7 @@ public:
 	//Hp Control
 	int GetHp() { return hp; }
 
-	void SetHp(int hp) { this->hp = hp; maxHp = hp; UpdateHp();	}
+	void SetHp(int hp, bool isMax = true) { this->hp = hp; if (isMax) { maxHp = hp; } UpdateHp(); }
 
 	void HealHp(int heal) { hp -= heal; UpdateHp(); }
 	void DamageHp(int damage);

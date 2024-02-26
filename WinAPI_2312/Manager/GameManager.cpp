@@ -23,7 +23,7 @@ GameManager::GameManager()
 	SCENE->Add("Boss", new BossScene());
 	SCENE->Add("End", new EndScene());
 
-	SCENE->ChangeScene("Intro");
+	SCENE->ChangeScene("Boss");
 }
 
 GameManager::~GameManager()

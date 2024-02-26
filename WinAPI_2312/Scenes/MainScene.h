@@ -21,4 +21,6 @@ private:
 	Image* bg2;
 
 	Kirby* kirby;
+public:
+	static int kirbyHpSave;
 };

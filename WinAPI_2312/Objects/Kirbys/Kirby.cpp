@@ -1,8 +1,9 @@
 #include "Framework.h"
+#include <Scenes/MainScene.h>
 
 vector<Rect*> Kirby::colliders;
 
-bool Kirby::isEatBullet = false;
+bool Kirby::isEatBullet = false; 
 
 Kirby::Kirby() : Character()
 {
@@ -181,23 +182,23 @@ void Kirby::CreateModeAction(ModeState mode)
 		});
 	
 	actions[mode][ATTACK]->GetAnimation(0)->SetEndEvent([this]() {
-		if (curModeState == EAT || curModeState == FLY) {
+		if (curModeState == EAT ) {
 			SetMode(DEFAULT); SetIdle();
 		}});
 
 	actions[mode][ATTACK]->GetAnimation(1)->SetEndEvent([this]() {
-		if (curModeState == EAT || curModeState == FLY) {
+		if (curModeState == EAT ) {
 			SetMode(DEFAULT); SetIdle();
 		}});
 
 	
 	actions[mode][SIT]->GetAnimation(0)->SetEndEvent([this]() {
-		if (curModeState == EAT || curModeState == FLY) { 
+		if (curModeState == EAT ) { 
 			SetMode(DEFAULT); SetIdle();
 		}});
 
 	actions[mode][SIT]->GetAnimation(1)->SetEndEvent([this]() {
-		if (curModeState == EAT || curModeState == FLY) {  
+		if (curModeState == EAT ) {  
 			SetMode(DEFAULT); SetIdle();
 		}});
 
@@ -234,7 +235,7 @@ void Kirby::Collision()
 		if (KEY->Down('W')) 
 		{
 			SOUND->Play("Door");
-
+			MainScene::kirbyHpSave = GetHp();
 			SCENE->ChangeScene("Boss");
 		}
 

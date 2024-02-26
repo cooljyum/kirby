@@ -1,5 +1,6 @@
 #include "Framework.h"
 #include "BossScene.h"
+#include "MainScene.h"
 
 BossScene::BossScene()
 {
@@ -29,6 +30,7 @@ BossScene::BossScene()
 
 	Texture* starEffect = Texture::Add(L"Kirby_Resources/Effect/Effect_Right.bmp", 10, 6, true);
 	EffectManager::Get()->Add("StarEffect", 1, starEffect, 1.0f, false, 51, 59);
+	
 } 
 
 BossScene::~BossScene()
@@ -48,6 +50,8 @@ void BossScene::Update()
 
 	MapItemManager::Get()->Update();
 	EffectManager::Get()->Update();
+
+	if(!SOUND->IsPlaySound("BossBgm")) SOUND->Play("BossBgm", 0.7f);
 }
 
 void BossScene::Render(HDC hdc)
@@ -73,6 +77,8 @@ void BossScene::Start()
 	//Cam Init
 	CAM->SetPos(0, 0);
 	CAM->SetTarget(nullptr);
+
+	kirby->SetHp(MainScene::kirbyHpSave, false);
 }
 
 void BossScene::End()

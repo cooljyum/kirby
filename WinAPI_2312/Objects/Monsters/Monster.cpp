@@ -156,7 +156,7 @@ void Monster::Collision()
 
 	if (KirbyStarBullet::IsBulletsCollision(this))
 	{
-		this->DamageHp(1);
+		this->DamageHp(3);
 
 		MonsterManager::Get()->SetOffAllHpBar();
 		this->SetActiveHpBar(true);
@@ -283,6 +283,13 @@ void Monster::DoAction()
 void Monster::Patrol()
 {
 	this->SetActiveHpBar(false);
+
+	//Bottom Check Map Land
+	if (this->Bottom() > landTexture->GetPixelHeight(this->GetPos()))
+	{
+		velocity.y = 0.0f;
+		this->SetPos({ this->GetPos().x, landTexture->GetPixelHeight(this->GetPos()) - this->Half().y });
+	}
 
 	//Check IsStay
 	if (isStay)

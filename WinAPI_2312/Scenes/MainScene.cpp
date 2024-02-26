@@ -1,6 +1,8 @@
 #include "Framework.h"
 #include "MainScene.h"
 
+int MainScene::kirbyHpSave = 100;
+
 MainScene::MainScene()
 {
 	//Bg Setting
