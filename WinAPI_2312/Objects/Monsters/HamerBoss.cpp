@@ -249,17 +249,6 @@ void HamerBoss::Attack()
 
 void HamerBoss::Die()
 {
-	if (curState == DEAD) return;
-	
-	//Die
-	SetAnimation(DEAD);
-
-	Kirby* kirby = (Kirby*)target;
-	kirby->Dance();
-	SOUND->Play("KirbyEndDance", 0.5f);
-
-	velocity = {};
-
 	stayDieTime += DELTA;
 	if (stayDieTime > DIE_STAY_TIME)
 	{
@@ -269,6 +258,18 @@ void HamerBoss::Die()
 
 		TreasureSpawn();
 	}
+
+	if (curState == DEAD) return;
+
+	//Die
+	SetAnimation(DEAD);
+
+	Kirby* kirby = (Kirby*)target;
+	kirby->Dance();
+	SOUND->Stop("BossBgm");
+	SOUND->Play("KirbyEndDance", 0.5f);
+
+	velocity = {};
 }
 
 void HamerBoss::MonsterSpawn()

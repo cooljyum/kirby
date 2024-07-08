@@ -2,410 +2,399 @@
 
 Monster::Monster(int x, int y, int hp) : Character()
 {
-	//HpBar Set
-	this->CreateHpBar(Texture::Add(L"Kirby_Resources/UI/MonsterHP.bmp")
-		, Texture::Add(L"Kirby_Resources/UI/MonsterHPBottom.bmp")
-		, { 600.0f,550.0f });
+    // HP 바 설정
+    this->CreateHpBar(Texture::Add(L"Kirby_Resources/UI/MonsterHP.bmp")
+        , Texture::Add(L"Kirby_Resources/UI/MonsterHPBottom.bmp")
+        , { 600.0f,550.0f });
 
-	//Init Set
-	SetSize(SIZE);
-	SetPos(x, y - Half().y);
-	SetHp(hp);
+    // 초기 설정
+    SetSize(SIZE);
+    SetPos(x, y - Half().y);
+    SetHp(hp);
 
-	//Tex, Ani Set
-	CreateTexture();
-	CreateAnimation();
-	
-	//Ani Init Setting
-	animations[IDLE][isRight]->Play();
+    // 텍스처 및 애니메이션 설정
+    CreateTexture();
+    CreateAnimation();
 
-	//Range Set
-	//Trace Range Rect
- 	traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
-	traceRange->SetColor(YELLOW);
-	
-	//Attack Range Rect
-	attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
-	attackRange->SetColor(BLUE);
-	
-	//Attack Collider
-	attackCollider = new Rect(Vector2(), Vector2(50, 50));
-	attackCollider->SetColor(RED);
-	attackCollider->SetActive(false);
+    // 애니메이션 초기 설정
+    animations[IDLE][isRight]->Play();
+
+    // 범위 설정
+    // 추적 범위 사각형
+    traceRange = new Rect(Vector2(), Vector2(TRACE_RANGE, TRACE_RANGE));
+    traceRange->SetColor(YELLOW);
+
+    // 공격 범위 사각형
+    attackRange = new Rect(Vector2(), Vector2(ATTACK_RANGE, ATTACK_RANGE));
+    attackRange->SetColor(BLUE);
+
+    // 공격 충돌체
+    attackCollider = new Rect(Vector2(), Vector2(50, 50));
+    attackCollider->SetColor(RED);
+    attackCollider->SetActive(false);
 }
 
 Monster::~Monster()
 {
-	delete hpBar;
+    delete hpBar;
 
-	for (vector<Animation*> animationArray : animations)
-	{
-		delete animationArray[0];
-		delete animationArray[1];
-	}
+    for (vector<Animation*> animationArray : animations)
+    {
+        delete animationArray[0];
+        delete animationArray[1];
+    }
 }
 
 void Monster::Update()
 {
-	//Check Active 
-	if (!IsActive()) return;
+    // 활성 상태 확인
+    if (!IsActive()) return;
 
-	//Action State Set & Play
-	SetActionState();
-	DoAction();
+    // 행동 상태 설정 및 실행
+    SetActionState();
+    DoAction();
 
-	//HitColliders Erase (When Anymore No Collision )
-	for (int i = 0; i < hitColliders.size(); i++)
-	{
-		if (!hitColliders[i]->IsCollision(this))
-		{
-			hitColliders.erase(hitColliders.begin() + i);
-			break;
-		}
-	}
+    // 충돌 해제된 히트 충돌체 제거
+    for (int i = 0; i < hitColliders.size(); i++)
+    {
+        if (!hitColliders[i]->IsCollision(this))
+        {
+            hitColliders.erase(hitColliders.begin() + i);
+            break;
+        }
+    }
 
-	//Check Collision 
-	Collision();
-	
-	//Move follow velocity
-	Translate(velocity * DELTA);
+    // 충돌 확인
+    Collision();
 
-	//curState Ani Update
-	animations[curState][isRight]->Update();
-	
-	//Rects follow this
-	//Range Rect
-	traceRange->SetPos(pos);
-	attackRange->SetPos(pos);
-	//Collider Rect
-	Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
-	attackCollider->SetPos(pos + direction * 50.0f - Vector2{0.0f, attackCollider->Half().y});
+    // 속도에 따라 이동
+    Translate(velocity * DELTA);
 
-	//image follow this
-	image->SetPos(pos + offset);
+    // 현재 상태 애니메이션 업데이트
+    animations[curState][isRight]->Update();
 
-	//Gravity Setting
-	velocity.y += GRAVITY * DELTA;
+    // 사각형 위치 업데이트
+    traceRange->SetPos(pos);
+    attackRange->SetPos(pos);
 
-	//Bottom Check Map Land
-	if (this->Bottom() > landTexture->GetPixelHeight(this->GetPos()))
-	{
-		velocity.y = 0.0f;
-		this->SetPos({ this->GetPos().x, landTexture->GetPixelHeight(this->GetPos()) - this->Half().y });
-	}
+    // 충돌체 위치 업데이트
+    Vector2 direction = isRight ? Vector2::Right() : Vector2::Left();
+    attackCollider->SetPos(pos + direction * 50.0f - Vector2{ 0.0f, attackCollider->Half().y });
 
-	if (this->Left() < 0.0f)
-	{
-		this->SetPos({ this->Half().x ,this->GetPos().y });
-		return;
-	}
+    // 이미지 위치 업데이트
+    image->SetPos(pos + offset);
 
+    // 중력 설정
+    velocity.y += GRAVITY * DELTA;
+
+    float bottom = this->Bottom();
+    float pos = landTexture->GetPixelHeight(this->GetPos());
+    // 바닥 지형 충돌 확인 및 위치 조정
+    if (this->Bottom() > landTexture->GetPixelHeight(this->GetPos()))
+    {
+        velocity.y = 0.0f;
+        this->SetPos({ this->GetPos().x, landTexture->GetPixelHeight(this->GetPos()) - this->Half().y });
+    }
+
+    // 화면 경계 충돌 확인 및 위치 조정
+    if (this->Left() < 0.0f)
+    {
+        this->SetPos({ this->Half().x ,this->GetPos().y });
+        return;
+    }
 }
 
 void Monster::Render(HDC hdc)
 {
-	CamRender(hdc);
-	traceRange->CamRender(hdc);
-	attackRange->CamRender(hdc);
-	attackCollider->CamRender(hdc);
+    CamRender(hdc);
+    traceRange->CamRender(hdc);
+    attackRange->CamRender(hdc);
+    attackCollider->CamRender(hdc);
 
-	image->CamRender(hdc, animations[curState][isRight]->GetFrame());
-	
-	hpBar->Render(hdc);
+    image->CamRender(hdc, animations[curState][isRight]->GetFrame());
+
+    hpBar->Render(hdc);
 }
 
 void Monster::InHaled()
 {
-	SetAnimation(INHALED);
+    SetAnimation(INHALED);
 }
 
-void Monster::Hit() 
+void Monster::Hit()
 {
-	SetAnimation(HIT);
-	actionState = ActionState::HIT;
+    SetAnimation(HIT);
+    actionState = ActionState::HIT;
 }
 
 void Monster::SetActionState()
 {
-	if (actionState == ActionState::HIT) return;
+    if (actionState == ActionState::HIT) return;
 
-	if (attackRange->IsCollision(target))
-	{
-		actionState = ActionState::ATTACK;
-	}
-	else if (traceRange->IsCollision(target))
-	{
-		actionState = ActionState::TRACE;
-	}
-	else
-	{
-		actionState = ActionState::PATROL;
-	}
+    if (attackRange->IsCollision(target))
+    {
+        actionState = ActionState::ATTACK;
+    }
+    else if (traceRange->IsCollision(target))
+    {
+        actionState = ActionState::TRACE;
+    }
+    else
+    {
+        actionState = ActionState::PATROL;
+    }
 }
 
 void Monster::SetIdle()
 {
-	SetAnimation(IDLE);
-	actionState = ActionState::PATROL;
+    SetAnimation(IDLE);
+    actionState = ActionState::PATROL;
 }
 
 void Monster::Collision()
 {
-	if (curState == HIT)
-		return;
+    if (curState == HIT)
+        return;
 
-	if (KirbyStarBullet::IsBulletsCollision(this))
-	{
-		this->DamageHp(8);
+    if (KirbyStarBullet::IsBulletsCollision(this))
+    {
+        this->DamageHp(8);
 
-		MonsterManager::Get()->SetOffAllHpBar();
-		this->SetActiveHpBar(true);
+        MonsterManager::Get()->SetOffAllHpBar();
+        this->SetActiveHpBar(true);
 
-		SetAnimation(HIT);
-		actionState = ActionState::HIT;
-	}
+        SetAnimation(HIT);
+        actionState = ActionState::HIT;
+    }
 
-	if (attackCollider->IsCollision(target)) 
-	{
-		target->DamageHp(1);
+    if (attackCollider->IsCollision(target))
+    {
+        target->DamageHp(1);
 
-		Kirby* kirby = (Kirby*)target;
-		kirby->Hit();
+        Kirby* kirby = (Kirby*)target;
+        kirby->Hit();
 
-		//Attack Collider Setting false
-		attackCollider->SetActive(false);
-	}
+        // 공격 충돌체 비활성화
+        attackCollider->SetActive(false);
+    }
 
-	//hit target
-	for (Rect* collider : hitColliders)
-	{
-		if (collider == target)
-			return;
-	}
+    // 히트 타겟 확인
+    for (Rect* collider : hitColliders)
+    {
+        if (collider == target)
+            return;
+    }
 
-	//Check Die
-	if (IsDie()) 
-		Die();
+    // 사망 확인
+    if (IsDie())
+        Die();
 }
 
 void Monster::CreateTexture()
 {
-	//Tex Set
-	leftTexture = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Left.bmp", 5, 2, true);
-	rightTexture = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Right.bmp", 5, 2, true);
+    // 텍스처 설정
+    leftTexture = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Left.bmp", 5, 2, true);
+    rightTexture = Texture::Add(L"Kirby_Resources/Monster/WaddleDee_Right.bmp", 5, 2, true);
 
-	//Image Set
-	image = new Image(rightTexture);
-	image->SetTexture(rightTexture);
+    // 이미지 설정
+    image = new Image(rightTexture);
+    image->SetTexture(rightTexture);
 }
 
 void Monster::CreateAnimation()
 {
-	//ANi Resize
-	animations.resize(END);
+    // 애니메이션 리사이즈
+    animations.resize(END);
 
-	//Idle
-	//L
-	animations[IDLE].push_back(new Animation(leftTexture->GetFrame()));
-	animations[IDLE].back()->SetPart(2, 2, true);
-	//R
-	animations[IDLE].push_back(new Animation(rightTexture->GetFrame()));
-	animations[IDLE].back()->SetPart(2, 2, true);
+    // 정지 애니메이션
+    animations[IDLE].push_back(new Animation(leftTexture->GetFrame()));
+    animations[IDLE].back()->SetPart(2, 2, true);
+    animations[IDLE].push_back(new Animation(rightTexture->GetFrame()));
+    animations[IDLE].back()->SetPart(2, 2, true);
 
-	//Move
-	//L
-	animations[MOVE].push_back(new Animation(leftTexture->GetFrame()));
-	animations[MOVE].back()->SetPart(4, 1, true);
-	//R
-	animations[MOVE].push_back(new Animation(rightTexture->GetFrame()));
-	animations[MOVE].back()->SetPart(4, 1, true);
+    // 이동 애니메이션
+    animations[MOVE].push_back(new Animation(leftTexture->GetFrame()));
+    animations[MOVE].back()->SetPart(4, 1, true);
+    animations[MOVE].push_back(new Animation(rightTexture->GetFrame()));
+    animations[MOVE].back()->SetPart(4, 1, true);
 
-	//Attack
-	//L
-	animations[ATTACK].push_back(new Animation(leftTexture->GetFrame()));
-	animations[ATTACK].back()->SetPart(5, 9);
-	animations[ATTACK].back()->SetEndEvent(bind(&Monster::SetIdle, this));
-	//R		   
-	animations[ATTACK].push_back(new Animation(rightTexture->GetFrame()));
-	animations[ATTACK].back()->SetPart(5, 9);
-	animations[ATTACK].back()->SetEndEvent(bind(&Monster::SetIdle, this));
-	
-	//Hit
-	//L
-	animations[HIT].push_back(new Animation(leftTexture->GetFrame()));
-	animations[HIT].back()->SetPart(9, 9);
-	animations[HIT].back()->SetEndEvent(bind(&Monster::SetIdle, this));
-	//R		   
-	animations[HIT].push_back(new Animation(rightTexture->GetFrame()));
-	animations[HIT].back()->SetPart(9, 9);
-	animations[HIT].back()->SetEndEvent(bind(&Monster::SetIdle, this));
+    // 공격 애니메이션
+    animations[ATTACK].push_back(new Animation(leftTexture->GetFrame()));
+    animations[ATTACK].back()->SetPart(5, 9);
+    animations[ATTACK].back()->SetEndEvent(bind(&Monster::SetIdle, this));
+    animations[ATTACK].push_back(new Animation(rightTexture->GetFrame()));
+    animations[ATTACK].back()->SetPart(5, 9);
+    animations[ATTACK].back()->SetEndEvent(bind(&Monster::SetIdle, this));
 
-	//Dead
-	//L
-	animations[DEAD].push_back(new Animation(leftTexture->GetFrame()));
-	animations[DEAD].back()->SetPart(9, 9);
-	//R		   
-	animations[DEAD].push_back(new Animation(rightTexture->GetFrame()));
-	animations[DEAD].back()->SetPart(9, 9);
+    // 히트 애니메이션
+    animations[HIT].push_back(new Animation(leftTexture->GetFrame()));
+    animations[HIT].back()->SetPart(9, 9);
+    animations[HIT].back()->SetEndEvent(bind(&Monster::SetIdle, this));
+    animations[HIT].push_back(new Animation(rightTexture->GetFrame()));
+    animations[HIT].back()->SetPart(9, 9);
+    animations[HIT].back()->SetEndEvent(bind(&Monster::SetIdle, this));
 
-	//InHaled //Monster 
-	//L
-	animations[INHALED].push_back(new Animation(leftTexture->GetFrame()));
-	animations[INHALED].back()->SetPart(9, 9);
-	//R		   
-	animations[INHALED].push_back(new Animation(rightTexture->GetFrame()));
-	animations[INHALED].back()->SetPart(9, 9);
+    // 사망 애니메이션
+    animations[DEAD].push_back(new Animation(leftTexture->GetFrame()));
+    animations[DEAD].back()->SetPart(9, 9);
+    animations[DEAD].push_back(new Animation(rightTexture->GetFrame()));
+    animations[DEAD].back()->SetPart(9, 9);
+
+    // 흡입 애니메이션
+    animations[INHALED].push_back(new Animation(leftTexture->GetFrame()));
+    animations[INHALED].back()->SetPart(9, 9);
+    animations[INHALED].push_back(new Animation(rightTexture->GetFrame()));
+    animations[INHALED].back()->SetPart(9, 9);
 }
 
 void Monster::SetAnimation(AnimationState state)
 {
-	if (curState == state) return;
+    if (curState == state) return;
 
-	curState = state;
-	isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
-	animations[state][isRight]->Play();
+    curState = state;
+    isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
+    animations[state][isRight]->Play();
 }
 
 void Monster::DoAction()
 {
-	if (curState == INHALED) return;
+    if (curState == INHALED) return;
 
-	switch (actionState)
-	{
-	case Monster::ActionState::PATROL:
-		Patrol();
-		break;
-	case Monster::ActionState::TRACE:
-		Trace();
-		break;
-	case Monster::ActionState::ATTACK:
-		Attack();
-		break;
-	}
+    switch (actionState)
+    {
+    case Monster::ActionState::PATROL:
+        Patrol();
+        break;
+    case Monster::ActionState::TRACE:
+        Trace();
+        break;
+    case Monster::ActionState::ATTACK:
+        Attack();
+        break;
+    }
 }
 
 void Monster::Patrol()
 {
-	this->SetActiveHpBar(false);
+    this->SetActiveHpBar(false);
 
-	//Bottom Check Map Land
-	if (this->Bottom() > landTexture->GetPixelHeight(this->GetPos()))
-	{
-		velocity.y = 0.0f;
-		this->SetPos({ this->GetPos().x, landTexture->GetPixelHeight(this->GetPos()) - this->Half().y });
-	}
+    // 정지 상태 확인
+    if (isStay)
+    {
+        velocity.x = 0.0f;
 
-	//Check IsStay
-	if (isStay)
-	{
-		velocity = {};
+        stayTime += DELTA;
 
-		stayTime += DELTA;
+        if (stayTime > PATROL_STAY_TIME)
+        {
+            stayTime = 0.0f;
+            isStay = false;
+            SetDestPos(); // 목적지 자동 설정
+        }
 
-		if (stayTime > PATROL_STAY_TIME) 
-		{
-			stayTime = 0.0f;
-			isStay = false;
-			SetDestPos(); //Auto destPos Set
-		}
+        SetAnimation(IDLE);
 
-		SetAnimation(IDLE);
+        return;
+    }
 
-		return;
-	}
+    // 목적지를 향해 이동
+    Vector2 direction = destPos - pos;
+    velocity.x = direction.Normalized().x * PATROL_SPEED;
 
-	//Move follow destPos
-	Vector2 direction = destPos - pos;
-
-	velocity = direction.Normalized() * PATROL_SPEED;
-
-	if (direction.Magnitude() < 1.0f)
-		isStay = true;
-
-	//Tex, Ani Setting follow direction
-	velocity.x < 0 ? isRight = false : isRight = true;
-	isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
-	SetAnimation(MOVE);
+    // 일정 거리 이내에 도달하면 정지 상태로 전환
+    constexpr float EPSILON = 2.0f;
+    if (direction.Magnitude() < EPSILON)
+    {
+        isStay = true;
+        velocity.x = 0.0f; // 속도 초기화
+    }
+    else 
+    {
+        // 방향에 따라 텍스처 및 애니메이션 설정
+        isRight = velocity.x >= 0;
+        isRight ? image->SetTexture(rightTexture) : image->SetTexture(leftTexture);
+        SetAnimation(MOVE);
+    }
 }
 
 void Monster::Trace()
-{ 
-	this->SetActiveHpBar(true);
+{
+    this->SetActiveHpBar(true);
 
-	//Target Follow Move
-	velocity.x = ((target->GetPos() - pos).Normalized() * TRACE_SPEED ).x;
+    // 타겟을 향해 이동
+    velocity.x = ((target->GetPos() - pos).Normalized() * TRACE_SPEED).x;
 
-	SetDirectionState();
+    SetDirectionState();
 
-	SetAnimation(MOVE);
+    SetAnimation(MOVE);
 }
 
 void Monster::Attack()
 {
-	if (stayAttackTime <= 0)
-	{
-		//Attack
-		stayAttackTime = ATTACK_STAY_TIME;
+    if (stayAttackTime <= 0)
+    {
+        // 공격
+        stayAttackTime = ATTACK_STAY_TIME;
 
-		attackCollider->SetActive(true);
-		
-		velocity = {};
+        attackCollider->SetActive(true);
 
-		SetDirectionState();
+        velocity = {};
 
-		SetAnimation(ATTACK);
-	}
-	stayAttackTime -= DELTA;
-	
+        SetDirectionState();
+
+        SetAnimation(ATTACK);
+    }
+    stayAttackTime -= DELTA;
 }
 
 void Monster::Die()
 {
-	//Die
-	SetAnimation(DEAD);
+    // 사망
+    SetAnimation(DEAD);
 
-	stayDieTime += DELTA;
-	if (stayDieTime > DIE_STAY_TIME)
-	{
-		SOUND->Play("MonsterDie");
-		stayDieTime = 0.0f;
-		SetAllActive(false);
-	}
+    stayDieTime += DELTA;
+    if (stayDieTime > DIE_STAY_TIME)
+    {
+        SOUND->Play("MonsterDie");
+        stayDieTime = 0.0f;
+        SetAllActive(false);
+    }
 }
 
 void Monster::SetDirectionState()
 {
-	//Set IsRight follow Target
-	bool isCurRight = target->GetPos().x > pos.x;
+    // 타겟의 위치에 따라 방향 설정
+    bool isCurRight = target->GetPos().x > pos.x;
 
-	if (isCurRight != isRight)
-	{
-		isRight = isCurRight;
-		SetAnimation(IDLE);
-	}
+    if (isCurRight != isRight)
+    {
+        isRight = isCurRight;
+        SetAnimation(IDLE);
+    }
 }
 
-void Monster::SetDestPos() 
+void Monster::SetDestPos()
 {
-	//Patrol Distance Set
-	float distance = Random(-PATROL_RANGE, +PATROL_RANGE);
+    // 패트롤 거리 설정
+    float distance = Random(-PATROL_RANGE, +PATROL_RANGE);
 
-	destPos = pos + Vector2::Right() * distance;
+    destPos = pos + Vector2::Right() * distance;
 
-	if (destPos.x > SCREEN_WIDTH - Half().x)
-		destPos.x = SCREEN_WIDTH - Half().x;
-	if (destPos.x < Half().x)
-		destPos.x = Half().x;
+    // 화면 경계 내에서 위치 조정
+    if (destPos.x > SCREEN_WIDTH - Half().x)
+        destPos.x = SCREEN_WIDTH - Half().x;
+    if (destPos.x < Half().x)
+        destPos.x = Half().x;
 
-	isRight = distance > 0.0f;
+    isRight = distance > 0.0f;
 }
 
 void Monster::SetAllActive(bool isActive)
 {
-	//All Rect Active
-	this->SetActive(isActive);
-	this->image->SetActive(isActive);
-	this->traceRange->SetActive(isActive);
-	this->attackRange->SetActive(isActive);
-	this->SetActiveHpBar(isActive);
+    // 모든 사각형 활성화
+    this->SetActive(isActive);
+    this->image->SetActive(isActive);
+    this->traceRange->SetActive(isActive);
+    this->attackRange->SetActive(isActive);
+    this->SetActiveHpBar(isActive);
 }

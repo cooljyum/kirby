@@ -34,7 +34,7 @@ void KirbyDance::Start(bool isRight)
 	SetState(isRight, true);
 
 	clearUI->SetActive(true);
-	clearUI->SetPos({ this->GetPos().x,this->GetPos().y + 100.0f });
+	clearUI->SetPos({ this->GetPos().x,this->GetPos().y - 100.0f });
 
 	EffectManager::Get()->Play("StarEffect", this->GetPos());
 }
