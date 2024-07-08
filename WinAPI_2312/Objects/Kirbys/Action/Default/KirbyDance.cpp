@@ -12,8 +12,8 @@ KirbyDance::KirbyDance(Rect* owner) : Action(owner)
 
 	SetState(RIGHT);
 
-	GetAnimation(LEFT)->SetSpeed(1.5f);
-	GetAnimation(RIGHT)->SetSpeed(1.5f);
+	GetAnimation(LEFT)->SetSpeed(2.0f);
+	GetAnimation(RIGHT)->SetSpeed(2.0f);
 	clearUI = new Image(L"Kirby_Resources/UI/ClearUI.bmp");
 }
 
@@ -34,7 +34,7 @@ void KirbyDance::Start(bool isRight)
 	SetState(isRight, true);
 
 	clearUI->SetActive(true);
-	clearUI->SetPos({ this->GetPos().x,this->GetPos().y - 50.0f });
+	clearUI->SetPos({ this->GetPos().x,this->GetPos().y + 100.0f });
 
 	EffectManager::Get()->Play("StarEffect", this->GetPos());
 }

@@ -165,8 +165,12 @@ void Monster::Collision()
 		actionState = ActionState::HIT;
 	}
 
-	if (attackCollider->IsCollision(target)) {
+	if (attackCollider->IsCollision(target)) 
+	{
 		target->DamageHp(1);
+
+		Kirby* kirby = (Kirby*)target;
+		kirby->Hit();
 
 		//Attack Collider Setting false
 		attackCollider->SetActive(false);
@@ -264,7 +268,7 @@ void Monster::SetAnimation(AnimationState state)
 
 void Monster::DoAction()
 {
-	if ( curState == INHALED ) return;
+	if (curState == INHALED) return;
 
 	switch (actionState)
 	{

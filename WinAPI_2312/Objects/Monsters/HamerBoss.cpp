@@ -106,9 +106,9 @@ void HamerBoss::Update()
 	//AttackColliderStay Check
 	if (attackCollider->IsActive()) 
 	{
-		if (attackColliderTime >= DELTA) 
+		if (attackColliderTime >= ATTACK_STAY_TIME)
 		{
-			attackColliderTime -= DELTA;
+			attackColliderTime -= ATTACK_STAY_TIME;
 			attackCollider->SetActive(false);
 		}
 		else
@@ -141,8 +141,13 @@ void HamerBoss::Collision()
 	}
 
 	//AttackCollider & target collision
-	if (attackCollider->IsCollision(target)) {
+	if (attackCollider->IsCollision(target)) 
+	{
 		target->DamageHp(ATTACK_STAR);
+
+		Kirby* kirby = (Kirby*)target;
+		kirby->Hit();
+
 		attackCollider->SetActive(false);
 	}
 
@@ -244,6 +249,8 @@ void HamerBoss::Attack()
 
 void HamerBoss::Die()
 {
+	if (curState == DEAD) return;
+	
 	//Die
 	SetAnimation(DEAD);
 

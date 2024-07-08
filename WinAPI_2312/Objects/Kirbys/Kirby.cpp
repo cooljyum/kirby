@@ -222,7 +222,6 @@ void Kirby::SetAction(ActionState state, bool isRight, bool isForce)
 	actions[curModeState][curActionState]->End();
 	curActionState = state;
 	actions[curModeState][state]->Start(isRight);
-
 }
 
 void Kirby::Collision()
@@ -242,16 +241,16 @@ void Kirby::Collision()
 	//Treasure
 	MapItem* treasure = MapItemManager::Get()->Collision("Treasure", this);
 
-	//When Door Touch
+	//When Treasure Touch
 	if (treasure != nullptr) 
 	{
 		SOUND->Play("Door");
 		treasure->SetActive(false);
 		MapItemManager::Get()->Play("TreasureOpen", treasure->GetPos());
 	}
-	MapItem* treasureOpen = MapItemManager::Get()->Collision("TreasureOpen", this);
 
-	//When Door Touch
+	MapItem* treasureOpen = MapItemManager::Get()->Collision("TreasureOpen", this);
+	//When Treasure Touch
 	if (treasureOpen != nullptr)
 	{
 		if (KEY->Down('W')) 
@@ -273,6 +272,7 @@ void Kirby::Collision()
 		monster->SetVelocity(velocity);
 			
 		DamageHp(ATTACK_MONSTER);
+		Hit();
 	}
 
 }
