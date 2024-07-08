@@ -1,4 +1,4 @@
-# 별의커비 모작(도팡 일당의 습격 시리즈) 다이렉트 프로젝트
+# 별의커비 모작(도팡 일당의 습격 시리즈) WinAPI 프로젝트
 
 ![별의커비](https://i.namu.wiki/i/13ySuAAovigmsxWy2VUtGSlrESU2I-yd3a9xr91mvYpLvkTBijMjiUEdWEVcNulHLZen6iE_2oq1OofCNhyV8lcjjyogAXe1EwxR_xZE9224HKCe-Ag2tiUcHogndPbJ0p24yYirPzFl9nFEisVMxA.webp)
 
